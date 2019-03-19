@@ -3,13 +3,12 @@ const server = require('@opuscapita/web-init'); // Web server
 const dbInit = require('@opuscapita/db-init'); // Database
 
 const logger = new Logger({
-    context: {
-        serviceName: 'business-partner'
-    }
+  context: {
+    serviceName: 'business-partner'
+  }
 });
 
-if(process.env.NODE_ENV !== 'develop')
-    logger.redirectConsoleOut(); // Force anyone using console.* outputs into Logger format.
+if(process.env.NODE_ENV !== 'develop') logger.redirectConsoleOut(); // Force anyone using console.* outputs into Logger format.
 
 // Basic database and web server initialization.
 // See database : https://github.com/OpusCapita/db-init
@@ -17,21 +16,27 @@ if(process.env.NODE_ENV !== 'develop')
 // See logger: https://github.com/OpusCapita/logger
 async function init()
 {
-    const db = await dbInit.init();
+  const db = await dbInit.init();
 
-    await server.init({
-        server : {
-            port : process.env.port || 3039,
-            enableBouncer : true,
-            enableEventClient : true,
-            events : {
-                onStart: () => logger.info('Server ready. Allons-y!')
-            }
-        },
-        routes : {
-            dbInstance : db
-        }
-    });
+  await server.init({
+    server : {
+      port : process.env.port || 3039,
+      staticFilePath: __dirname + '/static',
+      enableBouncer : true,
+      enableEventClient : true,
+      events : {
+        onStart: () => logger.info('Server ready. Allons-y!')
+      }
+    },
+    routes : { dbInstance : db },
+    serviceClient : {
+      injectIntoRequest : true,
+      consul : { host : 'consul' }
+    }
+  });
 }
 
-(() => init().catch(console.error))();
+(() => init().catch(err => {
+  server.end();
+  throw err;
+}))();
