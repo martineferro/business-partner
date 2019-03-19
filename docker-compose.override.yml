@@ -1,0 +1,10 @@
+version: '3'
+services:
+  main:
+    build: .
+    volumes:
+      - ./src:/home/node/business-partner/src
+      - ./config:/home/node/business-partner/config
+      - ./wiki:/home/node/business-partner/wiki
+      - ./www:/home/node/supplier/www
+    command: 'npm run local'

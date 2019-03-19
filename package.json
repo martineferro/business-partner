@@ -1,0 +1,83 @@
+{
+  "name": "business-partner",
+  "version": "1.0.0",
+  "description": "Business partner microservice. Entity doing business in the business network platform (former customer/supplier).",
+  "author": "Lekealem Asong <Lekealem.Asong@opuscapita.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpusCapita/business-partner"
+  },
+  "bugs": {
+    "url": "https://github.com/OpusCapita/business-partner/issues"
+  },
+  "homepage": "https://github.com/OpusCapita/business-partner",
+  "nyc": {
+    "exclude": [
+      "test"
+    ]
+  },
+  "dependencies": {
+    "@opuscapita/db-init": "^2.0.24",
+    "@opuscapita/electronic-address": "^0.0.2",
+    "@opuscapita/field-validators": "^0.1.8",
+    "@opuscapita/i18n": "^1.2.4",
+    "@opuscapita/react-dates": "^0.2.16",
+    "@opuscapita/react-loaders": "^0.1.9",
+    "@opuscapita/react-select": "2.0.8",
+    "@opuscapita/web-init": "^3.0.73",
+    "babel-loader": "^7.1.2",
+    "bluebird": "^3.5.1",
+    "classnames": "^2.2.5",
+    "cross-env": "^4.0.0",
+    "css-loader": "^0.28.7",
+    "json-loader": "^0.5.7",
+    "ocbesbn-config": "^2.3.3",
+    "ocbesbn-logger": "^1.0.5",
+    "react-orgchart": "^1.0.5",
+    "react-table": "6.8.6",
+    "sequelize": "3.32.0",
+    "superagent": "^3.8.2",
+    "validate.js": "^0.11.1"
+  },
+  "devDependencies": {
+    "@opuscapita/service-base-ui": "^1.1.92",
+    "babel-core": "6.26.0",
+    "babel-eslint": "7.2.3",
+    "babel-plugin-transform-decorators-legacy": "1.3.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "1.6.1",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-stage-0": "6.24.1",
+    "babel-register": "6.24.1",
+    "less": "^2.7.3",
+    "less-loader": "^4.1.0",
+    "mocha": "3.4.1",
+    "mocha-junit-reporter": "1.13.0",
+    "nodemon": "1.11.0",
+    "nyc": "10.3.2",
+    "raml-to-markdown": "1.1.3",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-router": "^3.2.1",
+    "rimraf": "2.6.1",
+    "sequelize-to-markdown": "1.2.5",
+    "style-loader": "^0.17.0",
+    "webpack": "^3.8.1"
+  },
+  "scripts": {
+    "start": "node src/server/index.js",
+    "dev": "npm run setup-consul ; npx nodemon --watch src src/server/index.js",
+    "local": "npm run setup-consul ; NODE_ENV=development nodemon --watch src/server local/index.js",
+    "build": "npm run build:client",
+    "build:client": "cross-env NODE_ENV=production ; webpack -p --config ./webpack.production.config.js --profile --colors --bail",
+    "test": "npm run clean ; npm run setup-consul ; npx nyc mocha --recursive -R mocha-junit-reporter",
+    "clean": "npx rimraf .nyc_output coverage test-results.xml",
+    "setup-consul": "sh setup-consul.sh",
+    "rest-doc": "mkdir -p wiki/rest-doc ; npx raml2md -o file-per-resource -p wiki/rest-doc --output-ext=.endpoint.md rest-doc/main.raml",
+    "domain-doc": "mkdir -p wiki/domain-doc ; npx sq2md -o file-per-src -p wiki/domain-doc --init=init --field-bl=createdAt,updatedAt --output-ext=.model.md src/server/db/models",
+    "api-doc": "mkdir -p wiki/api-doc ; npx jsdoc2md -f $(find src/server) > wiki/api-doc/Home.md",
+    "doc": "npm run rest-doc ; npm run domain-doc ; npm run api-doc"
+  }
+}
