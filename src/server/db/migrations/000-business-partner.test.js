@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 
+let demoData = require('../data/business-partner-demo-data.json');
+let businessPartners = require('../data/business-partner.json').concat(demoData);
 /**
  * Inserts test data into existing database structures.
  * If all migrations were successul, this method will never be executed again.
@@ -12,9 +14,10 @@ const Sequelize = require('sequelize');
  */
 module.exports.up = async function(db, config)
 {
-    // Add all structual and data migrations here.
-    // You may use db.getQueryInterface() for structures and config.models for working with data.
-}
+  businessPartners.forEach(businessPartner => businessPartner.createdOn = new Date());
+
+  return db.queryInterface.bulkInsert('BusinessPartner', businessPartners);
+};
 
 /**
  * Reverts all migrations for databse tables and data.
@@ -27,4 +30,7 @@ module.exports.up = async function(db, config)
  */
 module.exports.down = async function(db, config)
 {
-}
+  let ids = businessPartners.map(businessPartner => businessPartner.id);
+
+  return db.queryInterface.bulkDelete('BusinessPartner', { id: { $in: ids } });
+};

@@ -10,9 +10,7 @@ const Sequelize = require('sequelize');
  */
 module.exports.init = async function(db, config)
 {
-    // Register Sequelize database models here.
-    // Use require in order to separate models into multiple js files.
-    // http://docs.sequelizejs.com/en/latest/api/model/
-    //
-    // db.define(...);
+  return Promise.all([
+    require('./BusinessPartner').init(db, config)
+  ]);
 }
