@@ -1,0 +1,24 @@
+[
+  {
+    "businessPartnerId": "hard001",
+    "bankIdentificationCode": "DEDSLTJXXXX",
+    "accountNumber": "DE89370400440532013000",
+    "bankName": "Deutsche Bank",
+    "bankCode": "423",
+    "extBankControlKey": "35",
+    "bankCountryKey": "DE",
+    "createdBy": "scott.tiger@example.com",
+    "changedBy": "scott.tiger@example.com"
+  },
+  {
+    "businessPartnerId": "ncc",
+    "bankIdentificationCode": "DEDSLTJXXXX",
+    "accountNumber": "DE89370400440532013000",
+    "bankName": "Deutsche Bank",
+    "bankCode": "423",
+    "extBankControlKey": "35",
+    "bankCountryKey": "DE",
+    "createdBy": "john.doe@ncc.com",
+    "changedBy": "john.doe@ncc.com"
+  }
+]

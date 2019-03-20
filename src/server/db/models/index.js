@@ -13,6 +13,7 @@ module.exports.init = async function(db, config)
   return Promise.all([
     require('./BusinessPartner').init(db, config),
     require('./BusinessPartnerAddress').init(db, config),
-    require('./BusinessPartnerContact').init(db, config)
+    require('./BusinessPartnerContact').init(db, config),
+    require('./BusinessPartnerBankAccount').init(db, config)
   ]);
 }
