@@ -1,5 +1,25 @@
 [
   {
+    "businessPartnerId": "hard001",
+    "areaCode": null,
+    "city": "Minsk",
+    "countryId": "BY",
+    "email": "jana.pape@jcatalog.com",
+    "faxNo": null,
+    "name": "Central Office",
+    "street1": "Fabriciusa 8, B1",
+    "street2": null,
+    "street3": null,
+    "phoneNo": "+491234512345",
+    "pobox": null,
+    "poboxZipCode": null,
+    "state": null,
+    "type": "default",
+    "zipCode": "220100",
+    "createdBy": "scott.tiger@example.com",
+    "changedBy": "scott.tiger@example.com"
+  },
+  {
     "businessPartnerId": "ncc",
     "type": "default",
     "street1": "Alter Straße 3",

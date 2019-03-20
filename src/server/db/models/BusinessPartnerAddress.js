@@ -9,12 +9,13 @@ module.exports.TYPE = TYPE;
 
 module.exports.init = function(db, config) {
   /**
-   * Data model representing a single customer item.
+   * BusinessPartnerAddress - Address information for a businessPartner.
    * @class BusinessPartnerAddress
    */
   var BusinessPartnerAddress = db.define('BusinessPartnerAddress',
   /** @lends BusinessPartnerAddress */
   {
+    /** Unique identifier */
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -107,15 +108,19 @@ module.exports.init = function(db, config) {
       allowNull: true
     },
     changedBy: {
+      allowNull: true,
       type: Sequelize.STRING(60)
     },
     createdBy: {
+      allowNull: false,
       type: Sequelize.STRING(60)
     },
     createdOn: {
+      allowNull: false,
       type: Sequelize.DATE
     },
     changedOn: {
+      allowNull: true,
       type: Sequelize.DATE
     }
   }, {

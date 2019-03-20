@@ -1,0 +1,44 @@
+[
+  {
+    "businessPartnerId": "hard001",
+    "type": "sales",
+    "firstName": "Max",
+    "lastName": "Mustermann",
+    "email": "dirk.fischbach@jcatalog.com",
+    "mobile": "0136/456789",
+    "createdBy": "scott.tiger@example.com",
+    "changedBy": "scott.tiger@example.com"
+  },
+  {
+    "businessPartnerId": "hard001",
+    "type": "technical",
+    "firstName": "Dirk",
+    "lastName": "Fischbach",
+    "email": "dirk.fischbach@jcatalog.com",
+    "phone": "0231/3967-224",
+    "mobile": "0173-5101302",
+    "createdBy": "scott.tiger@example.com",
+    "changedBy": "scott.tiger@example.com"
+  },
+  {
+    "businessPartnerId": "ncc",
+    "type": "sales",
+    "firstName": "Max",
+    "lastName": "Mustermann",
+    "email": "max.mustermann@jcatalog.com",
+    "mobile": "0136/456789",
+    "createdBy": "john.doe@ncc.com",
+    "changedBy": "john.doe@ncc.com"
+  },
+  {
+    "businessPartnerId": "abc",
+    "type": "technical",
+    "firstName": "Dirk",
+    "lastName": "Fischbach",
+    "email": "dirk.fischbach@jcatalog.com",
+    "phone": "0231/3967-224",
+    "mobile": "0173-5101302",
+    "createdBy": "john.doe@ncc.com",
+    "changedBy": "john.doe@ncc.com"
+  }
+]
