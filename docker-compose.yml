@@ -6,7 +6,6 @@ services:
       - mysql
       - consul
       - registrator
-      - redis
     labels:
       SERVICE_NAME: 'business-partner'
       SERVICE_TAGS: 'external'

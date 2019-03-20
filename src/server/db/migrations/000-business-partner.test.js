@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 let demoData = require('../data/business-partner-demo-data.json');
-let businessPartners = require('../data/business-partner.json').concat(demoData);
+let businessPartners = require('../data/business-partners.json').concat(demoData);
 /**
  * Inserts test data into existing database structures.
  * If all migrations were successul, this method will never be executed again.

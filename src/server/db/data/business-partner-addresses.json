@@ -1,0 +1,13 @@
+[
+  {
+    "businessPartnerId": "ncc",
+    "type": "default",
+    "street1": "Alter Straße 3",
+    "zipCode": "42234",
+    "city": "Dortmund",
+    "countryId": "DE",
+    "email": "john.doe@ncc.com",
+    "createdBy": "The Doctor",
+    "changedBy": ""
+  }
+]

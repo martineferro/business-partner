@@ -11,6 +11,7 @@ const Sequelize = require('sequelize');
 module.exports.init = async function(db, config)
 {
   return Promise.all([
-    require('./BusinessPartner').init(db, config)
+    require('./BusinessPartner').init(db, config),
+    require('./BusinessPartnerAddress').init(db, config)
   ]);
 }

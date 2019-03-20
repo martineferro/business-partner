@@ -126,7 +126,8 @@ module.exports.up = async function(db, config)
     },
     changedOn : {
       type : Sequelize.DATE(),
-      allowNull : true
+      allowNull : true,
+      defaultValue : Sequelize.NOW
     }
   });
 };

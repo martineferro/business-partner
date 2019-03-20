@@ -1,0 +1,41 @@
+[
+  {
+    "businessPartnerId": "acme_us",
+    "type": "default",
+    "name": "AcmeMax, US (en, USD)",
+    "street1": "1 Main St",
+    "city": "Any City",
+    "state": "TX",
+    "zipCode": "23456",
+    "countryId": "US",
+    "phoneNo": "+1 555-555-1212",
+    "faxNo": "+1 555-555-1212",
+    "email": "acme_us@acmemax.com",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "businessPartnerId": "acme_us",
+    "type": "invoice",
+    "name": "Accounts Payable",
+    "street1": "100 Main Street",
+    "city": "Sacramento",
+    "state": "CA",
+    "zipCode": "CA",
+    "countryId": "US",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "businessPartnerId": "acme_us",
+    "type": "delivery",
+    "name": "Stockton Campus",
+    "street1": "100 Kings Way",
+    "city": "Stockon",
+    "state": "CA",
+    "zipCode": "95201",
+    "countryId": "US",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  }
+]
