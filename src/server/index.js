@@ -20,7 +20,7 @@ async function init()
 
   await server.init({
     server : {
-      port : process.env.port || 3039,
+      port : process.env.port || 3046,
       staticFilePath: __dirname + '/static',
       enableBouncer : true,
       enableEventClient : true,

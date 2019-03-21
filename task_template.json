@@ -4,13 +4,13 @@
     "log-driver":"gelf",
     "log-opt":["gelf-address=udp://${logstash_ip}:12201", "tag=\"${serviceName}\""],
     "constraint":["engine.labels.nodetype==worker"],
-    "publish":["mode=host,target=3039,published=3039,protocol=tcp"],
+    "publish":["mode=host,target=3046,published=3046,protocol=tcp"],
     "host":["consul:172.17.0.1"],
     "env":[
            "SERVICE_NAME=${serviceName}",
-           "SERVICE_3039_CHECK_HTTP=/api/health/check",
-           "SERVICE_3039_CHECK_INTERVAL=15s",
-           "SERVICE_3039_CHECK_TIMEOUT=3s",
+           "SERVICE_3046_CHECK_HTTP=/api/health/check",
+           "SERVICE_3046_CHECK_INTERVAL=15s",
+           "SERVICE_3046_CHECK_TIMEOUT=3s",
            "NODE_ENV=production"
            ],
     "oc-db-init":{"populate-test-data":"true"},
