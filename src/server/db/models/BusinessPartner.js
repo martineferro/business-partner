@@ -24,7 +24,7 @@ module.exports.init = function(db, config) {
     },
     /** ID of tenant the businessPartner belongs to. */
     tenantId: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.STRING(30)
     },
     /** Boolean to identify if businessPartner is a customer. */

@@ -1,0 +1,6 @@
+{
+  "type": "invoice",
+  "config": "{\"pdf\":true}",
+  "status": "invited",
+  "createdBy": "ocadmin"
+}

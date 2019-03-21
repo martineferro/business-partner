@@ -1,0 +1,82 @@
+[
+  {
+    "supplierId": "appl_us",
+    "customerId": "acme_us",
+    "status": "connected",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "supplierId": "acer_us",
+    "customerId": "acme_us",
+    "status": "connected",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "supplierId": "dell_us",
+    "customerId": "acme_us",
+    "status": "connected",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "supplierId": "hpqi_us",
+    "customerId": "acme_us",
+    "status": "connected",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "supplierId": "leno_us",
+    "customerId": "acme_us",
+    "status": "connected",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "supplierId": "msft_us",
+    "customerId": "acme_us",
+    "status": "connected",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "supplierId": "stap_us",
+    "customerId": "acme_us",
+    "status": "connected",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "supplierId": "ofdp_us",
+    "customerId": "acme_us",
+    "status": "connected",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "supplierId": "copl_us",
+    "customerId": "acme_us",
+    "status": "connected",
+    "customerSupplierId": "9999",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "supplierId": "evpl_us",
+    "customerId": "acme_us",
+    "status": "connected",
+    "customerSupplierId": "1112",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "supplierId": "meev_us",
+    "customerId": "acme_us",
+    "status": "connected",
+    "customerSupplierId": "1113",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  }
+]

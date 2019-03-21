@@ -1,0 +1,22 @@
+[
+  {
+    "type": "invoice",
+    "status": "connected",
+    "config": "{\"pdf\":true,\"keyin\": true,\"paper\":null,\"einvoice\":true}",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "type": "order",
+    "status": "connected",
+    "config": "{\"bnp\":true,\"direct_integration\":false}",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  },
+  {
+    "type": "catalog",
+    "status": "connected",
+    "createdBy": "demodata",
+    "changedBy": "demodata"
+  }
+]
