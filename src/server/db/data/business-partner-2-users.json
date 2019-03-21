@@ -1,0 +1,12 @@
+[
+  {
+    "userId": "john.doe@ncc.com",
+    "businessPartnerId": "hwi",
+    "createdBy": "john.doe@ncc.com"
+  },
+  {
+    "userId": "scott.tiger@example.com",
+    "businessPartnerId": "hard001",
+    "createdBy": "scott.tiger@example.com"
+  }
+]

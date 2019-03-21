@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 
 module.exports.up = async function (db, config)
 {
-  return db.queryInterface.createTable('BusinessPartnerCapability', {
+  return db.queryInterface.createTable('BusinessPartner2User', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -12,9 +12,18 @@ module.exports.up = async function (db, config)
       type: Sequelize.STRING(30),
       allowNull: false
     },
-    capabilityId: {
-      type: Sequelize.STRING(50),
+    userId: {
+      type: Sequelize.STRING(100),
       allowNull: false
+    },
+    status: {
+      type: Sequelize.STRING(50),
+      allowNull: false,
+      defaultValue: require('../models/BusinessPartner2User').STATUS.REQUESTED
+    },
+    accessReason: {
+      type: Sequelize.STRING(1000),
+      allowNull: true
     },
     createdBy: {
       type: Sequelize.STRING(60),
@@ -39,5 +48,5 @@ module.exports.up = async function (db, config)
 
 module.exports.down = async function(db, config)
 {
-  return db.queryInterface.dropTable('BusinessPartnerCapability');
+  return db.queryInterface.dropTable('BusinessPartner2User');
 };
