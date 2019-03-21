@@ -1,6 +1,15 @@
 'use strict';
 const Sequelize = require('sequelize');
 
+const TYPE = {
+  INVOICE_SEND: 'eInvoice-send',
+  ORDER: 'order',
+  CATALOG: 'catalog',
+  FULFILLMENT: 'fulfillment'
+};
+
+module.exports.TYPE = TYPE;
+
 module.exports.init = function(db, config) {
   /**
    * BusinessPartnerCapability.
@@ -21,7 +30,10 @@ module.exports.init = function(db, config) {
     },
     capabilityId: {
       type: Sequelize.STRING(50),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isIn: [Object.values(TYPE)]
+      }
     },
     createdBy: {
       type: Sequelize.STRING(60),
