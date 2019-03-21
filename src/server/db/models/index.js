@@ -14,6 +14,7 @@ module.exports.init = async function(db, config)
     require('./BusinessPartner').init(db, config),
     require('./BusinessPartnerAddress').init(db, config),
     require('./BusinessPartnerContact').init(db, config),
-    require('./BusinessPartnerBankAccount').init(db, config)
+    require('./BusinessPartnerBankAccount').init(db, config),
+    require('./BusinessPartnerCapability').init(db, config)
   ]);
 }
