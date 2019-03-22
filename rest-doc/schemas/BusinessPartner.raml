@@ -1,0 +1,101 @@
+type: object
+displayName: BusinessPartner
+description: Object representing a single business partner item. For field descriptions, see [model docs](https://github.com/OpusCapita/business-partner/wiki/BusinessPartner.model)
+properties:
+    id:
+        type: string
+        required: true
+    tenantId:
+        type: string
+        required: false
+    isSupplier:
+        type: boolean
+        required: false
+    isCustomer:
+        type: boolean
+        required: false
+    entityCode:
+        type: string
+        required: false
+    parentId:
+        type: string
+        required: false
+    hierarchyId:
+        type: string
+        required: false
+    name:
+        type: string
+        required: true
+    information:
+        type: string
+        required: false
+    foundedOn:
+        type: string
+        required: false
+    legalForm:
+        type: string
+        required: false
+    commercialRegisterNo:
+        type: string
+        required: false
+    cityOfRegistration:
+        type: string
+        required: false
+    countryOfRegistration:
+        type: string
+        required: true
+    taxIdentificationNo:
+        type: string
+        required: false
+    vatIdentificationNo:
+        type: string
+        required: false
+    globalLocationNo:
+        type: string
+        required: false
+    homePage:
+        type: string
+        required: false
+    dunsNo:
+        type: string
+        required: false
+    ovtNo:
+        type: string
+        required: false
+    currencyId:
+        type: string
+        required: false
+    noVatReason:
+        type: string
+        required: false
+    statusId:
+        type: string
+        required: false
+    managed:
+        type: boolean
+        required: false
+    createdOn:
+        type: string
+        required: false
+    changedOn:
+        type: string
+        required: false
+    changedBy:
+        type: string
+        required: false
+    createdBy:
+        type: string
+        required: true
+    contacts:
+        type: array
+        required: false
+    addresses:
+        type: array
+        required: false
+    bankAccounts:
+        type: array
+        required: false
+    capabilities:
+        type: array
+        required: false
+example: !include ../examples/BusinessPartner.json

@@ -1,0 +1,40 @@
+displayName: BusinessPartners
+description: Work with `BusinessPartner` objects.
+get:
+    description: List of `BusinessPartner` objects.
+    queryParameters:
+        name:
+            type: string
+            required: false
+            description: Limit the output to the businessParters with name contained in passed name.
+            example: name=hardware
+        id:
+            type: string
+            required: false
+            description: Limits the output to the passed businessPartner ids.
+            example: id=admin,foo,bar
+        include:
+            type: string
+            required: false
+            description: Additional, comma separated businessPartner associations to include. Existing associations are `addresses`, `contacts`, `bankAccounts`, and `capabilities`.
+            example: include=addresses,contacts
+        vatIdentificationNo:
+            type: string
+            required: false
+            description: Limit output to given VAT ID.
+            example: vatIdentificationNo=DE136752020
+        globalLocationNo:
+            type: string
+            required: false
+            description: Limit output to given global location number.
+            example: globalLocationNo=1245678976543
+        electronicAddress:
+            type: string
+            required: false
+            description: Limit output to given electronic address according to ISO6523 codes. See https://www.galaxygw.com/iso6523/
+            example: electronicAddress=9930:DE136752020
+    responses:
+        200:
+            body:
+                application/json:
+                    type: BusinessPartnerArray
