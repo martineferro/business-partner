@@ -67,6 +67,69 @@ class BusinessPartner {
     return this.db.query(query, { model: this.model }).then(result => aggregateSearch(result));
   }
 
+  async find(id, includes) {
+    const includeModels = this.associationsFromIncludes(includes || []);
+
+    const businessPartner = await this.model.findOne({ where: { id: id }, include: includeModels });
+
+    return businessPartnerWithAssociations(businessPartner);
+  }
+
+  async findMother(businessPartnerId) {
+    const businessPartner = await this.find(businessPartnerId);
+    if (!businessPartner) return Promise.resolve(null);
+
+    const motherId = businessPartner.hierarchyId ? businessPartner.hierarchyId.split('|')[0] : businessPartner.id;
+    return this.find(motherId);
+  }
+
+  async recordExists(query) {
+    normalize(query);
+
+    let dbQuery = {};
+
+    if (query.id) dbQuery.id = query.id;
+    if (query.name) dbQuery.name = { $like: `%${query.name}%` };
+    if (query.isCustomer) dbQuery.isCustomer = query.isCustomer;
+    if (query.isSupplier) dbQuery.isSupplier = query.isSupplier;
+    if (query.vatIdentificationNo) dbQuery.vatIdentificationNo = query.vatIdentificationNo;
+    if (query.dunsNo) dbQuery.dunsNo = query.dunsNo;
+    if (query.ovtNo) dbQuery.ovtNo = query.ovtNo;
+    if (query.globalLocationNo) dbQuery.globalLocationNo = query.globalLocationNo;
+    if (query.commercialRegisterNo) {
+      dbQuery.$and = {
+        commercialRegisterNo: query.commercialRegisterNo,
+        cityOfRegistration: { $like: `%${query.cityOfRegistration}%` },
+        countryOfRegistration: query.countryOfRegistration
+      };
+    }
+
+    if (query.taxIdentificationNo) {
+      dbQuery.$and = {
+        taxIdentificationNo: query.taxIdentificationNo,
+        cityOfRegistration: { $like: `%${query.cityOfRegistration}%` }
+      };
+    }
+
+    if (Object.keys(dbQuery).length > 0) dbQuery = { $or: [dbQuery] };
+
+    if (query.businessPartnerId) dbQuery.id = { $ne: query.businessPartnerId };
+    if (query.entityCode) dbQuery.entityCode = query.entityCode;
+    if (query.parentId) {
+      const motherCustomer = await this.findMother(query.parentId);
+      if (motherCustomer) {
+        if (query.notEqual) {
+          dbQuery.id = dbQuery.id ? { $and: [dbQuery.id, { $ne: motherCustomer.id }] } : { $ne: motherCustomer.id };
+          dbQuery.hierarchyId = { $or: [{ $eq: null }, { $notLike: `%${motherCustomer.id}%` }] };
+        } else {
+          dbQuery.hierarchyId = { $like: `%${motherCustomer.id}%` };
+        }
+      }
+    }
+
+    return this.model.findOne({ where: dbQuery }).then(businessPartner => Boolean(businessPartner));
+  }
+
   associationsFromIncludes(includes) {
     let includeModels = [];
 
@@ -98,6 +161,16 @@ let businessPartnerWithAssociations = function(businessPartner)
   delete businessPartner.dataValues.BusinessPartnerCapabilities;
 
   return businessPartner.dataValues;
+}
+
+let normalize = function(businessPartner)
+{
+  for (const fieldName of ['vatIdentificationNo', 'dunsNo', 'iban']) {
+    if (businessPartner[fieldName]) businessPartner[fieldName] = businessPartner[fieldName].replace(/\s+/g, '');
+  }
+  for (const fieldName of ['name', 'commercialRegisterNo', 'cityOfRegistration', 'taxIdentificationNo']) {
+    if (businessPartner[fieldName]) businessPartner[fieldName] = businessPartner[fieldName].trim();
+  }
 }
 
 let hierarchyQuery = function(hierarchyId)

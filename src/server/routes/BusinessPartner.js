@@ -3,6 +3,8 @@ const BusinessPartnerVisibilityApi = require('../api/BusinessPartnerVisibility')
 const BusinessLinkApi = require('../api/BusinessLink');
 const UserData = require('../services/UserData');
 const visibilityType = require('../db/models/BusinessPartnerVisibility').TYPE;
+const SUPPLIER = 'Supplier';
+const CUSTOMER = 'Customer';
 
 class BusinessPartner {
   constructor(app, db) {
@@ -14,9 +16,12 @@ class BusinessPartner {
   }
 
   init() {
-    this.app.get('/api/suppliers', (req, res) => this.index(req, res, 'Supplier'));
-    this.app.get('/api/customers', (req, res) => this.index(req, res, 'Customer'));
+    this.app.get('/api/suppliers', (req, res) => this.index(req, res, SUPPLIER));
+    this.app.get('/api/customers', (req, res) => this.index(req, res, CUSTOMER));
     this.app.get('/api/business-partners', (req, res) => this.index(req, res));
+    this.app.get('/api/suppliers/exists', (req, res) => this.recordExists(req, res, SUPPLIER));
+    this.app.get('/api/customers/exists', (req, res) => this.recordExists(req, res, CUSTOMER));
+    this.app.get('/api/business-partners/exists', (req, res) => this.recordExists(req, res));
   }
 
   async index(req, res, businessPartnerType) {
@@ -41,6 +46,12 @@ class BusinessPartner {
         return res.json(businessPartners2send);
       });
     }
+  }
+
+  recordExists(req, res, businessPartnerType) {
+    if (businessPartnerType) req.query[`is${businessPartnerType}`] = true;
+
+    return this.api.recordExists(req.query).then(exists => res.json(exists));
   }
 
   async allForElectronicAddress(req, res) {
