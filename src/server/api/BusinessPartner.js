@@ -83,7 +83,7 @@ class BusinessPartner {
     return this.find(motherId);
   }
 
-  async recordExists(query) {
+  async searchRecord(query) {
     normalize(query);
 
     let dbQuery = {};
@@ -127,7 +127,11 @@ class BusinessPartner {
       }
     }
 
-    return this.model.findOne({ where: dbQuery }).then(businessPartner => Boolean(businessPartner));
+    return this.model.findOne({ where: dbQuery });
+  }
+
+  recordExists(supplier) {
+    return this.searchRecord(supplier).then(supplier => Boolean(supplier));
   }
 
   associationsFromIncludes(includes) {

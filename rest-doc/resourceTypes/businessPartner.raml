@@ -38,3 +38,22 @@ get:
             body:
                 application/json:
                     type: BusinessPartnerArray
+
+/{id}:
+    uriParameters:
+        id:
+            type: string
+            description: Identifier of a businessParnter.
+    get:
+        description: Single `BusinessPartner` object.
+        queryParameters:
+            include:
+                type: string
+                required: false
+                description: Endpoint will return the included comma seperated models
+                example: include=addresses
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartner

@@ -3,8 +3,8 @@ const BusinessPartnerVisibilityApi = require('../api/BusinessPartnerVisibility')
 const BusinessLinkApi = require('../api/BusinessLink');
 const UserData = require('../services/UserData');
 const visibilityType = require('../db/models/BusinessPartnerVisibility').TYPE;
-const SUPPLIER = 'Supplier';
-const CUSTOMER = 'Customer';
+const SUPPLIER = 'isSupplier';
+const CUSTOMER = 'isCustomer';
 
 class BusinessPartner {
   constructor(app, db) {
@@ -19,13 +19,21 @@ class BusinessPartner {
     this.app.get('/api/suppliers', (req, res) => this.index(req, res, SUPPLIER));
     this.app.get('/api/customers', (req, res) => this.index(req, res, CUSTOMER));
     this.app.get('/api/business-partners', (req, res) => this.index(req, res));
+
     this.app.get('/api/suppliers/exists', (req, res) => this.recordExists(req, res, SUPPLIER));
     this.app.get('/api/customers/exists', (req, res) => this.recordExists(req, res, CUSTOMER));
     this.app.get('/api/business-partners/exists', (req, res) => this.recordExists(req, res));
+
+    this.app.get('/api/suppliers/search', (req, res) => this.searchRecord(req, res, SUPPLIER));
+    this.app.get('/api/business-partners/search', (req, res) => this.searchRecord(req, res));
+
+    this.app.get('/api/suppliers/:id', (req, res) => this.show(req, res, SUPPLIER));
+    this.app.get('/api/customers/:id', (req, res) => this.show(req, res, CUSTOMER));
+    this.app.get('/api/business-partners/:id', (req, res) => this.show(req, res));
   }
 
-  async index(req, res, businessPartnerType) {
-    if (businessPartnerType) req.query[`is${businessPartnerType}`] = true;
+  async index(req, res, businessType) {
+    if (businessType) req.query[businessType] = true;
 
     if (req.query.electronicAddress) {
       return this.allForElectronicAddress(req, res);
@@ -48,10 +56,32 @@ class BusinessPartner {
     }
   }
 
-  recordExists(req, res, businessPartnerType) {
-    if (businessPartnerType) req.query[`is${businessPartnerType}`] = true;
+  recordExists(req, res, businessType) {
+    if (businessType) req.query[businessType] = true;
 
     return this.api.recordExists(req.query).then(exists => res.json(exists));
+  }
+
+  async searchRecord(req, res, businessType) {
+    if (businessType) req.query[businessType] = true;
+    const businessPartner = await this.api.searchRecord(req.query);
+
+    if (!businessPartner) return res.status('404').json(businessPartner);
+
+    return res.json(businessPartner);
+  }
+
+  async show(req, res, businessType) {
+    const includes = req.query.include ? req.query.include.split(',') : [];
+
+    return this.api.find(req.params.id, includes).then(async bPartner => {
+      if (!bPartner) return handleNotExists(req.params.id, req, res);
+
+      if (businessType && !bPartner[businessType]) return handleNotExists(req.params.id, req, res);
+
+      const bPartner2send = await this.restrictVisibility(bPartner, req);
+      return res.json(bPartner2send);
+    });
   }
 
   async allForElectronicAddress(req, res) {
@@ -100,7 +130,7 @@ class BusinessPartner {
 
     if (businessLinks.every(link => !userData.customerId || link.customerId !== userData.customerId)) {
       ['contacts', 'bankAccounts'].forEach(field => {
-        if (visibility[field] === visibilityType.BUSINESS_PARTNERS) delete businessPartner[field]
+        if (visibility[field] === visibilityType.BUSINESS_PARTNERS) delete businessPartner[field];
       });
     }
 
@@ -112,6 +142,13 @@ class BusinessPartner {
   }
 };
 
+let handleNotExists = function(supplierId, req, res)
+{
+  const message = 'A record with ID ' + supplierId + ' does not exist.';
+  req.opuscapita.logger.error('Error in BusinessPartner request: %s', message);
+  return res.status('404').json({ message : message });
+};
+
 let businessLinkQueryParam = function(businessPartner)
 {
   if (businessPartner.isSupplier) return 'supplierId';
@@ -120,5 +157,7 @@ let businessLinkQueryParam = function(businessPartner)
 
   return null;
 };
+
+let getIdentifier = { vat: 'vatIdentificationNo', gln: 'globalLocationNo', ovt: 'ovtNo' };
 
 module.exports = BusinessPartner;
