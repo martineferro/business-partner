@@ -22,7 +22,7 @@ async function init()
     server : {
       port : process.env.port || 3046,
       staticFilePath: __dirname + '/static',
-      enableBouncer : true,
+      enableBouncer : false,
       enableEventClient : true,
       events : {
         onStart: () => logger.info('Server ready. Allons-y!')

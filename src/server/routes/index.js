@@ -1,3 +1,5 @@
+const BusinessPartner = require('./BusinessPartner');
+
 /**
  * Initializes all routes for RESTful access.
  *
@@ -9,8 +11,5 @@
  */
 module.exports.init = async function(app, db, config)
 {
-    // Register routes here.
-    // Use the passed db parameter in order to use Epilogue auto-routes.
-    // Use require in order to separate routes into multiple js files.
-    app.get('/', (req, res) => res.send('Hello world!'));
+  new BusinessPartner(app, db).init();
 }
