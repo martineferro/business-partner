@@ -1,4 +1,4 @@
-[{
+{
   "id": "hard001",
   "isSupplier": true,
   "isCustomer": false,
@@ -8,7 +8,6 @@
   "hierarchyId": "car001|hwi",
   "foundedOn": "2015-10-04T22:00:00.000Z",
   "legalForm": "KG",
-  "commercialRegisterNo": null,
   "cityOfRegistration": "Dortmund",
   "countryOfRegistration": "DE",
   "taxIdentificationNo": "1234567",
@@ -18,12 +17,6 @@
   "dunsNo": null,
   "currencyId": "EUR",
   "managed": true,
-  "createdOn": "2016-02-19T10:45:26.000Z",
-  "changedOn": "2016-02-19T10:45:26.000Z",
   "changedBy": "jcadmin",
-  "createdBy": "jcadmin",
-  "addresses": [],
-  "contacts": [],
-  "bankAccounts": [],
-  "capabilities": []
-}]
+  "createdBy": "jcadmin"
+}

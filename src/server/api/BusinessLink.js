@@ -45,7 +45,16 @@ class BusinessLink {
     return this.model.findOne({ where: { id: id } }).then(businessLink => Boolean(businessLink));
   }
 
-  delete(ids) {
+  async delete(businesPartnerId) {
+    const query = { $or: [{ customerId: businesPartnerId }, { supplierId: businesPartnerId }] };
+    const businessLinks = await this.model.findAll({ where: query });
+
+    if (businessLinks.length === 0) return;
+
+    const businessLinkIds = businessLinks.map(bl => bl.id);
+
+    await this.blcModel.destroy({ where: { businessLinkId: { $in: businessLinkIds } } });
+
     return this.model.destroy({ where: { id: { $in: ids } } }).then(() => null);
   }
 

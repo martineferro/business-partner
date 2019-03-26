@@ -1,6 +1,12 @@
 const BusinessPartnerApi = require('../api/BusinessPartner');
 const BusinessPartnerVisibilityApi = require('../api/BusinessPartnerVisibility');
+const BusinessPartnerBankAccountApi = require('../api/BusinessPartnerBankAccount');
+const BusinessPartnerAddressApi = require('../api/BusinessPartnerAddress');
+const BusinessPartnerContactApi = require('../api/BusinessPartnerContact');
+const BusinessPartnerCapabilityApi = require('../api/BusinessPartnerCapability');
+const BusinessPartner2UserApi = require('../api/BusinessPartner2User');
 const BusinessLinkApi = require('../api/BusinessLink');
+const User = require('../services/User');
 const UserData = require('../services/UserData');
 const visibilityType = require('../db/models/BusinessPartnerVisibility').TYPE;
 const SUPPLIER = 'isSupplier';
@@ -13,6 +19,7 @@ class BusinessPartner {
     this.api = new BusinessPartnerApi(db);
     this.visibilityApi = new BusinessPartnerVisibilityApi(db);
     this.businessLinkApi = new BusinessLinkApi(db);
+    this.bankAccountApi = new BusinessPartnerBankAccountApi(db);
   }
 
   init() {
@@ -30,6 +37,18 @@ class BusinessPartner {
     this.app.get('/api/suppliers/:id', (req, res) => this.show(req, res, SUPPLIER));
     this.app.get('/api/customers/:id', (req, res) => this.show(req, res, CUSTOMER));
     this.app.get('/api/business-partners/:id', (req, res) => this.show(req, res));
+
+    this.app.post('/api/suppliers', (req, res) => this.create(req, res, SUPPLIER));
+    this.app.post('/api/customers', (req, res) => this.create(req, res, CUSTOMER));
+    this.app.post('/api/business-partners', (req, res) => this.create(req, res));
+
+    this.app.put('/api/suppliers/:id', (req, res) => this.update(req, res, SUPPLIER));
+    this.app.put('/api/customers/:id', (req, res) => this.update(req, res, CUSTOMER));
+    this.app.put('/api/business-partners/:id', (req, res) => this.update(req, res));
+
+    this.app.delete('/api/suppliers/:id', (req, res) => this.delete(req, res, SUPPLIER));
+    this.app.delete('/api/customers/:id', (req, res) => this.delete(req, res, CUSTOMER));
+    this.app.delete('/api/business-partners/:id', (req, res) => this.delete(req, res));
   }
 
   async index(req, res, businessType) {
@@ -54,6 +73,142 @@ class BusinessPartner {
         return res.json(businessPartners2send);
       });
     }
+  }
+
+  create(req, res, businessType) {
+    const newBpartner = req.body;
+    let userData = new UserData(req);
+    this.api.recordExists(newBpartner).then(exists => {
+      if (exists) return res.status('409').json({ message : 'A business partner already exists' });
+
+      if (!userData.hasAdminRole()) {
+        if (userData.businessPartnerId) return res.status('403').json({ message : 'User already has a business partner' });
+
+        if (!this.api.hasUniqueIdentifier(newBpartner)) return res.status('400').json({ message: 'BusinessPartner must have a unique identifier' });
+      }
+
+      const iban = newBpartner.iban;
+      delete newBpartner.iban;
+
+      newBpartner.statusId = 'new';
+      newBpartner.createdBy = userData.id;
+      newBpartner.changedBy = userData.id;
+
+      return this.api.create(newBpartner).then(businessPartner => {
+          if (userData.hasAdminRole()) return res.status('200').json(businessPartner);
+
+          if (businessType === CUSTOMER) return res.status('200').json(businessPartner);
+
+          const businessPartnerId = businessPartner.id;
+          const user = { businessPartnerId: businessPartnerId, status: 'registered', roles: ['user', 'supplier-admin'] };
+
+          const userService = new User(req.opuscapita.serviceClient);
+          return Promise.all([
+              userService.update(userData.id, user),
+              userService.removeRoleFromUser(userData.id, 'registering_supplier')
+          ]).then(() => {
+              businessPartner.statusId = 'assigned';
+
+              const bp1 = Object.assign({ }, businessPartner.dataValues);
+              const bp2 = Object.assign({ }, businessPartner.dataValues); // Copy needed as BusinessPartner.update() seems to modify supp which then destroys createBankAccount().
+
+              return Promise.all([this.api.update(businessPartnerId, bp1), this.createBankAccount(iban, bp2)]).spread((bPartner, account) => {
+                return res.status('200').json(bPartner);
+              });
+            }).catch(error => {
+              this.api.delete(businessPartnerId).then(() => null);
+              req.opuscapita.logger.error('Error when creating BusinessPartner: %s', error.message);
+
+              return res.status((error.response && error.response.statusCode) || 400).json({ message : error.message });
+            });
+        }).catch(error => {
+          req.opuscapita.logger.error('Error when creating Supplier: %s', error.message);
+
+          return res.status((error.response && error.response.statusCode) || 400).json({ message : error.message });
+        });
+    })
+    .catch(error => {
+      req.opuscapita.logger.error('Error when creating Supplier: %s', error.message);
+      return res.status('400').json({ message : error.message });
+    });
+  }
+
+  async update(req, res) {
+    let businessPartnerId = req.params.id;
+    let editedBusinessPartner = req.body;
+
+    if (businessPartnerId !== editedBusinessPartner.id) {
+      const message = 'Inconsistent data';
+      req.opuscapita.logger.error('Error when updating Supplier: %s', message);
+      return res.status('422').json({ message: message });
+    }
+
+    let userData = new UserData(req);
+
+    try {
+      let businessPartner = await this.api.find(businessPartnerId);
+
+      if (!businessPartner) return handleNotExists(businessPartnerId, req, res);
+
+      for (const field of Object.keys(editedBusinessPartner)) {
+        businessPartner[field] = editedBusinessPartner[field];
+      }
+      if (!userData.hasAdminRole() && !this.api.hasUniqueIdentifier(businessPartner))
+      return res.status('400').json({ message: 'BusinessPartner must have a unique identifier' });
+
+      editedBusinessPartner.statusId = 'updated';
+      editedBusinessPartner.changedBy = userData.id;
+      const bPartner = await this.api.update(businessPartnerId, editedBusinessPartner);
+      await req.opuscapita.eventClient.emit('business-partner.business-partner.updated', bPartner);
+
+      return res.status('200').json(bPartner);
+    } catch(error) {
+      req.opuscapita.logger.error('Error when updating BusinessPartner: %s', error.message);
+      return res.status('400').json({ message : error.message });
+    }
+  }
+
+  async delete(req, res) {
+    const bPartnerId = req.params.id;
+
+    try {
+      const businessPartner = await this.api.find(bPartnerId);
+
+      if (!businessPartner) return handleNotExists(bPartnerId, req, res);
+
+      await this.api.delete(bPartnerId);
+
+      const capApi = new BusinessPartnerCapabilityApi(this.db);
+      const addressApi = new BusinessPartnerAddressApi(this.db);
+      const bp2UserApi = new BusinessPartner2UserApi(this.db);
+      const contactApi = new BusinessPartnerContactApi(this.db);
+
+      await Promise.all([
+        this.bankAccountApi.delete(bPartnerId), addressApi.delete(bPartnerId),
+        bp2UserApi.delete(bPartnerId), contactApi.delete(bPartnerId), capApi.delete(bPartnerId),
+        this.businessLinkApi.delete(bPartnerId), this.visibilityApi.delete(bPartnerId)
+      ]);
+
+      // await req.opuscapita.eventClient.emit('business-partner.business-partner.deleted', { id: bPartnerId });
+
+      return res.status('200').json({ message: `BusinessPartner with id ${bPartnerId} deleted.` })
+    } catch(error) {
+      req.opuscapita.logger.error('Error when deleting BusinessPartner: %s', error.message);
+      return res.status('400').json({ message : error.message });
+    }
+  }
+
+  createBankAccount(iban, businessPartner) {
+    if (!iban) return Promise.resolve();
+
+    const bankAccount = {
+      accountNumber: iban,
+      businessPartnerId: businessPartner.id,
+      createdBy: businessPartner.createdBy,
+      changedBy: businessPartner.createdBy
+    };
+
+    return this.bankAccountApi.create(bankAccount);
   }
 
   recordExists(req, res, businessType) {
@@ -142,9 +297,9 @@ class BusinessPartner {
   }
 };
 
-let handleNotExists = function(supplierId, req, res)
+let handleNotExists = function(businessPartnerId, req, res)
 {
-  const message = 'A record with ID ' + supplierId + ' does not exist.';
+  const message = 'A record with ID ' + businessPartnerId + ' does not exist.';
   req.opuscapita.logger.error('Error in BusinessPartner request: %s', message);
   return res.status('404').json({ message : message });
 };

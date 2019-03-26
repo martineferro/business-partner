@@ -83,6 +83,60 @@ class BusinessPartner {
     return this.find(motherId);
   }
 
+  async create(businessPartner) {
+    normalize(businessPartner);
+
+    if (businessPartner.parentId) {
+      const parent = await this.find(businessPartner.parentId);
+      businessPartner.hierarchyId = hierarchyIdFromParent(businessPartner.parentId, parent.hierarchyId);
+    }
+
+    const self = this;
+    let businessPartnerId = businessPartner.id || extractIdFromName(businessPartner.name);
+
+    function generateId(id) {
+      if (id === businessPartner.id) return Promise.resolve(id);
+
+      return self.find(id).then(bp => {
+        if (bp) return generateId(businessPartnerId + utils.randomNumber());
+
+        return id;
+      });
+    }
+
+    return generateId(businessPartnerId).then(id => {
+      businessPartner.id = id;
+      return this.model.create(businessPartner);
+    });
+  }
+
+  async update(businessPartnerId, businessPartner) {
+    [ 'id', 'createdBy', 'createdOn', 'updatedOn' ].forEach(key => delete businessPartner[key]);
+
+    normalize(businessPartner);
+
+    if (businessPartner.parentId) {
+      const parent = await this.find(businessPartner.parentId);
+      businessPartner.hierarchyId = hierarchyIdFromParent(businessPartner.parentId, parent.hierarchyId);
+    } else {
+      businessPartner.hierarchyId = null;
+    }
+
+    let children = await this.all({ hierarchyId: businessPartnerId });
+
+    let self = this;
+    return this.model.update(businessPartner, { where: { id: businessPartnerId } }).then(() => {
+      return Promise.all(children.map(child => {
+        const hierarchyId = hierarchyIdForChild(businessPartnerId, businessPartner.hierarchyId, child.hierarchyId);
+        return this.model.update({ hierarchyId: hierarchyId }, { where: { id : child.id } });
+      })).then(() => self.find(businessPartnerId));
+    });
+  }
+
+  delete(businessPartnerId) {
+    return this.model.destroy({ where: { id: businessPartnerId } }).then(() => null);
+  }
+
   async searchRecord(query) {
     normalize(query);
 
@@ -130,8 +184,8 @@ class BusinessPartner {
     return this.model.findOne({ where: dbQuery });
   }
 
-  recordExists(supplier) {
-    return this.searchRecord(supplier).then(supplier => Boolean(supplier));
+  recordExists(businessPartner) {
+    return this.searchRecord(businessPartner).then(businessPartner => Boolean(businessPartner));
   }
 
   associationsFromIncludes(includes) {
@@ -147,6 +201,20 @@ class BusinessPartner {
   attributes() {
     let rawAttributes = this.model.rawAttributes;
     return Object.keys(rawAttributes).map(fieldName => `${this.tableName}.${rawAttributes[fieldName].field} AS ${fieldName}`).join(', ');
+  }
+
+  hasUniqueIdentifier(businessPartner) {
+    const fields = [
+      businessPartner.vatIdentificationNo,
+      businessPartner.dunsNo,
+      businessPartner.globalLocationNo,
+      businessPartner.ovtNo,
+      businessPartner.iban
+    ];
+
+    if (uniqueIdentifier.isValid(fields)) return true;
+
+    return false;
   }
 };
 
@@ -225,5 +293,29 @@ let determineWhere = function(searchValue, matchQuery, typeQuery, capabilityQuer
 
   return resultQuery;
 };
+
+let hierarchyIdFromParent = function(parentId, parentHierarchyId)
+{
+  if (!parentHierarchyId) return parentId;
+
+  return [parentHierarchyId, parentId].join('|');
+}
+
+let hierarchyIdForChild = function(businessPartnerId, hierarchyId, childHierarchyId)
+{
+  let hierarchyIds = childHierarchyId.split('|');
+  let slicedChildHierarchyId = hierarchyIds.slice(hierarchyIds.indexOf(businessPartnerId)).join('|');
+
+  if (!hierarchyId) return slicedChildHierarchyId;
+
+  return [hierarchyId, slicedChildHierarchyId].join('|');
+}
+
+let extractIdFromName = function(name)
+{
+  if (!name) return null;
+
+  return name.replace(/^[0-9\W]+|[^0-9a-z-_]/gi, '').slice(0, 27);
+}
 
 module.exports = BusinessPartner;
