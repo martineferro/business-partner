@@ -1,4 +1,5 @@
 const BusinessPartner = require('./BusinessPartner');
+const BusinessPartnerAddress = require('./BusinessPartnerAddress');
 
 /**
  * Initializes all routes for RESTful access.
@@ -12,4 +13,5 @@ const BusinessPartner = require('./BusinessPartner');
 module.exports.init = async function(app, db, config)
 {
   new BusinessPartner(app, db).init();
+  new BusinessPartnerAddress(app, db).init();
 }

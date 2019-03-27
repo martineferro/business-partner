@@ -1,0 +1,62 @@
+type: object
+displayName: BusinessPartnerAddress
+description: Object representing an addresses assigned to a given BusinessPartner.
+For field descriptions, see [model docs](https://github.com/OpusCapita/business-partner/wiki/BusinessPartnerAddress.model)
+properties:
+    id:
+        type: string
+    businessPartnerId:
+        type: string
+    type:
+        type: string
+        default: 'default'
+    name:
+        type: string
+        required: false
+    areaCode:
+        type: string
+        required: false
+    street1:
+        type: string
+    street2:
+        type: string
+        required: false
+    street3:
+        type: string
+        required: false
+    state:
+        type: string
+        required: false
+    pobox:
+        type: string
+        required: false
+    poboxZipCode:
+        type: string
+        required: false
+    email:
+        type: string
+        required: false
+    zipCode:
+        type: string
+        required: false
+    city:
+        type: string
+    phoneNo:
+        type: string
+        required: false
+    faxNo:
+        type: string
+        required: false
+    countryId:
+        type: string
+    changedBy:
+        type: string
+        required: false
+    createdBy:
+        type: string
+    createdOn:
+        type: string
+    changedOn:
+        type: string
+        required: false
+example: !include ../examples/SupplierAddress.json
