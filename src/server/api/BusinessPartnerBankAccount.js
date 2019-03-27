@@ -15,11 +15,13 @@ class BusinessPartnerBankAccount {
 
   create(bankAccount) {
     normalize(bankAccount);
+    [ 'id', 'createdOn', 'updatedOn' ].forEach(key => delete bankAccount[key]);
     return this.model.create(bankAccount);
   }
 
   update(businessPartnerId, bankAccountId, bankAccount) {
     normalize(bankAccount);
+    [ 'id', 'businessPartnerId', 'createdOn' ].forEach(key => delete bankAccount[key]);
     return this.model.update(bankAccount, { where: { id: bankAccountId } }).then(() => {
       return this.find(businessPartnerId, bankAccountId);
     });

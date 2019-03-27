@@ -53,7 +53,6 @@ description: Work with `BusinessPartner` objects.
                 description:
                     A business partner with the same id but different set of properties already exists.
 
-
 /business-partners/{id}:
     uriParameters:
         id:
@@ -95,3 +94,139 @@ description: Work with `BusinessPartner` objects.
                         type: {}
             403:
                 description: Operation is not authorized
+
+
+/business-partners/{businessPartnerId}/addresses:
+    uriParameters:
+        businessPartnerId:
+            type: string
+            description: Identifier of a business partner.
+    get:
+        description: Get all addresses assigned to the business partner
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartnerAddressArray
+    post:
+        description: Create address for a business partner
+        body:
+            application/json:
+                type: BusinessPartnerAddress
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartnerAddress
+            403:
+                description: Operation is not authorized
+            422:
+                description: Inconsistent data
+
+/business-partners/{businessPartnerId}/addresses/{addressId}:
+    uriParameters:
+        businessPartnerId:
+            type: string
+            description: Identifier of a business partner.
+        addressId:
+            type: number
+            description: Identifeir of business partner address
+    get:
+        description: Get single `BusinessPartnerAddress` object assigned to the `BusinessPartner`
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartnerAddress
+    put:
+        description: Update address for a business partner
+        body:
+            application/json:
+                type: BusinessPartnerAddress
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartnerAddress
+            404:
+                description:
+                    An address for this business partner does not exist.
+    delete:
+        description: Delete BusinessPartnerAddress record
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: {}
+            403:
+                description: Operation is not authorized
+            422:
+                description: Inconsistent data
+
+
+/business-partners/{businessPartnerId}/bank_accounts:
+    uriParameters:
+        businessPartnerId:
+            type: string
+            description: Identifier of a business partner.
+    get:
+        description: Get all bank accounts assigned to the business partner
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartnerBankAccountArray
+    post:
+        description: Create bank account for a business partner
+        body:
+            application/json:
+                type: BusinessPartnerBankAccount
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartnerBankAccount
+            403:
+                description: Operation is not authorized
+            422:
+                description: Inconsistent data
+
+/business-partners/{businessPartnerId}/bank_accounts/{bankAccountId}:
+    uriParameters:
+        businessPartnerId:
+            type: string
+            description: Identifier of a business partner.
+        bankAccountId:
+            type: number
+            description: Identifeir of business partner bank account
+    get:
+        description: Get single `BusinessPartnerBankAccount` object assigned to the `BusinessPartner`
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartnerBankAccount
+    put:
+        description: Update bank account for a business partner
+        body:
+            application/json:
+                type: BusinessPartnerBankAccount
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartnerBankAccount
+            404:
+                description:
+                    A bank account for this business partner does not exist.
+    delete:
+        description: Delete BusinessPartnerBankAccount record
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: {}
+            403:
+                description: Operation is not authorized
+            422:
+                description: Inconsistent data

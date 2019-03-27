@@ -1,0 +1,17 @@
+[{
+  "id": 34,
+  "businessPartnerId": "hard001",
+  "bankIdentificationCode": "DEDSLTJXXXX",
+  "accountNumber": "DE89370400440532013000",
+  "bankName": "Deutsche Bank",
+  "bankCode": "423",
+  "extBankControlKey": "35",
+  "bankCountryKey": "DE",
+  "isrNumber": "890394876",
+  "bankgiro": "223298",
+  "plusgiro": "232344",
+  "createdOn": "2017-06-16 08:10:42",
+  "changedOn": "2017-06-16 08:10:42",
+  "createdBy": "john.doe@ncc.com",
+  "changedBy": "john.doe@ncc.com"
+}]

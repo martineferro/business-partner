@@ -1,0 +1,45 @@
+type: object
+displayName: BusinessPartnerBankAccount
+description: Object representing all bank accounts assigned to a given business partner. For field descriptions, see [model docs](https://github.com/OpusCapita/business-partner/wiki/BusinessPartnerBankAccount.model)
+properties:
+    id:
+        type: integer
+    supplierId:
+        type: string
+    accountNumber:
+        type: string
+        required: false
+    bankIdentificationCode:
+        type: string
+        required: false
+    bankCountryKey:
+        type: string
+    extBankControlKey:
+        type: string
+        required: false
+    bankCode:
+        type: string
+        required: false
+    bankName:
+        type: string
+        required: false
+    isrNumber:
+        type: string
+        required: false
+    plusgiro:
+        type: string
+        required: false
+    bankgiro:
+        type: string
+        required: false
+    createdBy:
+        type: string
+    changedBy:
+        type: string
+        required: false
+    createdOn:
+        type: string
+    changedOn:
+        type: string
+        required: false
+example: !include ../examples/BusinessPartnerBankAccount.json

@@ -17,6 +17,7 @@ class BusinessPartnerAddress {
   }
 
   update(businessPartnerId, addressId, address) {
+    [ 'id', 'businessPartnerId', 'createdOn' ].forEach(key => delete address[key]);
     return this.model.update(address, { where: { id: addressId } }).then(() => {
       return this.find(businessPartnerId, addressId);
     });
