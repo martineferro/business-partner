@@ -3,8 +3,10 @@ class BusinessPartnerCapability {
     this.model = db.models.BusinessPartnerCapability;
   }
 
-  create(businessPartnerId, capabilityId) {
-    return this.model.findOrCreate(query(businessPartnerId, capabilityId)).spread((capability, created) => capability);
+  create(businessPartnerId, capabilityId, createdBy) {
+    let qry = query(businessPartnerId, capabilityId);
+    qry.defaults = { createdBy: createdBy };
+    return this.model.findOrCreate(qry).spread((capability, created) => capability);
   }
 
   delete(businessPartnerId, capabilityId) {
