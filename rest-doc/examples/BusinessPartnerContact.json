@@ -1,0 +1,13 @@
+{
+  "id": 54,
+  "businessPartnerId": "hard001",
+  "type": "sales",
+  "department":"sales",
+  "title": "Mr",
+  "firstName": "Max",
+  "lastName": "Mustermann",
+  "email": "max.mustermann@ncc.com",
+  "phone": "0136/456789",
+  "createdBy": "john.doe@ncc.com",
+  "changedBy": "john.doe@ncc.com"
+}

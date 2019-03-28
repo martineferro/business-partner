@@ -14,10 +14,12 @@ class BusinessPartnerContact {
   }
 
   create(contact) {
+    [ 'id', 'createdOn', 'updatedOn' ].forEach(key => delete contact[key]);
     return this.model.create(contact);
   }
 
   update(businessPartnerId, contactId, contact) {
+    [ 'id', 'businessPartnerId', 'createdBy', 'createdOn' ].forEach(key => delete contact[key]);
     return this.model.update(contact, { where: { id: contactId } }).then(() => {
       return this.find(businessPartnerId, contactId);
     });

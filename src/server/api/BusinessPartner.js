@@ -85,6 +85,7 @@ class BusinessPartner {
 
   async create(businessPartner) {
     normalize(businessPartner);
+    [ 'createdOn', 'updatedOn' ].forEach(key => delete businessPartner[key]);
 
     if (businessPartner.parentId) {
       const parent = await this.find(businessPartner.parentId);
