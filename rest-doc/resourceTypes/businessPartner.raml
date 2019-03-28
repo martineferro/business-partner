@@ -313,6 +313,10 @@ description: Work with `BusinessPartner` objects.
 
 
 /business-partners/{businessPartnerId}/organization
+    uriParameters:
+        businessPartnerId:
+            type: string
+            description: Identifier of a business partner.
     get:
         description: Get all business partners belonging to organization of given business partner.
         responses:
@@ -322,6 +326,10 @@ description: Work with `BusinessPartner` objects.
                         type: BusinessPartnerArray
 
 /business-partners/{businessPartnerId}/parents
+    uriParameters:
+        businessPartnerId:
+            type: string
+            description: Identifier of a business partner.
     get:
         description: Get all parent business partners (parent companies) of given business partner.
         responses:
@@ -331,6 +339,10 @@ description: Work with `BusinessPartner` objects.
                         type: BusinessPartnerArray
 
 /business-partners/{businessPartnerId}/children
+    uriParameters:
+        businessPartnerId:
+            type: string
+            description: Identifier of a business partner.
     get:
         description: Get all child business partners (daughter companies) of given business partner.
         responses:
@@ -338,3 +350,27 @@ description: Work with `BusinessPartner` objects.
                 body:
                     application/json:
                         type: BusinessPartnerArray
+
+
+/business-partners/{businessPartnerId}/capabilities/{capabilityId}
+    uriParameters:
+        businessPartnerId:
+            type: string
+            description: Identifier of a business partner.
+        capabilityId:
+            type: string
+            description: capability type. Can be either `eInvoice-send`, `order`, `catalog` or `fulfillment`.
+    put:
+        description: Add capability to a given business partner
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartnerCapability
+    delete:
+        description: Delete capability from a given business partner
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: {}

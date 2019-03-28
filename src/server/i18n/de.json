@@ -1,0 +1,16 @@
+{
+    "notification": {
+        "accessRequest": {
+            "title": "OpusCapita - Benutzerzugriffsanforderung",
+            "description": "\"Der Benutzer <strong>{firstName} {lastName} ({email})</strong> hat den Zugriff auf Ihr Firmenkonto <strong>{supplierName}</strong> beantragt.<br />\r\n     <br />Bitte klicken Sie <a href=\"\"{link}\"\"> hier </a>, um Details der Anfrage zu sehen. \""
+        },
+        "accessApproval": {
+            "title": "OpusCapita - Benutzerzugriff genehmigt",
+            "description": "Ihre Zugangsanfrage an die Firma <strong>{supplierName}</strong> wurde genehmigt.<br />\r\r\n     <br />Bitte klicken Sie <a href=\"{link}\"> hier </a>, um den Zugang zu vervollständigen. "
+        },
+        "accessRejection": {
+            "title": "OpusCapita - Benutzerzugriff genehmigt",
+            "description": "Leider wurde Ihre Zugangsanfrage an die Firma <strong>{supplierName}</strong> abgelehnt."
+        }
+    }
+}

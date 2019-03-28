@@ -1,0 +1,22 @@
+type: object
+displayName: BusinessPartnerCapability
+description: Object representing a capability associated with a given business partner. For field descriptions, see [model docs](https://github.com/OpusCapita/business-partner/wiki/BusinessPartnerCapability.model)
+properties:
+    id:
+        type: integer
+    businessPartnerId:
+        type: string
+    capabilityId:
+        type: string
+    changedBy:
+        type: string
+        required: false
+    createdBy:
+        type: string
+        required: false
+    createdOn:
+        type: string
+    changedOn:
+        type: string
+        required: false
+example: !include ../examples/BusinessPartnerCapability.json

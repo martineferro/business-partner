@@ -5,6 +5,8 @@ const BusinessPartnerContact = require('./BusinessPartnerContact');
 const BusinessPartnerOrganization = require('./BusinessPartnerOrganization');
 const BusinessPartnerVisibility = require('./BusinessPartnerVisibility');
 const BusinessPartnerCapability = require('./BusinessPartnerCapability');
+const BusinessPartnerAccess = require('./BusinessPartnerAccess');
+const BusinessPartnerProfileStrength = require('./BusinessPartnerProfileStrength');
 
 /**
  * Initializes all routes for RESTful access.
@@ -24,4 +26,6 @@ module.exports.init = async function(app, db, config)
   new BusinessPartnerOrganization(app, db).init();
   new BusinessPartnerVisibility(app, db).init();
   new BusinessPartnerCapability(app, db).init();
+  new BusinessPartnerAccess(app, db).init();
+  new BusinessPartnerProfileStrength(app, db).init();
 }

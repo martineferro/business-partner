@@ -1,0 +1,16 @@
+{
+    "notification": {
+        "accessRequest": {
+            "title": "OpusCapita - Användaråtkomstförfrågan",
+            "description": "Användaren <strong> {firstName} {lastName} ({email}) </ strong> har begärt tillgång till ditt företagskonto <strong> {supplierName} </ strong>. <br />\r\r\n     <br /> Vänligen klicka på den här <a href=\"{link}\"> länken </a> för att visa detaljer om begäran. "
+        },
+        "accessApproval": {
+            "title": "OpusCapita - Användaråtkomst godkänd",
+            "description": "Din åtkomstförfrågan till företag <strong> {supplierName} </ strong> har godkänts. <br />\r\r\n     <br /> Klicka på den här <a href=\"{link}\"> länken </a> nedan för att slutföra åtkomsten. "
+        },
+        "accessRejection": {
+            "title": "OpusCapita - Användaråtkomst regifierad",
+            "description": "Tyvärr har din begäran om tillgång till företag <strong> {supplierName} </ strong> avvisats."
+        }
+    }
+}

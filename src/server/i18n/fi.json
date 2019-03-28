@@ -1,0 +1,16 @@
+{
+    "notification": {
+        "accessRequest": {
+            "title": "OpusCapita - käyttöoikeuspyyntö",
+            "description": "\"Käyttäjä <strong> {firstName} {lastName} ({email}) </ strong> on pyytänyt pääsyä yritykseesi <strong> {supplierName} </ strong>. <br />\r\r\n     <br /> Napsauta tätä <a href=\"\"{link}\"\"> linkkiä </a> nähdäksesi pyynnön tiedot. \""
+        },
+        "accessApproval": {
+            "title": "OpusCapita - käyttöoikeus hyväksytty",
+            "description": "Käyttöoikeuspyyntö yritykseen <strong>{supplierName}</strong> on hyväksytty. <b />\r\r\r\n     <br /> Klikkaa tätä <a href=\"{link}\"> linkkiä </a> viimeistelläksesi käyttöoikeus."
+        },
+        "accessRejection": {
+            "title": "OpusCapita - käyttöoikeus hylätty",
+            "description": "Valitettavasti <strong>{supplierName}</ strong> käyttöpyyntösi on hylätty."
+        }
+    }
+}
