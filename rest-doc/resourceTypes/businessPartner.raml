@@ -310,3 +310,31 @@ description: Work with `BusinessPartner` objects.
                 description: Operation is not authorized
             422:
                 description: Inconsistent data
+
+
+/business-partners/{businessPartnerId}/organization
+    get:
+        description: Get all business partners belonging to organization of given business partner.
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartnerArray
+
+/business-partners/{businessPartnerId}/parents
+    get:
+        description: Get all parent business partners (parent companies) of given business partner.
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartnerArray
+
+/business-partners/{businessPartnerId}/children
+    get:
+        description: Get all child business partners (daughter companies) of given business partner.
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessPartnerArray
