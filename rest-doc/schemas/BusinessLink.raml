@@ -1,0 +1,28 @@
+type: object
+displayName: BusinessLink
+description: Object representing a single business link item.
+properties:
+    id:
+        type: integer
+    supplierId:
+        type: string
+        description: Supplier business partner id in business network.
+    customerId:
+        type: string
+        description: Customer business partner id in business network.
+    customerSupplierId:
+        type: string
+        required: false
+        description: Supplier id in business partner customer system.
+    status:
+        type: string
+        description: One of 'invited', 'connected', or 'rejected'.
+    createdOn:
+        type: string
+    changedOn:
+        type: string
+    connections:
+        type: array
+        description: List of connections for business link.
+
+example: !include ../examples/BusinessLink.json

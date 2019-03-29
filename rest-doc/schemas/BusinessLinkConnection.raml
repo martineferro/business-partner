@@ -1,0 +1,26 @@
+type: object
+displayName: BusinessLinkConnection
+description: Object representing a single business link connection.
+properties:
+    id:
+        type: integer
+    businessLinkId:
+        type: integer
+        description: business link id of connection.
+    type:
+        type: string
+        description: Connection type. Can be 'invoice', 'order', 'catalog', 'goods', or 'rfq'.
+    config:
+        type: object
+        required: false
+        description: Additional config info.
+    status:
+        type: string
+        description: One of 'invited', 'connected', or 'rejected'.
+    createdOn:
+        type: string
+    changedOn:
+        type: string
+
+
+example: !include ../examples/BusinessLinkConnection.json

@@ -1,0 +1,117 @@
+displayName: BusinessLink
+description: Business link is the relation between supplier and customer business partners.
+/business-links
+    get:
+        description: Get all business links.
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessLinkArray
+    post:
+        description: Create a business link.
+        body:
+            application/json:
+                type: BusinessLink
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessLink
+
+/suppliers/{supplierId}/business-links:
+    uriParameters:
+        supplierId:
+            type: string
+            description: Identifier of a supplier business partner.
+    get:
+        description: Get all business links for a supplier business partner.
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessLinkArray
+    put:
+        description: Updates a business link for a supplier business partner.
+        is:
+            - sendGeneralError
+        body:
+            application/json:
+                type: BusinessLink
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessLink
+
+/customers/{customerId}/business-links:
+    uriParameters:
+        customerId:
+            type: string
+            description: Identifier of a customer business partner.
+    get:
+        description: Get all business links for a customer business partner.
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessLinkArray
+
+/suppliers/{supplierId}/customers/{customerId}/business-links:
+    uriParameters:
+        customerId:
+            type: string
+            description: Identifier of a customer business partner.
+    get:
+        description: Get all business links for a customer business partner.
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessLinkArray
+
+/suppliers/{supplierId}/business-link-connections/{connectionId}:
+    uriParameters:
+        supplierId:
+            type: string
+            description: Identifier of supplier business partner.
+        connectionId:
+            type: string
+            description: Identifier of business link connection.
+    put:
+        description: Updates a business link connection for a supplier business partner.
+        is:
+            - sendGeneralError
+            - sendNotFound
+            - sendFailedDependency
+        body:
+            application/json:
+                type: BusinessLinkConnection
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessLinkConnection
+
+/customers/{customerId}/business-link-connections/{connectionId}:
+    uriParameters:
+        customerId:
+            type: string
+            description: Identifier of customer business partner.
+        connectionId:
+            type: string
+            description: Identifier of business link connection.
+    put:
+        description: Updates a business link connection for a customer business partner.
+        is:
+            - sendGeneralError
+            - sendNotFound
+            - sendFailedDependency
+        body:
+            application/json:
+                type: BusinessLinkConnection
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: BusinessLinkConnection
