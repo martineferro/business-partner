@@ -35,7 +35,7 @@
     "validate.js": "^0.11.1"
   },
   "devDependencies": {
-    "@opuscapita/service-base-ui": "^1.1.92",
+    "@opuscapita/service-base-ui": "^1.1.113",
     "babel-core": "6.26.3",
     "babel-eslint": "7.2.3",
     "babel-loader": "^7.1.5",
@@ -55,6 +55,7 @@
     "mocha-junit-reporter": "1.13.0",
     "nodemon": "1.11.0",
     "nyc": "10.3.2",
+    "ocbesbn-logger": "^1.0.2",
     "raml-to-markdown": "1.1.3",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
@@ -66,8 +67,8 @@
   },
   "scripts": {
     "start": "node src/server/index.js",
-    "dev": "npm run setup-consul ; npx nodemon --watch src src/server/index.js",
-    "local": "npm run setup-consul ; NODE_ENV=develop nodemon --watch src/server local/index.js",
+    "dev": "npm run setup-consul ; npm run setup-rabbitmq ; npx nodemon --watch src src/server/index.js",
+    "local": "npm run setup-consul ; npm run setup-rabbitmq ; NODE_ENV=development nodemon --watch src/server local/index.js",
     "build": "npm run build:client",
     "build:client": "cross-env NODE_ENV=production ; webpack -p --config ./webpack.production.config.js --profile --colors --bail",
     "test": "npm run clean ; npm run setup-consul ; npx nyc mocha --recursive -R mocha-junit-reporter",

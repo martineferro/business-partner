@@ -6,5 +6,5 @@ services:
       - ./src:/home/node/business-partner/src
       - ./config:/home/node/business-partner/config
       - ./wiki:/home/node/business-partner/wiki
-      - ./www:/home/node/supplier/www
+      - ./local:/home/node/business-partner/local
     command: 'npm run local'

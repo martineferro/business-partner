@@ -8,7 +8,7 @@ const logger = new Logger({
   }
 });
 
-if(process.env.NODE_ENV !== 'develop') logger.redirectConsoleOut(); // Force anyone using console.* outputs into Logger format.
+if(process.env.NODE_ENV !== 'development') logger.redirectConsoleOut(); // Force anyone using console.* outputs into Logger format.
 
 // Basic database and web server initialization.
 // See database : https://github.com/OpusCapita/db-init

@@ -1,17 +1,154 @@
 {
-    "service-template-example": {
-        "name": {
-            "en": "Service Template example configuration.",
-            "de": ""
-        },
-        "description": {
-            "en": "Please change this to fit your security configuration.",
-            "de": ""
-        },
-        "resources": [{
-            "type": "rest",
-            "resourceId": "^/.*",
-            "actions": ["view"]
-        }]
-    }
+  "x-tenant-mgmt": {
+    "name": {
+      "en": "Management all company master data and business links.",
+      "de": "Verwaltung aller Unternehmensstammdaten und Geschäftsverbindungen."
+    },
+    "description": {
+      "en": "Business partner management includes all administrative functions for managing own company data, such as business partner modification, contact, address and bank account creation, edit, and deletion. It also includes all administrative functions for managing business links between buyers and sellers.",
+      "de": "Das Geschäftspartnermanagement umfasst alle administrativen Funktionen für die Verwaltung eigener Unternehmensdaten wie Geschäftspartner Änderung, Kontakt, Adress- und Bankkonto-Erstellung, Bearbeiten und Löschen. Enthält auch alle Verwaltungsfunktionen zum Verwalten von Geschäftsverbindungen zwischen Käufern und Verkäufern."
+    },
+    "resources": [{
+        "type": "rest",
+        "resourceId": "/api",
+        "actions": ["create", "view", "edit", "delete"]
+      }
+    ]
+  },
+    "x-tenant-read": {
+      "name": {
+        "en": "Grants read access to all company data and business links.",
+        "de": "Erlaubt den LeseZugriff auf alle Geschäftspartnerdaten und Geschäftsverbindungen."
+      },
+      "description": {
+          "en": "Enables listing and viewing of any business partner data and business links between buyers and sellers in the system.",
+          "de": "Ermöglich das Auflisten und Anzeigen aller Geschäftspartnerdaten und Geschäftsverbindungen zwischen Käufern und Verkäufern im System."
+      },
+      "resources": [{
+          "type": "rest",
+          "resourceId": "/api",
+          "actions": ["view"]
+      }]
+    },
+  "x-tenant-read-public": {
+    "name": {
+      "en": "Grants read access to all company's public data.",
+      "de": "Erlaubt den Lesezugriff auf alle öffentlichen Geschäftspartnerdaten."
+    },
+    "description": {
+      "en": "Enables viewing of all company's public data such as company profile, public addresses, etc.",
+      "de": "Ermöglicht die Anzeige aller öffentlichen Geschäftspartnerdaten, wie Firmenprofil, öffentliche Adressen usw."
+    },
+    "resources": [{
+          "type": "rest",
+          "resourceId": "/api/(suppliers|customers|business-partners)[/]?$",
+          "actions": ["view"]
+      },
+      {
+          "type": "rest",
+          "resourceId": "/api/(suppliers|customers|business-partners)/[^/]+$",
+          "actions": ["view"]
+      },
+      {
+        "type": "rest",
+        "resourceId": "/api/(suppliers|customers|business-partners)/[^/]+/addresses",
+        "actions": ["view"]
+      },
+      {
+        "type": "rest",
+        "resourceId": "/api/(suppliers|customers|business-partners)/[^/]+/bank_accounts",
+        "actions": ["view"],
+        "responseFields": {
+          "allow" : ["accountNumber"]
+        }
+      },
+      {
+        "type": "rest",
+        "resourceId": "/api/(suppliers|customers|business-partners)/[^/]+/capabilities",
+        "actions": ["view"]
+      },
+      {
+        "type": "ui",
+        "resourceId": "^/",
+        "actions": ["view"]
+      }
+    ]
+  },
+  "manage": {
+    "name": {
+      "en": "Management of own company master data and business links of buyers/sellers belonging to company.",
+      "de": "Verwaltung eigener Unternehmensstammdaten und Geschäftsverbindungen von Käufern/Verkäufern der Firma"
+    },
+    "description": {
+      "en": "Business partner management includes all administrative functions for managing own company data, such as supplier modification, contact, address and bank account creation, edit, and deletion. It also includes all administrative functions for managing own company business links to buyers/sellers, such as business links viewing and modification.",
+      "de": "Das Lieferantenmanagement umfasst alle administrativen Funktionen für die Verwaltung eigener Unternehmensdaten wie Lieferantenänderung, Kontakt, Adress- und Bankkonto-Erstellung, Bearbeiten und Löschen. Enthält auch alle administrativen Funktionen für die Verwaltung von eigenen Firma Geschäftsverbindungen zu Käufer / Verkäufer, wie Geschäftsverbindungen ansehen und Modifikationen."
+    },
+    "resources": [{
+        "type": "rest",
+        "resourceId": "/api/(suppliers|customers|business-partners)[/]?$",
+        "actions": ["create"]
+      },
+      {
+        "type": "rest",
+        "resourceId": "/api/(suppliers|customers|business-partners)/${_current_business_partner_id}$",
+        "actions": ["view", "edit"]
+      },
+      {
+        "type": "rest",
+        "resourceId": "/api/(suppliers|customers|business-partners)/${_current_business_partner_id}",
+        "actions": ["create", "view", "edit", "delete"]
+      },
+      {
+        "type": "rest",
+        "resourceId": "/api/(suppliers|customers|business-partners)/exists$",
+        "actions": ["view"]
+      },
+      {
+        "type": "rest",
+        "resourceId": "/api/(supplier_access|business-partner-access)",
+        "actions": ["create", "view", "edit"]
+      },
+      {
+        "type": "rest",
+        "resourceId": "/api/(grant_supplier_access|grant-business-partner-access)",
+        "actions": ["edit"]
+      }
+    ]
+  },
+  "read": {
+    "name": {
+      "en": "Business partner own company data view",
+      "de": "Geschäftspartner eigene Unternehmensdaten Ansicht"
+    },
+    "description": {
+      "en": "View for own company data which such as company profile, contacts, addresses, bank accounts, and profile strength.",
+      "de": "Ansicht für eigene Unternehmensdaten wie Firmenprofil, Kontakte, Adressen, Bankkonten und Profilstärke."
+    },
+    "resources": [{
+        "type": "rest",
+        "resourceId": "/api/(suppliers|customers|business-partners)[/]?$",
+        "actions": ["create"]
+      },
+      {
+        "type": "rest",
+        "resourceId": "/api/(suppliers|customers|business-partners)/${_current_business_partner_id}",
+        "actions": ["view"]
+      },
+      {
+        "type": "rest",
+        "resourceId": "/api/(suppliers|customers|business-partners)/${_current_business_partner_id}/contacts",
+        "actions": ["create"]
+      },
+      {
+        "type": "rest",
+        "resourceId": "/api/(suppliers|customers|business-partners)/exists$",
+        "actions": ["view"]
+      },
+      {
+        "type": "rest",
+        "resourceId": "/api/(supplier_access|business-partner-access)",
+        "actions": ["create", "edit", "view"]
+      }
+    ]
+  }
 }
