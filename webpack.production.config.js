@@ -3,6 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
+    init: './src/client/components/index.js'
   },
   output: {
     path: path.resolve(__dirname, './src/server/static'),
