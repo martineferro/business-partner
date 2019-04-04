@@ -1,0 +1,26 @@
+.object-info {
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+}
+
+.tab-description {
+  white-space: pre-wrap;
+  margin-top: 1.4em;
+  margin-bottom: 1.4em;
+}
+
+.business-partner-form-submit {
+  padding-top: 20px;
+}
+
+.opuscapita_date-input {
+  display: flex !important;
+  padding: 0 !important;
+  border: none !important;
+  position: relative;
+}
+
+.business-partner-form .tooltip .tooltip-inner {
+  text-align: left;
+  min-width: 350px;
+}

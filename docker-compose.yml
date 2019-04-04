@@ -5,6 +5,13 @@ services:
       - mysql
       - consul
       - registrator
+      - kong
+      - isodata
+      - user
+      - acl
+      - auth
+      - api-registry
+      - rabbitmq
     labels:
       SERVICE_NAME: 'business-partner'
       SERVICE_TAGS: 'external'
@@ -167,6 +174,26 @@ services:
       - kong
       - consul
     command: 'npm run dev'
+
+  isodata:
+    image: opuscapita/isodata:dev
+    depends_on:
+      - mysql
+      - consul
+      - registrator
+    ports:
+      - '3006:3006'
+    labels:
+      SERVICE_NAME: isodata
+      SERVICE_TAGS: 'external,kong'
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      PORT: '3006'
+      SERVICE_3006_CHECK_HTTP: /api/health/check
+      SERVICE_3006_CHECK_INTERVAL: 15s
+      SERVICE_3006_CHECK_TIMEOUT: 3s
+    command: 'npm run dev:production'
 
   kong:
     image: opuscapita/kong:dev

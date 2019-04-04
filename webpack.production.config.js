@@ -3,7 +3,8 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    init: './src/client/components/index.js'
+    editor: './src/client/components/BusinessPartner/Editor/index.js',
+    autocomplete: './src/client/components/BusinessPartner/Autocomplete/index.js'
   },
   output: {
     path: path.resolve(__dirname, './src/server/static'),

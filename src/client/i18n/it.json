@@ -34,7 +34,7 @@
     "BusinessPartner.Label.taxIdentificationNo": "Codice Fiscale",
     "BusinessPartner.Label.vatIdentificationNo": "Numero di Partita IVA",
     "BusinessPartner.Label.globalLocationNo": "Global Location Number (GLN)",
-    "BusinessPartner.Label.subEntityCode": "Codice di Sottoentità",
+    "BusinessPartner.Label.entityCode": "Codice impresa",
     "BusinessPartner.Label.iban": "IBAN",
     "BusinessPartner.Label.accessReason": "Ragione di Accesso",
     "BusinessPartner.Label.searchInput": "Cerca per nome, città, partita IVA, codice fiscale, numero di registrazione, numero DUNS o Global Location Number (GLN)",

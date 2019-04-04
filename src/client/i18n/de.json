@@ -34,7 +34,7 @@
     "BusinessPartner.Label.taxIdentificationNo": "Steuernummer",
     "BusinessPartner.Label.vatIdentificationNo": "Umsatzsteuer-Ident-Nr.",
     "BusinessPartner.Label.globalLocationNo": "Global Location Number (GLN/ILN)",
-    "BusinessPartner.Label.subEntityCode": "Sub-Entitätscode",
+    "BusinessPartner.Label.entityCode": "Unternehmenscode",
     "BusinessPartner.Label.iban": "IBAN",
     "BusinessPartner.Label.accessReason": "Zugang Grund",
     "BusinessPartner.Label.searchInput": "Suche nach Name, Stadt, Umsatzsteuer-ID, Steuernummer, Registrierungsnummer, DUNS-Nummer oder Global Location Number",

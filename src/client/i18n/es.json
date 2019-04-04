@@ -34,7 +34,7 @@
     "BusinessPartner.Label.taxIdentificationNo": "Número de identificación fiscal",
     "BusinessPartner.Label.vatIdentificationNo": "Número de identificación de IVA",
     "BusinessPartner.Label.globalLocationNo": "Número de ubicación global",
-    "BusinessPartner.Label.subEntityCode": "Código de sub-entidad",
+    "BusinessPartner.Label.entityCode": "Codigo de compañia",
     "BusinessPartner.Label.iban": "IBAN",
     "BusinessPartner.Label.accessReason": "Razón de acceso",
     "BusinessPartner.Label.searchInput": "Busque por nombre, ciudad, identificación de IVA, identificación fiscal, número de registro, número DUNS o número de ubicación global",

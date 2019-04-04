@@ -33,7 +33,7 @@
     "BusinessPartner.Label.taxIdentificationNo": "Moms ID",
     "BusinessPartner.Label.vatIdentificationNo": "Momsregistreringsnummer",
     "BusinessPartner.Label.globalLocationNo": "Global Location Number",
-    "BusinessPartner.Label.subEntityCode": "Underenhetskod",
+    "BusinessPartner.Label.entityCode": "Underenhetskod",
     "BusinessPartner.Label.iban": "IBAN",
     "BusinessPartner.Label.accessReason": "Access Reason",
     "BusinessPartner.Label.searchInput": "Sök på namn, stad, momsregistreringsnummer, organisationsnummer, DUNS eller GLN",

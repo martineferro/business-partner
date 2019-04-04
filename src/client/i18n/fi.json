@@ -33,7 +33,7 @@
     "BusinessPartner.Label.taxIdentificationNo": "TAX ID",
     "BusinessPartner.Label.vatIdentificationNo": "ALV-tunnus",
     "BusinessPartner.Label.globalLocationNo": "Global Location Number",
-    "BusinessPartner.Label.subEntityCode": "Sub Entity Code",
+    "BusinessPartner.Label.entityCode": "Yritystunnus",
     "BusinessPartner.Label.iban": "IBAN",
     "BusinessPartner.Label.accessReason": "Käyttösyy",
     "BusinessPartner.Label.searchInput": "Hakukriteerinä Nimi, Kaupunki, ALV-tunnus, Tax id, Y-tunnus, DUNS-numero tai Global Location Number",
