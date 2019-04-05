@@ -1,4 +1,5 @@
 {
+    "BusinessPartnerValidatejs.invalid.id.message": "ID can contain only characters, hyphens and numbers. It may not start with number or hyphen.",
     "BusinessPartnerValidatejs.invalid.url.message": "Not a valid URL format",
     "BusinessPartnerValidatejs.invalid.email.message": "Not a valid e-mail address format",
     "BusinessPartnerValidatejs.invalid.max.message": "Value exceeds maximum value '{limit}'",
@@ -22,6 +23,7 @@
     "BusinessPartnerValidatejs.blank.message": "Field cannot be blank",
     "BusinessPartnerValidatejs.blank.bic.message": "Field cannot be blank when IBAN is provided",
     "BusinessPartnerValidatejs.null.message": "Property cannot be null",
+    "BusinessPartnerValidatejs.duplicate.id.message": "A company already exists with this id.",
     "BusinessPartnerValidatejs.duplicate.name.message": "A company already exists with this name.",
     "BusinessPartnerValidatejs.duplicate.registerationNumber.message": "A company already exists with this registration number and country.",
     "BusinessPartnerValidatejs.duplicate.taxIdNumber.message": "A company already exists with this Tax Identification Number and country.",

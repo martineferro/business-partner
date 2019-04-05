@@ -41,6 +41,7 @@ let determineValidator = function(i18n, type)
 };
 
 let validator = function(validatejs) {
+  custom.tenantId(validatejs);
   custom.vatNumber(validatejs);
   custom.dunsNumber(validatejs);
   custom.globalLocationNumber(validatejs);
@@ -48,7 +49,8 @@ let validator = function(validatejs) {
   custom.uniqueIdentifier(validatejs);
   custom.ovtNumber(validatejs);
   custom.comRegNumber(validatejs);
-  customAsync.businessPartnerNameExists(validatejs);
+  customAsync.idExists(validatejs);
+  customAsync.nameExists(validatejs);
   customAsync.registerationNumberExists(validatejs);
   customAsync.taxIdNumberExists(validatejs);
   customAsync.vatNumberExists(validatejs);

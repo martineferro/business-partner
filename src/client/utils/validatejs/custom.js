@@ -1,4 +1,14 @@
-const { VAT, IBAN, BIC, DUNS, GLN, OVT, ISR, REGNO } = require('@opuscapita/field-validators');
+const { VAT, IBAN, BIC, DUNS, GLN, OVT, ISR, REGNO, TENANTID } = require('@opuscapita/field-validators');
+
+module.exports.tenantId = function(validate) {
+  return validate.validators.tenantId = function(value, options, key, attributes) {
+    if (!value) return null;
+
+    if (TENANTID.isValid(value)) return null;
+
+    return options.message;
+  };
+};
 
 module.exports.vatNumber = function(validate) {
   return validate.validators.vatNumber = function(value, options, key, attributes) {

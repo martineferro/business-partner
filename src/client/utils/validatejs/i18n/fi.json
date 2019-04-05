@@ -1,4 +1,5 @@
 {
+    "BusinessPartnerValidatejs.invalid.id.message": "ID voi sisältää vain a-z, A-Z ja 0-9 sekä erikoismerkkejä - ja _",
     "BusinessPartnerValidatejs.invalid.url.message": "Ei kelvollinen URL-formaatti",
     "BusinessPartnerValidatejs.invalid.creditCard.message": "Ei kelvollinen luottokortin numeroformaatti",
     "BusinessPartnerValidatejs.invalid.email.message": "Ei kelvollinen sähköpostiosoitemuoto",
@@ -24,6 +25,7 @@
     "BusinessPartnerValidatejs.blank.message": "Kenttä ei voi olla tyhjä",
     "BusinessPartnerValidatejs.blank.bic.message": "Kenttä ei voi olla tyhjä, kun IBAN on käytettävissä",
     "BusinessPartnerValidatejs.null.message": "Kohta ei voi olla tyhjä",
+    "BusinessPartnerValidatejs.duplicate.id.message": "Tällä tunnuksella on jo yritys.",
     "BusinessPartnerValidatejs.duplicate.name.message": "Tämän niminen yritys on jo olemassa.",
     "BusinessPartnerValidatejs.duplicate.registerationNumber.message": "Yritys on jo olemassa jolla on sama rekisteröintinumero ja maa.",
     "BusinessPartnerValidatejs.duplicate.taxIdNumber.message": "Yritys on jo olemassa jolla on sama Tax ID ja maa.",

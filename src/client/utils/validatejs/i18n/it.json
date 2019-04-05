@@ -1,5 +1,6 @@
 {
     "BusinessPartnerValidatejs.doesnt.match.message": "Il valore non corrisponde alla configurazione obbligatoria '{limit}'",
+    "BusinessPartnerValidatejs.invalid.id.message": "L'identificativo può contenere solo caratteri, trattini e numeri. Non può iniziare con un numero o un trattino.",
     "BusinessPartnerValidatejs.invalid.url.message": "Formato URL non valido",
     "BusinessPartnerValidatejs.invalid.creditCard.message": "Formato di numero di carta di credito non valido",
     "BusinessPartnerValidatejs.invalid.email.message": "Formato di indirizzo e-mail non valido",
@@ -29,6 +30,7 @@
     "BusinessPartnerValidatejs.blank.message": "Questo campo non può essere vuoto",
     "BusinessPartnerValidatejs.blank.bic.message": "Questo campo non può essere vuoto quando viene fornito un IBAN",
     "BusinessPartnerValidatejs.null.message": "Proprietà non può essere nulla",
+    "BusinessPartnerValidatejs.duplicate.id.message": "Esiste già un'impresa con questo identificativo.",
     "BusinessPartnerValidatejs.duplicate.name.message": "Esiste già un'impresa con questo nome.",
     "BusinessPartnerValidatejs.duplicate.registerationNumber.message": "Esiste già un'impresa con questo numero di registrazione e nazione.",
     "BusinessPartnerValidatejs.duplicate.taxIdNumber.message": "Esiste già un'impresa con questi Codice Fiscale e nazione.",

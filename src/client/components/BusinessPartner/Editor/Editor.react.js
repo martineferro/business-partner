@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import validationMessages from '../../../utils/validatejs/i18n';
 import i18nMessages from '../../../i18n';
 import { Components } from '@opuscapita/service-base-ui';
-import Form from './Form.react.js';
+import Form from '../Form.react.js';
 import View from './View.react.js';
 import { BusinessPartner } from '../../../api';
 import UserAbilities from '../../../UserAbilities';
@@ -154,9 +154,10 @@ class Editor extends Components.ContextComponent {
           <Form
             {...this.props}
             businessPartner={ this.state.businessPartner }
-            onBusinessPartnerChange={ this.handleUpdate }
+            onUpdate={ this.handleUpdate }
             onChange={ this.handleChange }
             onCancel={ this.props.onLogout }
+            action='update'
           />
         </div>
         <div className="col-sm-6">

@@ -20,7 +20,7 @@ export default class View extends Component {
     if (fieldName == 'foundedOn') value = dateHelper.format(value, this.context.i18n.locale);
 
     return (
-      <ViewRow labelText={ this.context.i18n.getMessage(`Supplier.Label.${fieldName}`) }>
+      <ViewRow labelText={ this.context.i18n.getMessage(`BusinessPartner.Label.${fieldName}`) }>
         <p style={ { marginTop: '7px' } }>{ attrs.component || value || '-' }</p>
       </ViewRow>
     );

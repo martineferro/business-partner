@@ -2,8 +2,16 @@ const { BusinessPartner, BankAccount } = require('../../api');
 const businessPartnerApi = new BusinessPartner();
 const bankAccountApi = new BankAccount();
 
-module.exports.businessPartnerNameExists = function(validate) {
-  return validate.validators.businessPartnerNameExists = function(value, options, key, attributes) {
+module.exports.idExists = function(validate) {
+  return validate.validators.idExists = function(value, options, key, attributes) {
+    let queryParams = { id: value };
+
+    return recordExists(value, validate, queryParams, options.message);
+  };
+};
+
+module.exports.nameExists = function(validate) {
+  return validate.validators.nameExists = function(value, options, key, attributes) {
     let queryParams = { name: value };
 
     return recordExists(value, validate, queryParams, options.message, attributes.id);

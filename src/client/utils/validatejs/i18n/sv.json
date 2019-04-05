@@ -1,4 +1,5 @@
 {
+    "BusinessPartnerValidatejs.invalid.id.message": "ID kan endast innehålla a-z, A-Z och 0-9, samt specialtecken - och  _",
     "BusinessPartnerValidatejs.invalid.url.message": "Ogiltigt format för URL",
     "BusinessPartnerValidatejs.invalid.creditCard.message": "Ogiltigt kreditkortsnummer",
     "BusinessPartnerValidatejs.invalid.email.message": "Ogiltig epostadress",
@@ -24,6 +25,7 @@
     "BusinessPartnerValidatejs.blank.message": "Fältet kan inte vara tomt",
     "BusinessPartnerValidatejs.blank.bic.message": "Fältet kan inte vara tomt när IBAN är tillgängligt",
     "BusinessPartnerValidatejs.null.message": "Attributet kan inte varea noll",
+    "BusinessPartnerValidatejs.duplicate.id.message": "Ett företag med detta ID finns redan",
     "BusinessPartnerValidatejs.duplicate.name.message": "Ett företag med detta namn existerar redan",
     "BusinessPartnerValidatejs.duplicate.registerationNumber.message": "Ett företag med detta organisationsnummer och land existerar redan",
     "BusinessPartnerValidatejs.duplicate.taxIdNumber.message": "Ett företag med detta momsregistreringsnummer och land existerar redan",

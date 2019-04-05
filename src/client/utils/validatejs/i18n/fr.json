@@ -1,5 +1,6 @@
 {
     "BusinessPartnerValidatejs.doesnt.match.message": "La valeur n'est pas conforme à la configuration obligatoire ''{limit}''",
+    "BusinessPartnerValidatejs.invalid.id.message": "L'ID ne peut contenir que des caractères, des traits d'union et des chiffres. Elle ne peut pas commencer par un chiffre ou un trait d'union.",
     "BusinessPartnerValidatejs.invalid.url.message": "Ce n'est pas un format d'URL valide",
     "BusinessPartnerValidatejs.invalid.creditCard.message": "Ce n'est pas un format de numéro de carte de crédit valide",
     "BusinessPartnerValidatejs.invalid.email.message": "Ce n'est pas un format d'adresse de courriel valide",
@@ -29,6 +30,7 @@
     "BusinessPartnerValidatejs.blank.message": "Le champ ne peut pas être laissé en blanc",
     "BusinessPartnerValidatejs.blank.bic.message": "Le champ ne peut pas être laissé en blanc quand l'IBAN est fourni",
     "BusinessPartnerValidatejs.null.message": "La propriété ne peut pas être nulle",
+    "BusinessPartnerValidatejs.duplicate.id.message": "Une société existe déjà avec cette id.",
     "BusinessPartnerValidatejs.duplicate.name.message": "Une société existe déjà sous ce nom.",
     "BusinessPartnerValidatejs.duplicate.registerationNumber.message": "Une société existe déjà avec ce numéro d'enregistrement et ce pays.",
     "BusinessPartnerValidatejs.duplicate.taxIdNumber.message": "Une société existe déjà avec ce numéro d'identification fiscale et ce pays.",

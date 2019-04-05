@@ -1,5 +1,6 @@
 {
     "BusinessPartnerValidatejs.doesnt.match.message": "O valor não corresponde ao padrão '{limit}' necessário",
+    "BusinessPartnerValidatejs.invalid.id.message": "A ID pode conter somente caracteres, hífen e números. Não pode começar com um número ou hífen.",
     "BusinessPartnerValidatejs.invalid.url.message": "Não é um formato URL válido",
     "BusinessPartnerValidatejs.invalid.creditCard.message": "Não é um formato de número de cartão de crédito válido",
     "BusinessPartnerValidatejs.invalid.email.message": "Não é um formato de endereço de e-mail válido",
@@ -29,6 +30,7 @@
     "BusinessPartnerValidatejs.blank.message": "O campo não pode estar em branco",
     "BusinessPartnerValidatejs.blank.bic.message": "O campo não pode estar em branco quando o IBAN é fornecido",
     "BusinessPartnerValidatejs.null.message": "A propriedade não pode ser nula",
+    "BusinessPartnerValidatejs.duplicate.name.message": "Já existe uma empresa com esta ID.",
     "BusinessPartnerValidatejs.duplicate.name.message": "Já existe uma empresa com este nome.",
     "BusinessPartnerValidatejs.duplicate.registerationNumber.message": "Já existe uma empresa com este número e país de registro.",
     "BusinessPartnerValidatejs.duplicate.taxIdNumber.message": "Já existe uma empresa com este número e país de identificação fiscal.",

@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from 'react-router';
 import { Containers } from '@opuscapita/service-base-ui';
 import BusinessPartnerEditor from '../src/client/components/BusinessPartner/Editor';
+import BusinessPartnerCreator from '../src/client/components/BusinessPartner/Creator';
 
 const username = 'john.doe@ncc.com';
 const userRoles = ['supplier-admin', 'user'];
@@ -10,15 +11,13 @@ const supplierId = 'hard001';
 const customerId = 'ncc';
 
 
-let businessPartnerEditor = (
-  <BusinessPartnerEditor
-    key='businessPartner'
-    businessPartnerId={supplierId}
-  />
-);
+let editor = <BusinessPartnerEditor key='editor' businessPartnerId={supplierId} />;
+
+let creator = <BusinessPartnerCreator key='creator' />;
 
 var tabData = [
-  { name: 'Editor', isActive: true }
+  { name: 'Editor', isActive: true },
+  { name: 'Creator', isActive: false }
 ];
 
 class Tabs extends React.Component
@@ -52,7 +51,8 @@ class Content extends React.Component
   render() {
     return (
       <div>
-        {this.props.activeTab.name === 'Editor' ? businessPartnerEditor : null}
+        {this.props.activeTab.name === 'Editor' ? editor : null}
+        {this.props.activeTab.name === 'Creator' ? creator : null}
       </div>
     );
   }

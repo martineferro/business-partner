@@ -42,7 +42,8 @@ export default class Autocomplete extends Component {
   }
 
   onChange = (option) => {
-    const supplier = this.state.businessPartners.find(bp => bp.id === option.value);
+    let supplier = null;
+    if (option) supplier = this.state.businessPartners.find(bp => bp.id === option.value);
     if (this.props.onChange) this.props.onChange(supplier);
 
     this.setState({ value: option });

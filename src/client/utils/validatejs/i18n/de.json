@@ -1,4 +1,5 @@
 {
+    "BusinessPartnerValidatejs.invalid.id.message": "ID kann nur Buchstaben, Ziffern und Minuszeichen enthalten. Es darf nicht mit Ziffer oder Minus beginnen.",
     "BusinessPartnerValidatejs.invalid.url.message": "Dies ist keine gültige URL",
     "BusinessPartnerValidatejs.invalid.creditCard.message": "Dies ist keine gültige Kreditkartennummer",
     "BusinessPartnerValidatejs.invalid.email.message": "Dies ist keine gültige E-Mail Adresse",
@@ -25,6 +26,7 @@
     "BusinessPartnerValidatejs.blank.message": "Das Feld darf nicht leer sein",
     "BusinessPartnerValidatejs.blank.bic.message": "Feld darf nicht leer sein, wenn IBAN vorhanden ist",
     "BusinessPartnerValidatejs.null.message": "Die Eigenschaft darf nicht null sein",
+    "BusinessPartnerValidatejs.duplicate.id.message": "Ein Unternehmen existiert bereits mit dieser ID.",
     "BusinessPartnerValidatejs.duplicate.name.message": "Ein Unternehmen existiert bereits mit dieser Name.",
     "BusinessPartnerValidatejs.duplicate.registerationNumber.message": "Ein Unternehmen existiert bereits mit dieser Handelsregisternummer und dem Land.",
     "BusinessPartnerValidatejs.duplicate.taxIdNumber.message": "Ein Unternehmen existiert bereits mit dieser Steueridentifikationsnummer und dem Land.",

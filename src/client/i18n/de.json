@@ -20,6 +20,8 @@
     "BusinessPartner.Button.publicProfile": "Öffentliches Profil ansehen",
     "BusinessPartner.Label.id": "Firmen-ID",
     "BusinessPartner.Label.parentId": "Muttergesellschaft",
+    "BusinessPartner.Label.isSupplier": "Lieferant",
+    "BusinessPartner.Label.isCustomer": "Kunde",
     "BusinessPartner.Label.name": "Firmenname",
     "BusinessPartner.Label.cityOfRegistration": "Ort der Registrierung",
     "BusinessPartner.Label.homePage": "Startseite",

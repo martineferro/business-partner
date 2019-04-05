@@ -5,7 +5,7 @@ class FieldConstraints {
   }
 
   forCreate() {
-    let constraints = this.constraints;
+    let constraints = Object.assign({}, this.constraints);
     delete constraints.iban;
     delete constraints.vatIdentificationNo.uniqueIdentifier;
     delete constraints.globalLocationNo.uniqueIdentifier;
@@ -20,7 +20,8 @@ class FieldConstraints {
   }
 
   forUpdate() {
-    let constraints = this.constraints;
+    let constraints = Object.assign({}, this.constraints);
+    delete constraints.id;
     delete constraints.iban;
     delete constraints.vatIdentificationNo.uniqueIdentifier;
     delete constraints.globalLocationNo.uniqueIdentifier;
@@ -31,7 +32,7 @@ class FieldConstraints {
   }
 
   forRegistration() {
-    let constraints = this.constraints;
+    let constraints = Object.assign({}, this.constraints);
 
     delete constraints.homePage;
     delete constraints.foundedOn;
@@ -86,6 +87,21 @@ class FieldConstraints {
 
 let allConstraints = function(i18n) {
   return {
+    id: {
+      presence: false,
+      length: {
+        maximum: 30,
+        tooLong: i18n.getMessage('BusinessPartnerValidatejs.invalid.maxSize.message', { limit: 30 })
+      },
+      tenantId: {
+        message: i18n.getMessage('BusinessPartnerValidatejs.invalid.id.message')
+      },
+      idExists: {
+        message: i18n.getMessage('BusinessPartnerValidatejs.businessPartnerExists', {
+          message: i18n.getMessage('BusinessPartnerValidatejs.duplicate.id.message')
+        })
+      }
+    },
     name: {
       presence: {
         message: i18n.getMessage('BusinessPartnerValidatejs.blank.message')
@@ -96,7 +112,7 @@ let allConstraints = function(i18n) {
           limit: 100
         })
       },
-      businessPartnerNameExists: {
+      nameExists: {
         message: i18n.getMessage('BusinessPartnerValidatejs.businessPartnerExists', {
           message: i18n.getMessage('BusinessPartnerValidatejs.duplicate.name.message')
         })

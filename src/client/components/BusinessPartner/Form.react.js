@@ -1,19 +1,20 @@
 import React, { PropTypes } from 'react';
 import { Components } from '@opuscapita/service-base-ui';
-import FormRow from '../../AttributeValueEditorRow.react.js';
-import '../BusinessPartner.css';
+import FormRow from '../AttributeValueEditorRow.react.js';
+import './BusinessPartner.css';
 import DateInput from '@opuscapita/react-dates/lib/DateInput';
-import Autocomplete from '../Autocomplete';
-import { BusinessPartner } from '../../../api';
-import Validator from '../FormValidator.js';
-import Constraints from '../FieldConstraints';
+import Autocomplete from './Autocomplete';
+import { BusinessPartner } from '../../api';
+import Validator from './FormValidator.js';
+import Constraints from './FieldConstraints';
 
 class Form extends Components.ContextComponent {
   static propTypes = {
     businessPartner: PropTypes.object.isRequired,
-    onBusinessPartnerChange: PropTypes.func.isRequired,
-    onChange: React.PropTypes.func,
-    onCancel: React.PropTypes.func
+    onUpdate: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
+    onCancel: PropTypes.func,
+    action: PropTypes.oneOf(['create', 'update']).isRequired
   };
 
   constructor(props, context) {
@@ -106,7 +107,7 @@ class Form extends Components.ContextComponent {
       this.setFieldErrorsStates(errors);
     };
 
-    constraints.id = {};
+    if (this.props.action === 'update') constraints.id = {};
     constraints.parentId = {};
 
     const validator = new Validator(this.context.i18n, constraints);
@@ -121,21 +122,23 @@ class Form extends Components.ContextComponent {
   handleUpdate = event => {
     event.preventDefault();
 
-    const { onBusinessPartnerChange } = this.props;
+    const { onUpdate } = this.props;
     const businessPartner = this.state.businessPartner;
-    const constraints = { ...this.constraints.forUpdate(), id: {}, parentId: {} };
+    let constraints = { ...this.constraints.forUpdate(), id: {}, parentId: {} };
+
+    if (this.props.action === 'create') constraints = { ...this.constraints.forCreate(), parentId: {} };
 
     if (!businessPartner.vatIdentificationNo && this.state.hasVATId) {
       this.setFieldErrorsStates({ noVatReason: [this.context.i18n.getMessage('BusinessPartner.Messages.clickCheckBox')] });
     } else {
       const success = () => {
         businessPartner.noVatReason = businessPartner.vatIdentificationNo ? null : 'No VAT Registration Number';
-        onBusinessPartnerChange(businessPartner);
+        onUpdate(businessPartner);
       };
 
       const error = (errors) => {
         this.setFieldErrorsStates(errors);
-        onBusinessPartnerChange(null);
+        onUpdate(null);
       };
 
       const validator = new Validator(this.context.i18n, constraints);
@@ -164,9 +167,14 @@ class Form extends Components.ContextComponent {
   handleParentChange = (parent) => {
     this.setState({
       businessPartnerParent: parent,
-      businessPartner: { ...this.state.businessPartner, parentId: parent.id }
+      businessPartner: { ...this.state.businessPartner, parentId: parent && parent.id }
     });
   };
+
+  handleTypeChange = (field) => {
+    const change = !this.state.businessPartner[field];
+    this.setState({ businessPartner: { ...this.state.businessPartner, [field]: change } });
+  }
 
   userIsAdmin = () => this.context.userData.roles.includes('admin');
 
@@ -221,17 +229,52 @@ class Form extends Components.ContextComponent {
     );
   };
 
-  renderVirtualField = () => {
+  renderAdminFields = () => {
     if (!this.userIsAdmin()) return null;
 
-    return this.renderField({
-      fieldName: 'managed',
-      component: (
-        <div style={{ marginTop: '5px' }}>
-          <input className='fa fa-fw' type='checkbox' onChange={this.handleManagedChange} checked={!this.state.businessPartner.managed}></input>
-        </div>
-      )
-    });
+    return (
+      <div>
+        {this.renderField({
+          fieldName: 'managed',
+          component: (
+            <input
+              style={{ marginTop: '5px' }}
+              className='fa fa-fw'
+              type='checkbox'
+              onChange={this.handleManagedChange}
+              checked={!this.state.businessPartner.managed}
+            ></input>
+          )
+        })}
+        {this.renderField({
+          fieldName: 'isSupplier',
+          component: (
+            <div style={{ marginTop: '5px' }}>
+              <input
+                className='fa fa-fw'
+                type='checkbox'
+                onChange={this.handleTypeChange.bind(this, 'isSupplier')}
+                checked={this.state.businessPartner.isSupplier}
+              ></input>
+            </div>
+          )
+        })}
+        {this.renderField({
+          fieldName: 'isCustomer',
+          component: (
+            <div style={{ marginTop: '5px' }}>
+              <input
+                className='fa fa-fw'
+                type='checkbox'
+                onChange={this.handleTypeChange.bind(this, 'isCustomer')}
+                checked={this.state.businessPartner.isCustomer}
+              ></input>
+            </div>
+          )
+        })}
+        { this.props.action === 'update' ? null : this.renderField({ fieldName: 'id' }) }
+      </div>
+    );
   };
 
   render() {
@@ -241,7 +284,7 @@ class Form extends Components.ContextComponent {
     return (
       <div>
         <form className="form-horizontal business-partner-form">
-          {this.renderVirtualField()}
+          {this.renderAdminFields()}
           {this.renderField({
             fieldName: 'parentId',
             component: (
@@ -264,7 +307,7 @@ class Form extends Components.ContextComponent {
                 className="form-control"
                 locale={['en', 'de'].includes(i18n.locale) ? i18n.locale : 'en'}
                 dateFormat={i18n.dateFormat}
-                value={businessPartner.foundedOn ? new Date(businessPartner.foundedOn) : ''}
+                value={businessPartner.foundedOn ? new Date(businessPartner.foundedOn) : null}
                 onChange={this.handleChange.bind(this, 'foundedOn')}
                 onBlur={this.handleBlur.bind(this, 'foundedOn')}
                 variants={[]}
@@ -278,11 +321,9 @@ class Form extends Components.ContextComponent {
             fieldName: 'countryOfRegistration',
             component: (
               <this.CountryField
-                actionUrl=''
-                value={this.state.businessPartner.countryOfRegistration}
+                value={this.state.businessPartner.countryOfRegistration || ''}
                 onChange={this.handleChange.bind(this, 'countryOfRegistration')}
                 onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
-                locale={i18n.locale}
               />
             )
           })}
@@ -290,12 +331,10 @@ class Form extends Components.ContextComponent {
             fieldName: 'currencyId',
             component: (
               <this.CurrencyField
-                actionUrl=''
                 optional={true}
-                value={this.state.businessPartner.currencyId}
+                value={this.state.businessPartner.currencyId || ''}
                 onChange={this.handleChange.bind(this, 'currencyId')}
                 onBlur={this.handleBlur.bind(this, 'currencyId')}
-                locale={i18n.locale}
               />
             )
           })}
