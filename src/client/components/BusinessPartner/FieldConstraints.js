@@ -5,7 +5,7 @@ class FieldConstraints {
   }
 
   forCreate() {
-    let constraints = Object.assign({}, this.constraints);
+    let constraints = this.cloneConstraints();
     delete constraints.iban;
     delete constraints.vatIdentificationNo.uniqueIdentifier;
     delete constraints.globalLocationNo.uniqueIdentifier;
@@ -20,7 +20,7 @@ class FieldConstraints {
   }
 
   forUpdate() {
-    let constraints = Object.assign({}, this.constraints);
+    let constraints = this.cloneConstraints();
     delete constraints.id;
     delete constraints.iban;
     delete constraints.vatIdentificationNo.uniqueIdentifier;
@@ -32,7 +32,7 @@ class FieldConstraints {
   }
 
   forRegistration() {
-    let constraints = Object.assign({}, this.constraints);
+    let constraints = this.cloneConstraints();
 
     delete constraints.homePage;
     delete constraints.foundedOn;
@@ -82,6 +82,10 @@ class FieldConstraints {
 
   removePresence(fieldName) {
     this.constraints[fieldName].presence = false;
+  }
+
+  cloneConstraints() {
+    return Object.assign({}, this.constraints);
   }
 }
 

@@ -5,6 +5,7 @@ import { Components } from '@opuscapita/service-base-ui';
 import Form from '../Form.react.js';
 import { BusinessPartner } from '../../../api';
 import UserAbilities from '../../../UserAbilities';
+import ErrorView from '../../ErrorView.react';
 
 class Creator extends Components.ContextComponent {
 
@@ -70,37 +71,24 @@ class Creator extends Components.ContextComponent {
   render() {
     const { hasErrors } = this.state;
 
-    if (hasErrors) {
-      return (
-        <div>{ this.context.i18n.getMessage('BusinessPartner.Messages.unableToRender') }</div>
-      );
-    }
+    if (hasErrors) return <ErrorView />;
 
     if (!this.userAbilities.canCreateBusinessPartner())
       return <div className="alert alert-danger">{this.context.i18n.getMessage('BusinessPartner.Error.notAuthorized')}</div>;
 
     return (
       <div className="row">
-        <div className="col-sm-6">
-          <h4 className="tab-description">
-            { this.context.i18n.getMessage(`BusinessPartner.Heading.createBusinessPartner`) }
-          </h4>
-          <Form
-            {...this.props}
-            action='create'
-            businessPartner={ this.state.businessPartner }
-            onUpdate={ this.handleCreate }
-            onChange={ this.handleChange }
-            onCancel={ this.props.onLogout }
-          />
-        </div>
-        <div className="col-sm-6">
-          <br />
-          <br />
-          <br />
-          <br />
-          <p>{this.context.i18n.getMessage('BusinessPartner.Messages.identifierRequired')}</p>
-        </div>
+        <h4 className="tab-description">
+          { this.context.i18n.getMessage(`BusinessPartner.Heading.createBusinessPartner`) }
+        </h4>
+        <Form
+          {...this.props}
+          action='create'
+          businessPartner={ this.state.businessPartner }
+          onUpdate={ this.handleCreate }
+          onChange={ this.handleChange }
+          onCancel={ this.props.onLogout }
+        />
       </div>
     );
   }

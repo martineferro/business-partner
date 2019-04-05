@@ -6,6 +6,8 @@ import Form from '../Form.react.js';
 import View from './View.react.js';
 import { BusinessPartner } from '../../../api';
 import UserAbilities from '../../../UserAbilities';
+import Loading from '../../Loading.react';
+import ErrorView from '../../ErrorView.react';
 
 /**
  * Provide general company information.
@@ -130,43 +132,27 @@ class Editor extends Components.ContextComponent {
 
   render() {
     const { isLoaded, hasErrors, globalInfoMessage = '', globalErrorMessage = '' } = this.state;
+    const { i18n } = this.context;
 
-    if (!isLoaded) {
-      return (
-        <div>{ this.context.i18n.getMessage('BusinessPartner.Messages.loading') }</div>
-      );
-    }
+    if (!isLoaded) return <Loading />;
 
-    if (hasErrors) {
-      return (
-        <div>{ this.context.i18n.getMessage('BusinessPartner.Messages.unableToRender')  } </div>
-      );
-    }
+    if (hasErrors) return <ErrorView />;
 
     if (!this.userAbilities.canEditBusinessPartner()) return <div className="row">{this.renderView()}</div>;
 
     return (
-      <div className="row">
-        <div className="col-sm-6">
-          <h4 className="tab-description">
-            { this.context.i18n.getMessage(`BusinessPartner.Heading.companyInformation`) }
-          </h4>
-          <Form
-            {...this.props}
-            businessPartner={ this.state.businessPartner }
-            onUpdate={ this.handleUpdate }
-            onChange={ this.handleChange }
-            onCancel={ this.props.onLogout }
-            action='update'
-          />
-        </div>
-        <div className="col-sm-6">
-          <br />
-          <br />
-          <br />
-          <br />
-          <p>{this.context.i18n.getMessage('BusinessPartner.Messages.identifierRequired')}</p>
-        </div>
+      <div>
+        <h4 className="tab-description">
+          { i18n.getMessage(`BusinessPartner.Heading.companyInformation`) }
+        </h4>
+        <Form
+          {...this.props}
+          businessPartner={ this.state.businessPartner }
+          onUpdate={ this.handleUpdate }
+          onChange={ this.handleChange }
+          onCancel={ this.props.onLogout }
+          action='update'
+        />
       </div>
     );
   }

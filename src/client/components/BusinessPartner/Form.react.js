@@ -282,88 +282,93 @@ class Form extends Components.ContextComponent {
     const { businessPartner } = this.state;
 
     return (
-      <div>
-        <form className="form-horizontal business-partner-form">
-          {this.renderAdminFields()}
-          {this.renderField({
-            fieldName: 'parentId',
-            component: (
-              <Autocomplete
-                value={this.state.businessPartnerParent}
-                onChange={this.handleParentChange}
-                onBlur={() => null}
-                disabled={!this.userIsAdmin()}
-                onFilter={ bp => bp.id !== businessPartner.id }
-              />
-            )
-          })}
-          { this.renderField({ fieldName: 'entityCode' }) }
-          { this.renderField({ fieldName: 'name' }) }
-          { this.renderField({ fieldName: 'homePage' }) }
-          { this.renderField({
-            fieldName: 'foundedOn',
-            component: (
-              <DateInput
-                className="form-control"
-                locale={['en', 'de'].includes(i18n.locale) ? i18n.locale : 'en'}
-                dateFormat={i18n.dateFormat}
-                value={businessPartner.foundedOn ? new Date(businessPartner.foundedOn) : null}
-                onChange={this.handleChange.bind(this, 'foundedOn')}
-                onBlur={this.handleBlur.bind(this, 'foundedOn')}
-                variants={[]}
-              />
-            )
-          }) }
+      <form className="form-horizontal business-partner-form">
+        <div className="row">
+          <div className="col-md-6">
+            {this.renderAdminFields()}
+            {this.renderField({
+              fieldName: 'parentId',
+              component: (
+                <Autocomplete
+                  value={this.state.businessPartnerParent}
+                  onChange={this.handleParentChange}
+                  onBlur={() => null}
+                  disabled={!this.userIsAdmin()}
+                  onFilter={ bp => bp.id !== businessPartner.id }
+                />
+              )
+            })}
+            { this.renderField({ fieldName: 'entityCode' }) }
+            { this.renderField({ fieldName: 'name' }) }
+            { this.renderField({ fieldName: 'homePage' }) }
+            { this.renderField({
+              fieldName: 'foundedOn',
+              component: (
+                <DateInput
+                  className="form-control"
+                  locale={['en', 'de'].includes(i18n.locale) ? i18n.locale : 'en'}
+                  dateFormat={i18n.dateFormat}
+                  value={businessPartner.foundedOn ? new Date(businessPartner.foundedOn) : null}
+                  onChange={this.handleChange.bind(this, 'foundedOn')}
+                  onBlur={this.handleBlur.bind(this, 'foundedOn')}
+                  variants={[]}
+                />
+              )
+            }) }
 
-          { this.renderField({ fieldName: 'legalForm' }) }
-          { this.renderField({ fieldName: 'cityOfRegistration' }) }
-          { this.renderField({
-            fieldName: 'countryOfRegistration',
-            component: (
-              <this.CountryField
-                value={this.state.businessPartner.countryOfRegistration || ''}
-                onChange={this.handleChange.bind(this, 'countryOfRegistration')}
-                onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
-              />
-            )
-          })}
-          { this.renderField({
-            fieldName: 'currencyId',
-            component: (
-              <this.CurrencyField
-                optional={true}
-                value={this.state.businessPartner.currencyId || ''}
-                onChange={this.handleChange.bind(this, 'currencyId')}
-                onBlur={this.handleBlur.bind(this, 'currencyId')}
-              />
-            )
-          })}
-          { this.renderField({ fieldName: 'commercialRegisterNo', info: this.comRegTooltiptext() }) }
-          { this.renderField({ fieldName: 'taxIdentificationNo' }) }
-          { this.renderField({ fieldName: 'vatIdentificationNo', marked: true, disabled: !this.userIsAdmin() }) }
-          { this.renderField({
-                  fieldName: 'noVatReason',
-                  labelText: ' ',
-                  component: (
-                    <p>
-                      <input className='fa fa-fw' type='checkbox' onChange={this.handleCheckboxChange} checked={!this.state.hasVATId} disabled={!this.userIsAdmin()}></input>
-                      {this.context.i18n.getMessage('BusinessPartner.Messages.noVatId')}
-                    </p>
-                  )
-                }) }
-          { this.renderField({ fieldName: 'globalLocationNo', marked: true, disabled: !this.userIsAdmin() }) }
-          { this.renderField({ fieldName: 'dunsNo', marked: true, disabled: !this.userIsAdmin() }) }
-          { this.renderField({ fieldName: 'ovtNo', marked: true, disabled: !this.userIsAdmin() }) }
-
-          <div className='business-partner-form-submit'>
-            <div className='text-right form-submit'>
-              <button id='business-partner-editor__form-submit' className="btn btn-primary" onClick={ this.handleUpdate }>
-                { i18n.getMessage('BusinessPartner.Button.save') }
-              </button>
-            </div>
+            { this.renderField({ fieldName: 'legalForm' }) }
+            { this.renderField({ fieldName: 'cityOfRegistration' }) }
+            { this.renderField({
+              fieldName: 'countryOfRegistration',
+              component: (
+                <this.CountryField
+                  value={this.state.businessPartner.countryOfRegistration || ''}
+                  onChange={this.handleChange.bind(this, 'countryOfRegistration')}
+                  onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
+                />
+              )
+            })}
+            { this.renderField({
+              fieldName: 'currencyId',
+              component: (
+                <this.CurrencyField
+                  optional={true}
+                  value={this.state.businessPartner.currencyId || ''}
+                  onChange={this.handleChange.bind(this, 'currencyId')}
+                  onBlur={this.handleBlur.bind(this, 'currencyId')}
+                />
+              )
+            })}
+            { this.renderField({ fieldName: 'commercialRegisterNo', info: this.comRegTooltiptext() }) }
+            { this.renderField({ fieldName: 'taxIdentificationNo' }) }
+            { this.renderField({ fieldName: 'vatIdentificationNo', disabled: !this.userIsAdmin() }) }
+            { this.renderField({
+              fieldName: 'noVatReason',
+              labelText: ' ',
+              component: (
+                <p>
+                  <input className='fa fa-fw' type='checkbox' onChange={this.handleCheckboxChange} checked={!this.state.hasVATId} disabled={!this.userIsAdmin()}></input>
+                  {this.context.i18n.getMessage('BusinessPartner.Messages.noVatId')}
+                </p>
+              )
+            })}
           </div>
-        </form>
-      </div>
+          <div className="col-md-6">
+            <p>{i18n.getMessage('BusinessPartner.Messages.identifierRequired')}</p>
+            <br />
+            { this.renderField({ fieldName: 'globalLocationNo', marked: true, disabled: !this.userIsAdmin() }) }
+            { this.renderField({ fieldName: 'dunsNo', marked: true, disabled: !this.userIsAdmin() }) }
+            { this.renderField({ fieldName: 'ovtNo', marked: true, disabled: !this.userIsAdmin() }) }
+          </div>
+        </div>
+        <div className='business-partner-form-submit'>
+          <div className='text-right form-submit'>
+            <button id='business-partner-editor__form-submit' className="btn btn-primary" onClick={ this.handleUpdate }>
+              { i18n.getMessage('BusinessPartner.Button.save') }
+            </button>
+          </div>
+        </div>
+      </form>
     );
   }
 }
