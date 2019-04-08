@@ -2,6 +2,7 @@ const BusinessPartnerApi = require('../api/BusinessPartner');
 const BusinessPartner2UserApi = require('../api/BusinessPartner2User');
 const notification = require('../services/notification');
 const User = require('../services/User');
+const UserData = require('../services/UserData');
 
 class BusinessPartnerAccess {
   constructor(app, db) {
@@ -61,7 +62,9 @@ class BusinessPartnerAccess {
 
     if (businessPartner2user) return res.status('200').json(businessPartner2user);
 
+    let userData = new UserData(req);
     attributes.status = 'requested';
+    attributes.createdBy = userData.id;
     return this.bp2UserApi.create(attributes).then(async bp2user => {
       const userService = new User(req.opuscapita.serviceClient);
       const requestUser = await userService.getProfile(bp2user.userId);

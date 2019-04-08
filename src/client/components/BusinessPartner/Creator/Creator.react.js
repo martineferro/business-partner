@@ -82,10 +82,9 @@ class Creator extends Components.ContextComponent {
           { this.context.i18n.getMessage(`BusinessPartner.Heading.createBusinessPartner`) }
         </h4>
         <Form
-          {...this.props}
           action='create'
           businessPartner={ this.state.businessPartner }
-          onUpdate={ this.handleCreate }
+          onAction={ this.handleCreate }
           onChange={ this.handleChange }
           onCancel={ this.props.onLogout }
         />

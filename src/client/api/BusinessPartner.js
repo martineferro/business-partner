@@ -3,7 +3,7 @@ import ApiBase from './ApiBase';
 class BusinessPartner extends ApiBase {
   constructor() {
     super();
-    this.urlPath = 'business-partner/api/business-partners';
+    this.urlPath = '/business-partner/api/business-partners';
   }
 
   find(businessPartnerId, queryParams) {

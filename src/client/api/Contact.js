@@ -1,28 +1,33 @@
 import ApiBase from './ApiBase';
 
 class Contact extends ApiBase {
-  getContacts(supplierId) {
-    return this.ajax.get(`/supplier/api/suppliers/${supplierId}/contacts`).
+  constructor() {
+    super();
+    this.urlPath = '/business-partner/api/business-partners';
+  }
+
+  all(businessPartnerId) {
+    return this.ajax.get(`${this.urlPath}/${businessPartnerId}/contacts`).
       set('Accept', 'application/json').then(response => response.body);
   }
 
-  createContact(supplierId, contact) {
-    return this.ajax.post(`/supplier/api/suppliers/${supplierId}/contacts`).
+  create(businessPartnerId, contact) {
+    return this.ajax.post(`${this.urlPath}/${businessPartnerId}/contacts`).
       set('Accept', 'application/json').send(contact).then(response => response.body);
   }
 
-  createUser(supplierId, contact) {
-    return this.ajax.post(`/supplier/api/suppliers/${supplierId}/contacts/createUser`).
+  createUser(businessPartnerId, contact) {
+    return this.ajax.post(`${this.urlPath}/${businessPartnerId}/contacts/createUser`).
       set('Accept', 'application/json').send(contact).then(response => response.body);
   }
 
-  updateContact(supplierId, contactId, contact) {
-    return this.ajax.put(`/supplier/api/suppliers/${supplierId}/contacts/${contactId}`).
+  update(businessPartnerId, contactId, contact) {
+    return this.ajax.put(`${this.urlPath}/${businessPartnerId}/contacts/${contactId}`).
       set('Accept', 'application/json').send(contact).then(response => response.body);
   }
 
-  deleteContact(supplierId, contactId) {
-    return this.ajax.del(`/supplier/api/suppliers/${supplierId}/contacts/${contactId}`).
+  delete(businessPartnerId, contactId) {
+    return this.ajax.del(`${this.urlPath}/${businessPartnerId}/contacts/${contactId}`).
       set('Accept', 'application/json')
   }
 }

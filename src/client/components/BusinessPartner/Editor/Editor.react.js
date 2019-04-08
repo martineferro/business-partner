@@ -41,29 +41,18 @@ class Editor extends Components.ContextComponent {
   }
 
   componentDidMount() {
-    if (this.state.isLoaded) {
-      return;
-    }
+    if (this.state.isLoaded) return;
 
-    this.api.find(this.props.businessPartnerId).then(businessPartner => {
-      this.setState({
-        isLoaded: true,
-        businessPartner: businessPartner
-      });
-    }).
-    catch(errors => {
+    return this.api.find(this.props.businessPartnerId).then(businessPartner => {
+      this.setState({ isLoaded: true, businessPartner: businessPartner });
+    }).catch(errors => {
       if (errors.status === 401) {
         this.props.onUnauthorized();
         return;
       }
 
-      this.setState({
-        isLoaded: true,
-        hasErrors: true,
-      });
+      this.setState({ isLoaded: true, hasErrors: true });
     });
-
-    return;
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -80,18 +69,12 @@ class Editor extends Components.ContextComponent {
     }
   }
 
-  handleUpdate = newBusinessPartner => {
-    if (!newBusinessPartner) {
-      return this.setState({
-        globalInfoMessage: '',
-        globalErrorMessage: '',
-      });
+  handleUpdate = editedBPartner => {
+    if (!editedBPartner) {
+      return this.setState({ globalInfoMessage: '', globalErrorMessage: '' });
     }
 
-    delete newBusinessPartner.changedOn;  // eslint-disable-line no-param-reassign
-    delete newBusinessPartner.createdOn;  // eslint-disable-line no-param-reassign
-
-    return this.api.update(this.props.businessPartnerId, newBusinessPartner).then(businessPartner => {
+    return this.api.update(this.props.businessPartnerId, editedBPartner).then(businessPartner => {
       this.setState({ businessPartner: businessPartner });
 
       if(this.context.showNotification)
@@ -101,9 +84,7 @@ class Editor extends Components.ContextComponent {
         this.props.onUpdate({ id: businessPartner.id, name: businessPartner.name });
       }
 
-      if (this.props.onChange) {
-        this.props.onChange({ isDirty: false });
-      }
+      if (this.props.onChange)  this.props.onChange({ isDirty: false });
     }).
     catch(errors => {
       switch (errors.status) {
@@ -122,12 +103,14 @@ class Editor extends Components.ContextComponent {
   }
 
   renderView() {
-    return <div className="col-sm-6">
-      <h4 className="tab-description">
-        { this.context.i18n.getMessage(`BusinessPartner.Heading.companyInformation`) }
-      </h4>
-      <View businessPartner={ this.state.businessPartner } />
-    </div>;
+    return (
+      <div className="col-sm-6">
+        <h4 className="tab-description">
+          { this.context.i18n.getMessage(`BusinessPartner.Heading.companyInformation`) }
+        </h4>
+        <View businessPartner={ this.state.businessPartner } />
+      </div>
+    );
   }
 
   render() {
@@ -146,9 +129,8 @@ class Editor extends Components.ContextComponent {
           { i18n.getMessage(`BusinessPartner.Heading.companyInformation`) }
         </h4>
         <Form
-          {...this.props}
           businessPartner={ this.state.businessPartner }
-          onUpdate={ this.handleUpdate }
+          onAction={ this.handleUpdate }
           onChange={ this.handleChange }
           onCancel={ this.props.onLogout }
           action='update'

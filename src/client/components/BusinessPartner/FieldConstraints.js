@@ -1,7 +1,21 @@
 class FieldConstraints {
-  constructor(i18n) {
+  constructor(i18n, action) {
     this.i18n = i18n;
     this.constraints = allConstraints(i18n);
+    this.action = action;
+  }
+
+  fetch() {
+    switch(this.action) {
+      case 'create':
+        return this.forCreate();
+      case 'update':
+        return this.forUpdate();
+      case 'register':
+        return this.forRegistration();
+      default:
+        return {};
+    }
   }
 
   forCreate() {
@@ -16,7 +30,7 @@ class FieldConstraints {
     delete constraints.dunsNo.uniqueIdentifierWithBankAccount;
     delete constraints.ovtNo.uniqueIdentifierWithBankAccount;
 
-    return constraints;
+    return { ...constraints, parentId: {} };
   }
 
   forUpdate() {
@@ -28,7 +42,7 @@ class FieldConstraints {
     delete constraints.dunsNo.uniqueIdentifier;
     delete constraints.ovtNo.uniqueIdentifier;
 
-    return constraints;
+    return { ...constraints, id: {}, parentId: {} };
   }
 
   forRegistration() {
@@ -45,7 +59,19 @@ class FieldConstraints {
     return constraints;
   }
 
+
+
   forField(fieldName) {
+    let constraints = this.determineFields(fieldName);
+
+    if (this.action === 'create') return { ...constraints, parentId: {} };
+
+    if (this.action === 'update') return { ...constraints, id: {}, parentId: {} };
+
+    return constraints;
+  }
+
+  determineFields(fieldName) {
     if (['taxIdentificationNo', 'cityOfRegistration'].includes(fieldName))
       return {
         taxIdentificationNo: this.constraints['taxIdentificationNo'],

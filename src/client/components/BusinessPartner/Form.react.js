@@ -1,20 +1,22 @@
 import React, { PropTypes } from 'react';
 import { Components } from '@opuscapita/service-base-ui';
 import FormRow from '../AttributeValueEditorRow.react.js';
+import ActionButton from '../ActionButton.react.js';
 import './BusinessPartner.css';
 import DateInput from '@opuscapita/react-dates/lib/DateInput';
 import Autocomplete from './Autocomplete';
 import { BusinessPartner } from '../../api';
 import Validator from './FormValidator.js';
 import Constraints from './FieldConstraints';
+import formHelper from './formHelper';
 
 class Form extends Components.ContextComponent {
   static propTypes = {
     businessPartner: PropTypes.object.isRequired,
-    onUpdate: PropTypes.func.isRequired,
+    onAction: PropTypes.func.isRequired,
     onChange: PropTypes.func,
     onCancel: PropTypes.func,
-    action: PropTypes.oneOf(['create', 'update']).isRequired
+    action: PropTypes.oneOf(['create', 'update', 'register']).isRequired
   };
 
   constructor(props, context) {
@@ -42,7 +44,7 @@ class Form extends Components.ContextComponent {
   }
 
   componentWillMount() {
-    this.constraints = new Constraints(this.context.i18n);
+    this.constraints = new Constraints(this.context.i18n, this.props.action);
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -54,7 +56,7 @@ class Form extends Components.ContextComponent {
       });
     }
 
-    this.constraints = new Constraints(nextContext.i18n);
+    this.constraints = new Constraints(nextContext.i18n, nextProps.action);
   }
 
   componentDidMount() {
@@ -65,35 +67,34 @@ class Form extends Components.ContextComponent {
 
   setFieldErrorsStates = (errors) => {
     this.setState({
-      fieldErrors: Object.keys(errors).reduce((rez, fieldName) => ({
+      fieldErrors: Object.keys(errors || {}).reduce((rez, fieldName) => ({
         ...rez,
-        [fieldName]: errors[fieldName].map(msg => ({ message: msg }))
+        [fieldName]: errors[fieldName].map(error => {
+          if (this.props.action !== 'register') return { message: error };
+
+          return {
+            message: error.message,
+            value: error.value,
+            fieldName: fieldName,
+            attributes: error.attributes,
+            hasLink: error.validator && error.validator.includes('Exists'),
+            linkMessage: this.context.i18n.getMessage('BusinessPartner.Button.requestAccess')
+          };
+        })
       }), this.state.fieldErrors)
     });
   };
 
   handleChange = (fieldName, event) => {
-    let newValue;
+    const newValue = formHelper.getEventValue(event);
 
-    if (event && event.target) {
-      newValue = event.target.value;
-    } else {
-      newValue = event;
-    }
+    if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
 
-    if (this.props.onChange) {
-      this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
-    }
-
-    this.setState({
-      businessPartner: {
-        ...this.state.businessPartner,
-        [fieldName]: newValue
-      }
-    });
+    this.setState({ businessPartner: { ...this.state.businessPartner, [fieldName]: newValue } });
   };
 
-  handleBlur = (fieldName) => {
+  handleBlur = (fieldName, event) => {
+    event.preventDefault && event.preventDefault();
     let constraints = this.constraints.forField(fieldName);
 
     this.setState({
@@ -107,10 +108,7 @@ class Form extends Components.ContextComponent {
       this.setFieldErrorsStates(errors);
     };
 
-    if (this.props.action === 'update') constraints.id = {};
-    constraints.parentId = {};
-
-    const validator = new Validator(this.context.i18n, constraints);
+    const validator = new Validator(this.context.i18n, constraints, this.validatorType());
     validator.validate(this.state.businessPartner).then(null, error);
   };
 
@@ -119,29 +117,26 @@ class Form extends Components.ContextComponent {
     this.props.onCancel();
   };
 
-  handleUpdate = event => {
+  handleAction = event => {
     event.preventDefault();
 
-    const { onUpdate } = this.props;
+    const { onAction } = this.props;
     const businessPartner = this.state.businessPartner;
-    let constraints = { ...this.constraints.forUpdate(), id: {}, parentId: {} };
-
-    if (this.props.action === 'create') constraints = { ...this.constraints.forCreate(), parentId: {} };
 
     if (!businessPartner.vatIdentificationNo && this.state.hasVATId) {
       this.setFieldErrorsStates({ noVatReason: [this.context.i18n.getMessage('BusinessPartner.Messages.clickCheckBox')] });
     } else {
       const success = () => {
         businessPartner.noVatReason = businessPartner.vatIdentificationNo ? null : 'No VAT Registration Number';
-        onUpdate(businessPartner);
+        onAction(businessPartner);
       };
 
       const error = (errors) => {
         this.setFieldErrorsStates(errors);
-        onUpdate(null);
+        onAction(null);
       };
 
-      const validator = new Validator(this.context.i18n, constraints);
+      const validator = new Validator(this.context.i18n, this.constraints.fetch(), this.validatorType());
       validator.validate(businessPartner).then(success, error);
     }
   };
@@ -174,32 +169,21 @@ class Form extends Components.ContextComponent {
   handleTypeChange = (field) => {
     const change = !this.state.businessPartner[field];
     this.setState({ businessPartner: { ...this.state.businessPartner, [field]: change } });
-  }
+  };
+
+  handleAccessRequest = (error) => {
+    if (this.props.onAccessRequest) this.props.onAccessRequest(error.attributes);
+  };
 
   userIsAdmin = () => this.context.userData.roles.includes('admin');
 
-  comRegTooltiptext() {
-    return (
-      `${this.context.i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.text')}
-      <ul>
-        <li>${this.context.i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.de')}</li>
-        <li>${this.context.i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.at')}</li>
-        <li>${this.context.i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.fi')}</li>
-        <li>${this.context.i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.se')}</li>
-        <li>${this.context.i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.no')}</li>
-        <li>${this.context.i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.ch')}</li>
-        <li>${this.context.i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.us')}</li>
-        <li>${this.context.i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.pl')}</li>
-        <li>${this.context.i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.fr')}</li>
-      </ul>`
-    );
-  }
+  validatorType = () => this.props.action === 'register' ? 'registration' : 'createOrUpdate';
 
   renderField = (attrs) => {
     const { businessPartner, fieldErrors } = this.state;
     const { fieldName } = attrs;
     const fieldNames = attrs.fieldNames || [fieldName];
-    const constraints = this.constraints.forUpdate();
+    const constraints = this.constraints.fetch();
 
     let component = attrs.component ||
       <input className="form-control"
@@ -218,11 +202,14 @@ class Form extends Components.ContextComponent {
 
     return (
       <FormRow
+        key={fieldName}
         labelText={ attrs.labelText || this.context.i18n.getMessage(`BusinessPartner.Label.${fieldName}`) }
         required={ isRequired }
         marked={ attrs.marked }
         info={ attrs.info }
         rowErrors={ rowErrors }
+        helpText = { this.props.action === 'register' ? attrs.helpText : null }
+        onErrorLinkClick={ this.handleAccessRequest }
       >
         { component }
       </FormRow>
@@ -234,45 +221,7 @@ class Form extends Components.ContextComponent {
 
     return (
       <div>
-        {this.renderField({
-          fieldName: 'managed',
-          component: (
-            <input
-              style={{ marginTop: '5px' }}
-              className='fa fa-fw'
-              type='checkbox'
-              onChange={this.handleManagedChange}
-              checked={!this.state.businessPartner.managed}
-            ></input>
-          )
-        })}
-        {this.renderField({
-          fieldName: 'isSupplier',
-          component: (
-            <div style={{ marginTop: '5px' }}>
-              <input
-                className='fa fa-fw'
-                type='checkbox'
-                onChange={this.handleTypeChange.bind(this, 'isSupplier')}
-                checked={this.state.businessPartner.isSupplier}
-              ></input>
-            </div>
-          )
-        })}
-        {this.renderField({
-          fieldName: 'isCustomer',
-          component: (
-            <div style={{ marginTop: '5px' }}>
-              <input
-                className='fa fa-fw'
-                type='checkbox'
-                onChange={this.handleTypeChange.bind(this, 'isCustomer')}
-                checked={this.state.businessPartner.isCustomer}
-              ></input>
-            </div>
-          )
-        })}
-        { this.props.action === 'update' ? null : this.renderField({ fieldName: 'id' }) }
+        {formHelper.fieldsForAdmin(this.props.action).map(field => this.fields[field])}
       </div>
     );
   };
@@ -286,90 +235,188 @@ class Form extends Components.ContextComponent {
         <div className="row">
           <div className="col-md-6">
             {this.renderAdminFields()}
-            {this.renderField({
-              fieldName: 'parentId',
-              component: (
-                <Autocomplete
-                  value={this.state.businessPartnerParent}
-                  onChange={this.handleParentChange}
-                  onBlur={() => null}
-                  disabled={!this.userIsAdmin()}
-                  onFilter={ bp => bp.id !== businessPartner.id }
-                />
-              )
-            })}
-            { this.renderField({ fieldName: 'entityCode' }) }
-            { this.renderField({ fieldName: 'name' }) }
-            { this.renderField({ fieldName: 'homePage' }) }
-            { this.renderField({
-              fieldName: 'foundedOn',
-              component: (
-                <DateInput
-                  className="form-control"
-                  locale={['en', 'de'].includes(i18n.locale) ? i18n.locale : 'en'}
-                  dateFormat={i18n.dateFormat}
-                  value={businessPartner.foundedOn ? new Date(businessPartner.foundedOn) : null}
-                  onChange={this.handleChange.bind(this, 'foundedOn')}
-                  onBlur={this.handleBlur.bind(this, 'foundedOn')}
-                  variants={[]}
-                />
-              )
-            }) }
-
-            { this.renderField({ fieldName: 'legalForm' }) }
-            { this.renderField({ fieldName: 'cityOfRegistration' }) }
-            { this.renderField({
-              fieldName: 'countryOfRegistration',
-              component: (
-                <this.CountryField
-                  value={this.state.businessPartner.countryOfRegistration || ''}
-                  onChange={this.handleChange.bind(this, 'countryOfRegistration')}
-                  onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
-                />
-              )
-            })}
-            { this.renderField({
-              fieldName: 'currencyId',
-              component: (
-                <this.CurrencyField
-                  optional={true}
-                  value={this.state.businessPartner.currencyId || ''}
-                  onChange={this.handleChange.bind(this, 'currencyId')}
-                  onBlur={this.handleBlur.bind(this, 'currencyId')}
-                />
-              )
-            })}
-            { this.renderField({ fieldName: 'commercialRegisterNo', info: this.comRegTooltiptext() }) }
-            { this.renderField({ fieldName: 'taxIdentificationNo' }) }
-            { this.renderField({ fieldName: 'vatIdentificationNo', disabled: !this.userIsAdmin() }) }
-            { this.renderField({
-              fieldName: 'noVatReason',
-              labelText: ' ',
-              component: (
-                <p>
-                  <input className='fa fa-fw' type='checkbox' onChange={this.handleCheckboxChange} checked={!this.state.hasVATId} disabled={!this.userIsAdmin()}></input>
-                  {this.context.i18n.getMessage('BusinessPartner.Messages.noVatId')}
-                </p>
-              )
-            })}
+            {formHelper.fieldsForUser(this.props.action).map(field => this.fields[field])}
           </div>
           <div className="col-md-6">
-            <p>{i18n.getMessage('BusinessPartner.Messages.identifierRequired')}</p>
-            <br />
-            { this.renderField({ fieldName: 'globalLocationNo', marked: true, disabled: !this.userIsAdmin() }) }
-            { this.renderField({ fieldName: 'dunsNo', marked: true, disabled: !this.userIsAdmin() }) }
-            { this.renderField({ fieldName: 'ovtNo', marked: true, disabled: !this.userIsAdmin() }) }
+            {formHelper.helpInformation(this.props.action, i18n)}
+            {formHelper.fieldsForIdentifiers(this.props.action).map(field => this.fields[field])}
           </div>
         </div>
         <div className='business-partner-form-submit'>
           <div className='text-right form-submit'>
-            <button id='business-partner-editor__form-submit' className="btn btn-primary" onClick={ this.handleUpdate }>
-              { i18n.getMessage('BusinessPartner.Button.save') }
-            </button>
+            {formHelper.actionButtons(this.props.action).map(button => this.actionButtons[button])}
           </div>
         </div>
       </form>
     );
+  }
+
+  get fields() {
+    const { businessPartner, businessPartnerParent } = this.state;
+    const { i18n } = this.context;
+    const { action } = this.props;
+
+    return {
+      managed: this.renderField({
+        fieldName: 'managed',
+        component: (
+          <input
+            className='fa fa-fw business-partner-checkbox'
+            type='checkbox'
+            onChange={this.handleManagedChange}
+            checked={!businessPartner.managed}
+          ></input>
+        )
+      }),
+      isSupplier: this.renderField({
+        fieldName: 'isSupplier',
+        component: (
+          <input
+            className='fa fa-fw business-partner-checkbox'
+            type='checkbox'
+            onChange={this.handleTypeChange.bind(this, 'isSupplier')}
+            checked={businessPartner.isSupplier}
+          ></input>
+        )
+      }),
+      isCustomer: this.renderField({
+        fieldName: 'isCustomer',
+        component: (
+          <input
+            className='fa fa-fw business-partner-checkbox'
+            type='checkbox'
+            onChange={this.handleTypeChange.bind(this, 'isCustomer')}
+            checked={businessPartner.isCustomer}
+          ></input>
+        )
+      }),
+      id: this.renderField({ fieldName: 'id' }),
+      parentId: this.renderField({
+        fieldName: 'parentId',
+        component: (
+          <Autocomplete
+            value={businessPartnerParent}
+            onChange={this.handleParentChange}
+            onBlur={() => null}
+            disabled={!this.userIsAdmin()}
+            onFilter={ bp => bp.id !== businessPartner.id }
+          />
+        )
+      }),
+      entityCode: this.renderField({ fieldName: 'entityCode' }),
+      name: this.renderField({ fieldName: 'name' }),
+      homePage: this.renderField({ fieldName: 'homePage' }),
+      foundedOn: this.renderField({
+        fieldName: 'foundedOn',
+        component: (
+          <DateInput
+            className="form-control"
+            locale={['en', 'de'].includes(i18n.locale) ? i18n.locale : 'en'}
+            dateFormat={i18n.dateFormat}
+            value={businessPartner.foundedOn ? new Date(businessPartner.foundedOn) : null}
+            onChange={this.handleChange.bind(this, 'foundedOn')}
+            onBlur={this.handleBlur.bind(this, 'foundedOn')}
+            variants={[]}
+          />
+        )
+      }),
+      legalForm: this.renderField({ fieldName: 'legalForm' }),
+      cityOfRegistration: this.renderField({
+        fieldName: 'cityOfRegistration',
+        helpText: i18n.getMessage('BusinessPartner.Messages.cityOfRegistration.helpText')
+      }),
+      countryOfRegistration: this.renderField({
+        fieldName: 'countryOfRegistration',
+        helpText: i18n.getMessage('BusinessPartner.Messages.countryOfRegistration.helpText'),
+        component: (
+          <this.CountryField
+            value={businessPartner.countryOfRegistration || ''}
+            onChange={this.handleChange.bind(this, 'countryOfRegistration')}
+            onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
+          />
+        )
+      }),
+      currencyId: this.renderField({
+        fieldName: 'currencyId',
+        component: (
+          <this.CurrencyField
+            optional={true}
+            value={businessPartner.currencyId || ''}
+            onChange={this.handleChange.bind(this, 'currencyId')}
+            onBlur={this.handleBlur.bind(this, 'currencyId')}
+          />
+        )
+      }),
+      commercialRegisterNo: this.renderField({
+        fieldName: 'commercialRegisterNo',
+        info: formHelper.comRegTooltiptext(i18n),
+        helpText: i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.helpText')
+      }),
+      taxIdentificationNo: this.renderField({ fieldName: 'taxIdentificationNo' }),
+      vatIdentificationNo: this.renderField({
+        fieldName: 'vatIdentificationNo',
+        disabled: !this.userIsAdmin() && (action === 'register' && Boolean(this.props.businessPartner.vatIdentificationNo))
+      }),
+      noVatReason: this.renderField({
+        fieldName: 'noVatReason',
+        labelText: ' ',
+        component: (
+          <p>
+            <input
+              className='fa fa-fw'
+              type='checkbox'
+              onChange={this.handleCheckboxChange}
+              checked={!this.state.hasVATId}
+              disabled={!this.userIsAdmin() && (action === 'register' && Boolean(this.props.businessPartner.vatIdentificationNo))}
+            ></input>
+            {i18n.getMessage('BusinessPartner.Messages.noVatId')}
+          </p>
+        )
+      }),
+      globalLocationNo: this.renderField({
+        fieldName: 'globalLocationNo',
+        marked: true,
+        disabled: !this.userIsAdmin() && (action === 'register' && Boolean(this.props.businessPartner.globalLocationNo))
+      }),
+      dunsNo: this.renderField({
+        fieldName: 'dunsNo',
+        marked: true,
+        disabled: !this.userIsAdmin() && (action === 'register' && Boolean(this.props.businessPartner.dunsNo))
+      }),
+      ovtNo: this.renderField({
+        fieldName: 'ovtNo',
+        marked: true,
+        disabled: !this.userIsAdmin() && (action === 'register' && Boolean(this.props.businessPartner.ovtNo))
+      }),
+      iban: this.renderField({ fieldName: 'iban', marked: true })
+    };
+  }
+
+  get actionButtons() {
+    const { i18n } = this.context;
+    return {
+      save: <ActionButton
+              key='save'
+              id='business-partner-editor__form-submit'
+              style='primary'
+              onClick={this.handleAction}
+              label={i18n.getMessage('BusinessPartner.Button.save')}
+            />,
+      continue: <ActionButton
+                key='continue'
+                id='supplier-registration__continue'
+                style='primary'
+                onClick={this.handleAction}
+                label={i18n.getMessage('BusinessPartner.Button.continue')}
+              />,
+      cancel: <ActionButton
+                key='cancel'
+                id='supplier-registration__cancel'
+                style='link'
+                onClick={this.handleCancel}
+                label={i18n.getMessage('BusinessPartner.Button.cancel')}
+              />
+    }
   }
 }
 
