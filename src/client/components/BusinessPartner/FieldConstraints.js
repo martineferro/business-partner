@@ -1,3 +1,5 @@
+import FormAction from './FormAction';
+
 class FieldConstraints {
   constructor(i18n, action) {
     this.i18n = i18n;
@@ -6,16 +8,13 @@ class FieldConstraints {
   }
 
   fetch() {
-    switch(this.action) {
-      case 'create':
-        return this.forCreate();
-      case 'update':
-        return this.forUpdate();
-      case 'register':
-        return this.forRegistration();
-      default:
-        return {};
-    }
+    if (this.action === FormAction.CREATE) return this.forCreate();
+
+    if (this.action === FormAction.UPDATE) return this.forUpdate();
+
+    if (this.action === FormAction.REGISTER) return this.forRegistration();
+
+    return {};
   }
 
   forCreate() {
@@ -64,9 +63,9 @@ class FieldConstraints {
   forField(fieldName) {
     let constraints = this.determineFields(fieldName);
 
-    if (this.action === 'create') return { ...constraints, parentId: {} };
+    if (this.action === FormAction.CREATE) return { ...constraints, parentId: {} };
 
-    if (this.action === 'update') return { ...constraints, id: {}, parentId: {} };
+    if (this.action === FormAction.UPDATE) return { ...constraints, id: {}, parentId: {} };
 
     return constraints;
   }

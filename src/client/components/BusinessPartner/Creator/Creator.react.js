@@ -6,6 +6,7 @@ import Form from '../Form.react.js';
 import { BusinessPartner } from '../../../api';
 import UserAbilities from '../../../UserAbilities';
 import ErrorView from '../../ErrorView.react';
+import FormAction from '../FormAction';
 
 class Creator extends Components.ContextComponent {
 
@@ -82,7 +83,7 @@ class Creator extends Components.ContextComponent {
           { this.context.i18n.getMessage(`BusinessPartner.Heading.createBusinessPartner`) }
         </h4>
         <Form
-          action='create'
+          action={FormAction.CREATE}
           businessPartner={ this.state.businessPartner }
           onAction={ this.handleCreate }
           onChange={ this.handleChange }

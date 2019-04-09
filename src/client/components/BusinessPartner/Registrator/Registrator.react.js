@@ -1,13 +1,14 @@
 import React, { PropTypes } from 'react';
 import validationMessages from '../../../utils/validatejs/i18n';
 import i18nMessages from '../../../i18n';
-import RegistratorForm from '../Form.react.js';
-import AccessRequestForm from './AccessRequestForm.react.js';
+import RegistratorForm from '../Form.react';
+import AccessRequestForm from './AccessRequestForm.react';
 import AccessView from './AccessView.react';
 import { BusinessPartner, Access, Auth, Contact } from '../../../api';
 import { Components } from '@opuscapita/service-base-ui';
 import Loading from '../../Loading.react';
 import ErrorView from '../../ErrorView.react';
+import FormAction from '../FormAction';
 
 /**
  * Provide general company information.
@@ -195,7 +196,7 @@ class Registrator extends Components.ContextComponent {
     }
 
     return <RegistratorForm
-              action='register'
+              action={FormAction.REGISTER}
               businessPartner={ this.state.businessPartner }
               onAction={ this.handleRegister }
               onChange={ this.handleChange }

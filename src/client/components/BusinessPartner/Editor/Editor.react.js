@@ -8,6 +8,7 @@ import { BusinessPartner } from '../../../api';
 import UserAbilities from '../../../UserAbilities';
 import Loading from '../../Loading.react';
 import ErrorView from '../../ErrorView.react';
+import FormAction from '../FormAction';
 
 /**
  * Provide general company information.
@@ -129,11 +130,11 @@ class Editor extends Components.ContextComponent {
           { i18n.getMessage(`BusinessPartner.Heading.companyInformation`) }
         </h4>
         <Form
+          action={FormAction.UPDATE}
           businessPartner={ this.state.businessPartner }
           onAction={ this.handleUpdate }
           onChange={ this.handleChange }
           onCancel={ this.props.onLogout }
-          action='update'
         />
       </div>
     );

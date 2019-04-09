@@ -9,6 +9,7 @@ import { BusinessPartner } from '../../api';
 import Validator from './FormValidator.js';
 import Constraints from './FieldConstraints';
 import formHelper from './formHelper';
+import FormAction from './FormAction';
 
 class Form extends Components.ContextComponent {
   static propTypes = {
@@ -16,7 +17,7 @@ class Form extends Components.ContextComponent {
     onAction: PropTypes.func.isRequired,
     onChange: PropTypes.func,
     onCancel: PropTypes.func,
-    action: PropTypes.oneOf(['create', 'update', 'register']).isRequired
+    action: PropTypes.oneOf(FormAction.TYPES).isRequired
   };
 
   constructor(props, context) {
@@ -45,6 +46,7 @@ class Form extends Components.ContextComponent {
 
   componentWillMount() {
     this.constraints = new Constraints(this.context.i18n, this.props.action);
+    this.formAction = new FormAction(this.props.action, this.context.i18n);
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -57,6 +59,7 @@ class Form extends Components.ContextComponent {
     }
 
     this.constraints = new Constraints(nextContext.i18n, nextProps.action);
+    this.formAction = new FormAction(nextProps.action, nextContext.i18n);
   }
 
   componentDidMount() {
@@ -69,18 +72,7 @@ class Form extends Components.ContextComponent {
     this.setState({
       fieldErrors: Object.keys(errors || {}).reduce((rez, fieldName) => ({
         ...rez,
-        [fieldName]: errors[fieldName].map(error => {
-          if (this.props.action !== 'register') return { message: error };
-
-          return {
-            message: error.message,
-            value: error.value,
-            fieldName: fieldName,
-            attributes: error.attributes,
-            hasLink: error.validator && error.validator.includes('Exists'),
-            linkMessage: this.context.i18n.getMessage('BusinessPartner.Button.requestAccess')
-          };
-        })
+        [fieldName]: errors[fieldName].map(error => this.formAction.getError(error, fieldName))
       }), this.state.fieldErrors)
     });
   };
@@ -108,7 +100,7 @@ class Form extends Components.ContextComponent {
       this.setFieldErrorsStates(errors);
     };
 
-    const validator = new Validator(this.context.i18n, constraints, this.validatorType());
+    const validator = new Validator(this.context.i18n, constraints, this.formAction.validatorType());
     validator.validate(this.state.businessPartner).then(null, error);
   };
 
@@ -136,7 +128,7 @@ class Form extends Components.ContextComponent {
         onAction(null);
       };
 
-      const validator = new Validator(this.context.i18n, this.constraints.fetch(), this.validatorType());
+      const validator = new Validator(this.context.i18n, this.constraints.fetch(), this.formAction.validatorType());
       validator.validate(businessPartner).then(success, error);
     }
   };
@@ -177,8 +169,6 @@ class Form extends Components.ContextComponent {
 
   userIsAdmin = () => this.context.userData.roles.includes('admin');
 
-  validatorType = () => this.props.action === 'register' ? 'registration' : 'createOrUpdate';
-
   renderField = (attrs) => {
     const { businessPartner, fieldErrors } = this.state;
     const { fieldName } = attrs;
@@ -208,7 +198,7 @@ class Form extends Components.ContextComponent {
         marked={ attrs.marked }
         info={ attrs.info }
         rowErrors={ rowErrors }
-        helpText = { this.props.action === 'register' ? attrs.helpText : null }
+        helpText = { this.formAction.getHelperText(attrs.helpText) }
         onErrorLinkClick={ this.handleAccessRequest }
       >
         { component }
@@ -218,10 +208,9 @@ class Form extends Components.ContextComponent {
 
   renderAdminFields = () => {
     if (!this.userIsAdmin()) return null;
-
     return (
       <div>
-        {formHelper.fieldsForAdmin(this.props.action).map(field => this.fields[field])}
+        {this.formAction.fieldsForAdmin().map(field => this.fields[field])}
       </div>
     );
   };
@@ -229,22 +218,21 @@ class Form extends Components.ContextComponent {
   render() {
     const i18n = this.context.i18n;
     const { businessPartner } = this.state;
-
     return (
       <form className="form-horizontal business-partner-form">
         <div className="row">
           <div className="col-md-6">
             {this.renderAdminFields()}
-            {formHelper.fieldsForUser(this.props.action).map(field => this.fields[field])}
+            {this.formAction.fieldsForUser().map(field => this.fields[field])}
           </div>
           <div className="col-md-6">
-            {formHelper.helpInformation(this.props.action, i18n)}
-            {formHelper.fieldsForIdentifiers(this.props.action).map(field => this.fields[field])}
+            {this.formAction.helpInformation()}
+            {this.formAction.fieldsForIdentifiers().map(field => this.fields[field])}
           </div>
         </div>
         <div className='business-partner-form-submit'>
           <div className='text-right form-submit'>
-            {formHelper.actionButtons(this.props.action).map(button => this.actionButtons[button])}
+            {this.formAction.actionButtons().map(button => this.formActionButtons[button])}
           </div>
         </div>
       </form>
@@ -254,7 +242,6 @@ class Form extends Components.ContextComponent {
   get fields() {
     const { businessPartner, businessPartnerParent } = this.state;
     const { i18n } = this.context;
-    const { action } = this.props;
 
     return {
       managed: this.renderField({
@@ -355,7 +342,7 @@ class Form extends Components.ContextComponent {
       taxIdentificationNo: this.renderField({ fieldName: 'taxIdentificationNo' }),
       vatIdentificationNo: this.renderField({
         fieldName: 'vatIdentificationNo',
-        disabled: !this.userIsAdmin() && (action === 'register' && Boolean(this.props.businessPartner.vatIdentificationNo))
+        disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.vatIdentificationNo))
       }),
       noVatReason: this.renderField({
         fieldName: 'noVatReason',
@@ -367,7 +354,7 @@ class Form extends Components.ContextComponent {
               type='checkbox'
               onChange={this.handleCheckboxChange}
               checked={!this.state.hasVATId}
-              disabled={!this.userIsAdmin() && (action === 'register' && Boolean(this.props.businessPartner.vatIdentificationNo))}
+              disabled={(!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.vatIdentificationNo))}
             ></input>
             {i18n.getMessage('BusinessPartner.Messages.noVatId')}
           </p>
@@ -376,23 +363,23 @@ class Form extends Components.ContextComponent {
       globalLocationNo: this.renderField({
         fieldName: 'globalLocationNo',
         marked: true,
-        disabled: !this.userIsAdmin() && (action === 'register' && Boolean(this.props.businessPartner.globalLocationNo))
+        disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.globalLocationNo))
       }),
       dunsNo: this.renderField({
         fieldName: 'dunsNo',
         marked: true,
-        disabled: !this.userIsAdmin() && (action === 'register' && Boolean(this.props.businessPartner.dunsNo))
+        disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.dunsNo))
       }),
       ovtNo: this.renderField({
         fieldName: 'ovtNo',
         marked: true,
-        disabled: !this.userIsAdmin() && (action === 'register' && Boolean(this.props.businessPartner.ovtNo))
+        disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.ovtNo))
       }),
       iban: this.renderField({ fieldName: 'iban', marked: true })
     };
   }
 
-  get actionButtons() {
+  get formActionButtons() {
     const { i18n } = this.context;
     return {
       save: <ActionButton

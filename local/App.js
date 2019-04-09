@@ -16,7 +16,7 @@ const onboardingSupplier = {
   cityOfRegistration: 'Hamburg',
   countryOfRegistration: 'DE',
   taxIdentificationNo: 'T-534324',
-  dunsNo: null,
+  dunsNo: '123450986',
   commercialRegisterNo: 'MI342323'
 };
 
