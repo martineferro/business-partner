@@ -4,6 +4,7 @@ import { Containers } from '@opuscapita/service-base-ui';
 import BusinessPartnerEditor from '../src/client/components/BusinessPartner/Editor';
 import BusinessPartnerCreator from '../src/client/components/BusinessPartner/Creator';
 import BusinessPartnerRegistrator from '../src/client/components/BusinessPartner/Registrator';
+import BusinessPartnerList from '../src/client/components/BusinessPartner/List';
 
 const username = 'john.doe@ncc.com';
 const userRoles = ['supplier-admin', 'user'];
@@ -26,10 +27,13 @@ let creator = <BusinessPartnerCreator key='creator' />;
 
 let registrator = <BusinessPartnerRegistrator key='register' businessPartner={onboardingSupplier} />;
 
+let list = <BusinessPartnerList onEdit={id => console.log(id)} onCreateUser={id => console.log(id)} />;
+
 var tabData = [
   { name: 'Editor', isActive: true },
   { name: 'Creator', isActive: false },
-  { name: 'Registrator', isActive: false }
+  { name: 'Registrator', isActive: false },
+  { name: 'List', isActive: false }
 ];
 
 class Tabs extends React.Component
@@ -66,6 +70,7 @@ class Content extends React.Component
         {this.props.activeTab.name === 'Editor' ? editor : null}
         {this.props.activeTab.name === 'Creator' ? creator : null}
         {this.props.activeTab.name === 'Registrator' ? registrator : null}
+        {this.props.activeTab.name === 'List' ? list : null}
       </div>
     );
   }

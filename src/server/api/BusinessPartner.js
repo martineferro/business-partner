@@ -30,8 +30,8 @@ class BusinessPartner {
     if (query.vatIdentificationNo) queryObj.vatIdentificationNo = query.vatIdentificationNo;
     if (query.globalLocationNo) queryObj.globalLocationNo = query.globalLocationNo;
     if (query.ovtNo) queryObj.ovtNo = query.ovtNo;
-    if (query.isCustomer) queryObj.isCustomer = query.isCustomer;
-    if (query.isSupplier) queryObj.isSupplier = query.isSupplier;
+    if (query.isCustomer) queryObj.isCustomer = Boolean(query.isCustomer);
+    if (query.isSupplier) queryObj.isSupplier = Boolean(query.isSupplier);
 
     const includeModels = this.associationsFromIncludes(includes || []);
 

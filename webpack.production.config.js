@@ -4,7 +4,10 @@ const webpack = require('webpack');
 module.exports = {
   entry: {
     editor: './src/client/components/BusinessPartner/Editor/index.js',
-    autocomplete: './src/client/components/BusinessPartner/Autocomplete/index.js'
+    creator: './src/client/components/BusinessPartner/Creator/index.js',
+    registrator: './src/client/components/BusinessPartner/Registrator/index.js',
+    autocomplete: './src/client/components/BusinessPartner/Autocomplete/index.js',
+    list: './src/client/components/BusinessPartner/List/index.js'
   },
   output: {
     path: path.resolve(__dirname, './src/server/static'),
