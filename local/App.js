@@ -5,6 +5,7 @@ import BusinessPartnerEditor from '../src/client/components/BusinessPartner/Edit
 import BusinessPartnerCreator from '../src/client/components/BusinessPartner/Creator';
 import BusinessPartnerRegistrator from '../src/client/components/BusinessPartner/Registrator';
 import BusinessPartnerList from '../src/client/components/BusinessPartner/List';
+import BusinessPartnerDirectory from '../src/client/components/BusinessPartner/Directory';
 
 const username = 'john.doe@ncc.com';
 const userRoles = ['supplier-admin', 'user'];
@@ -29,11 +30,14 @@ let registrator = <BusinessPartnerRegistrator key='register' businessPartner={on
 
 let list = <BusinessPartnerList onEdit={id => console.log(id)} onCreateUser={id => console.log(id)} />;
 
+let directory = <BusinessPartnerDirectory />;
+
 var tabData = [
   { name: 'Editor', isActive: true },
   { name: 'Creator', isActive: false },
   { name: 'Registrator', isActive: false },
-  { name: 'List', isActive: false }
+  { name: 'List', isActive: false },
+  { name: 'Directory', isActive: false }
 ];
 
 class Tabs extends React.Component
@@ -71,6 +75,7 @@ class Content extends React.Component
         {this.props.activeTab.name === 'Creator' ? creator : null}
         {this.props.activeTab.name === 'Registrator' ? registrator : null}
         {this.props.activeTab.name === 'List' ? list : null}
+        {this.props.activeTab.name === 'Directory' ? directory : null}
       </div>
     );
   }

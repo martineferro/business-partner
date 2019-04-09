@@ -1,0 +1,48 @@
+.bp-public__header {
+  color: grey;
+  font-size: 50px;
+}
+
+.bp-public__section {
+  display: block;
+  overflow: auto;
+  padding: 20px 0;
+}
+
+.bp-public__subheading {
+  font-size: 17px;
+  padding: 0;
+  margin: 0;
+}
+
+.bp-public__container {
+}
+
+.bp-public__address {
+  box-shadow: 0 24px 1px -24px gray;
+}
+
+.bp-public__address:last-child {
+  box-shadow: none;
+}
+
+.bp-public__fieldLabel {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.bp-public__value {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.bp-public__label {
+  display: block;
+  color: grey;
+  border-bottom: 1px solid grey;
+  font-weight: 700;
+}
