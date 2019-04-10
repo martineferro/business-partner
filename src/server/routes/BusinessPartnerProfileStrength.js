@@ -7,8 +7,8 @@ class BusinessPartnerProfileStrength {
   }
 
   init() {
-    this.app.post('/api/suppliers/:businessPartnerId/profile_strength', (req, res) => this.profileStrength(req, res));
-    this.app.post('/api/business-partners/:businessPartnerId/profile-strength', (req, res) => this.profileStrength(req, res));
+    this.app.get('/api/suppliers/:businessPartnerId/profile_strength', (req, res) => this.profileStrength(req, res));
+    this.app.get('/api/business-partners/:businessPartnerId/profile-strength', (req, res) => this.profileStrength(req, res));
   }
 
   profileStrength(req, res) {

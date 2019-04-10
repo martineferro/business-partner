@@ -8,7 +8,9 @@ module.exports = {
     registrator: './src/client/components/BusinessPartner/Registrator/index.js',
     autocomplete: './src/client/components/BusinessPartner/Autocomplete/index.js',
     list: './src/client/components/BusinessPartner/List/index.js',
-    directory: './src/client/components/BusinessPartner/Directory/index.js'
+    directory: './src/client/components/BusinessPartner/Directory/index.js',
+    visibility: './src/client/components/BusinessPartner/VisibilityPreference/index.js',
+    organization: './src/client/components/BusinessPartner/Organization/index.js'
   },
   output: {
     path: path.resolve(__dirname, './src/server/static'),

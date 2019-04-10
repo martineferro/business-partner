@@ -1,0 +1,19 @@
+.initechNode {
+    border: solid 2px #333;
+    border-radius: 5px;
+    padding: 5px;
+    width: 150px;
+    display: inline-block;
+}
+
+.initechNode.active {
+  border: solid 2px #f67626;
+}
+
+#initechOrgChart .orgNodeChildGroup .nodeGroupLineVerticalMiddle {
+    border-right: solid 2px #333;
+}
+
+#initechOrgChart .nodeLineBorderTop {
+    border-top: solid 2px #333;
+}

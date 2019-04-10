@@ -7,6 +7,8 @@ import BusinessPartnerRegistrator from '../src/client/components/BusinessPartner
 import BusinessPartnerList from '../src/client/components/BusinessPartner/List';
 import BusinessPartnerDirectory from '../src/client/components/BusinessPartner/Directory';
 import VisibilityPreference from '../src/client/components/BusinessPartner/VisibilityPreference';
+import Organization from '../src/client/components/BusinessPartner/Organization';
+import ProfileStrength from '../src/client/components/BusinessPartner/ProfileStrength';
 
 const username = 'john.doe@ncc.com';
 const userRoles = ['supplier-admin', 'user'];
@@ -35,13 +37,19 @@ let directory = <BusinessPartnerDirectory key='directory' />;
 
 let visibility = <VisibilityPreference key='visibility' businessPartnerId={supplierId} />;
 
+let organization = <Organization key='org' businessPartnerId={supplierId} />
+
+let profileStrength = <ProfileStrength key='org' businessPartnerId={supplierId} />
+
 var tabData = [
   { name: 'Editor', isActive: true },
   { name: 'Creator', isActive: false },
   { name: 'Registrator', isActive: false },
   { name: 'List', isActive: false },
   { name: 'Directory', isActive: false },
-  { name: 'Visibility', isActive: false }
+  { name: 'Visibility', isActive: false },
+  { name: 'Organization', isActive: false },
+  { name: 'Profile Str.', isActive: false }
 ];
 
 class Tabs extends React.Component
@@ -81,6 +89,8 @@ class Content extends React.Component
         {this.props.activeTab.name === 'List' ? list : null}
         {this.props.activeTab.name === 'Directory' ? directory : null}
         {this.props.activeTab.name === 'Visibility' ? visibility : null}
+        {this.props.activeTab.name === 'Organization' ? organization : null}
+        {this.props.activeTab.name === 'Profile Str.' ? profileStrength : null}
       </div>
     );
   }
