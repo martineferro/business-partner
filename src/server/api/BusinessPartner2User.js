@@ -7,8 +7,10 @@ class BusinessPartner2User {
     return this.model.findAll({ where: { businessPartnerId: businessPartnerId } });
   }
 
-  find(userId) {
-    return this.model.findOne({ where: { userId: userId } });
+  find(userId, id = null) {
+    let query = { userId: userId };
+    if (id) query.id = id;
+    return this.model.findOne({ where: query });
   }
 
   create(supplier2user) {
@@ -18,7 +20,7 @@ class BusinessPartner2User {
   update(id, supplier2user) {
     const attributes = { status: supplier2user.status };
     const userId = supplier2user.userId;
-    return this.model.update(attributes, { where: { id: id }}).then(() => this.find(userId));
+    return this.model.update(attributes, { where: { id: id }}).then(() => this.find(userId, id));
   }
 
   delete(businessPartnerId) {
