@@ -70,7 +70,7 @@ export default class Public extends Component {
     const { i18n } = this.context;
 
     return (
-      <div className="form-horizontal">
+      <div className="form-horizontal" style={{ display: 'inline-block' }}>
         { businessPartner && (
           <div>
             <div className="col-sm-12">

@@ -1,14 +1,19 @@
 import ApiBase from './ApiBase';
 
 class Visibility extends ApiBase {
-  get(supplierId) {
-    return this.ajax.get(`/supplier/api/suppliers/${supplierId}/visibility`).set('Accept', 'application/json').
-      then(response => response.body);
+  constructor() {
+    super();
+    this.urlPath = '/business-partner/api/business-partners';
   }
 
-  createOrUpdate(supplierId, visibility) {
-    return this.ajax.put(`/supplier/api/suppliers/${supplierId}/visibility`).set('Accept', 'application/json').
-      send(visibility).then(response => response.body);
+  find(businessPartnerId) {
+    return this.ajax.get(`${this.urlPath}/${businessPartnerId}/visibility`).
+      set('Accept', 'application/json').then(response => response.body);
+  }
+
+  createOrUpdate(businessPartnerId, visibility) {
+    return this.ajax.put(`${this.urlPath}/${businessPartnerId}/visibility`).
+      set('Accept', 'application/json').send(visibility).then(response => response.body);
   }
 };
 

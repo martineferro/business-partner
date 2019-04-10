@@ -20,6 +20,7 @@ class BusinessPartnerVisibility {
   }
 
   createOrUpdate(req, res) {
+    req.body.createdBy = req.opuscapita.userData('id');
     return this.api.createOrUpdate(req.params.businessPartnerId, req.body).then(visibility => res.json(visibility)).
       catch(error => {
         req.opuscapita.logger.error('Error when updating BusinessPartnerVisibility: %s', error.message);

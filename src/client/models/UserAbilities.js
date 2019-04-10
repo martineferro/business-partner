@@ -1,4 +1,4 @@
-import abilities from './data/userAbilities';
+import abilities from '../data/userAbilities';
 
 class UserAbilities {
   constructor(roles) {

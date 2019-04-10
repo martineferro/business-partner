@@ -8,6 +8,7 @@ import CountryView from '../../CountryView.react';
 import ActionButton from '../../ActionButton.react';
 import Public from '../Public';
 require('./Directory.css');
+import BpCapability from '../../../models/BusinessPartnerCapability';
 
 export default class Directory extends Components.ContextComponent  {
   static propTypes = {
@@ -45,7 +46,11 @@ export default class Directory extends Components.ContextComponent  {
 
   handleShowModal(businessPartnerId) {
     this.setState({ businessPartnerId: businessPartnerId });
-    this.publicModal.show(this.context.i18n.getMessage('BusinessPartner.Heading.companyInformation'), undefined, null, {});
+
+    const title = this.context.i18n.getMessage('BusinessPartner.Heading.companyInformation');
+    const buttons = { 'close': this.context.i18n.getMessage('BusinessPartner.Button.close') };
+    const onButtonClick = () => this.publicModal.hide();
+    this.publicModal.show(title, undefined, onButtonClick, buttons);
   }
 
   renderSearchBox() {
@@ -61,8 +66,8 @@ export default class Directory extends Components.ContextComponent  {
         <div className='col-xs-2'>
           <select value={this.state.capability} onChange={this.handleChange.bind(this, 'capability')} className="form-control" >
             <option key='1' value=''></option>
-            <option key='2' value='eInvoice-send'>{this.context.i18n.getMessage('BusinessPartner.Capabilities.Type.eInvoice-send')}</option>
-            <option key='3' value='order'>{this.context.i18n.getMessage('BusinessPartner.Capabilities.Type.order')}</option>
+            <option key='2' value={BpCapability.INVOICE_SEND}>{this.context.i18n.getMessage('BusinessPartner.Capabilities.Type.eInvoice-send')}</option>
+            <option key='3' value={BpCapability.ORDER}>{this.context.i18n.getMessage('BusinessPartner.Capabilities.Type.order')}</option>
           </select>
         </div>
       </div>

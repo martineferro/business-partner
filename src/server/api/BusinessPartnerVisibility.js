@@ -9,6 +9,7 @@ class BusinessPartnerVisibility {
 
     if (attributes.contacts) visibility.contacts = attributes.contacts;
     if (attributes.bankAccounts) visibility.bankAccounts = attributes.bankAccounts;
+    if (attributes.createdBy) visibility.createdBy = attributes.createdBy;
 
     return visibility.save().then(() => this.find(businessPartnerId));
   }

@@ -4,7 +4,7 @@ import i18nMessages from '../../../i18n';
 import { Components } from '@opuscapita/service-base-ui';
 import Form from '../Form.react.js';
 import { BusinessPartner } from '../../../api';
-import UserAbilities from '../../../UserAbilities';
+import UserAbilities from '../../../models/UserAbilities';
 import ErrorView from '../../ErrorView.react';
 import FormAction from '../FormAction';
 
