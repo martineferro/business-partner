@@ -103,7 +103,7 @@ module.exports.uniqueIdentifierWithBankAccount = function(validate) {
 
       if (!attributes.id) { resolve(); return; }
 
-      bankAccountApi.getBankAccounts(attributes.id).then(accounts => {
+      bankAccountApi.all(attributes.id).then(accounts => {
         if (accounts.length > 0) {
           resolve();
         } else {

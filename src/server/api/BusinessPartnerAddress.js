@@ -29,7 +29,7 @@ class BusinessPartnerAddress {
     return this.model.destroy({ where: deleteQuery }).then(() => null);
   }
 
-  addressExists(businessPartnerId, addressId) {
+  exists(businessPartnerId, addressId) {
     return this.find(businessPartnerId, addressId).then(address => Boolean(address));
   }
 };

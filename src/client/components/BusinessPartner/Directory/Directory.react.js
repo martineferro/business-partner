@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import locales from '../../../i18n';
-import ReactTable from 'react-table';
-import 'react-table/react-table.css';
+import Table from '../../Table.react';
 import { BusinessPartner } from '../../../api';
 import { Components } from '@opuscapita/service-base-ui';
 import CountryView from '../../CountryView.react';
@@ -109,11 +108,6 @@ export default class Directory extends Components.ContextComponent  {
         style: { 'white-space': 'unset' }
       },
       {
-        Header: this.context.i18n.getMessage('BusinessPartner.Label.taxIdentificationNo'),
-        accessor: 'taxIdentificationNo',
-        style: { 'white-space': 'unset' }
-      },
-      {
         Header: this.context.i18n.getMessage('BusinessPartner.Title.companyIdentifiers'),
         accessor: element => ({ vatIdentificationNo: element.vatIdentificationNo, globalLocationNo: element.globalLocationNo, dunsNo: element.dunsNo }),
         id: 'businessPartnerentifiers',
@@ -145,7 +139,7 @@ export default class Directory extends Components.ContextComponent  {
         style: { 'white-space': 'unset' }
       }];
 
-    return <ReactTable data={data} columns={columns} defaultPageSize={10} className="table"/>;
+    return <Table data={data} columns={columns} />;
   }
 
   render() {

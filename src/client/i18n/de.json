@@ -200,5 +200,12 @@
     "BusinessPartner.Visibility.Message.updateSaved": "Änderungen erfolgreich gespeichert.",
     "BusinessPartner.Autocomplete.placeholder": "Werte hinzufügen",
     "BusinessPartner.Autocomplete.loadingPlaceholder": "Bitte warten...",
-    "BusinessPartner.Autocomplete.noResultsText": "Kein Suchergebnis. Bitte ändern Sie die Suchkriterien und versuchen Sie es erneut."
+    "BusinessPartner.Autocomplete.noResultsText": "Kein Suchergebnis. Bitte ändern Sie die Suchkriterien und versuchen Sie es erneut.",
+    "BusinessPartner.Table.previousPage": "Vorhergehende Seite",
+    "BusinessPartner.Table.nextPage": "Nächste Seite",
+    "BusinessPartner.Table.noDataText": "Keine Einträge verfügbar",
+    "BusinessPartner.Table.loadingText": "Daten werden geladen...",
+    "BusinessPartner.Table.pageText": "Seite",
+    "BusinessPartner.Table.ofText": "von",
+    "BusinessPartner.Table.rowsText": "Zeilen"
 }

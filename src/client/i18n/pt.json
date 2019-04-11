@@ -194,5 +194,12 @@
     "BusinessPartner.Visibility.Message.updateSaved": "Alterações salvas com sucesso.",
     "BusinessPartner.Autocomplete.placeholder": "Clique para adicionar valores",
     "BusinessPartner.Autocomplete.loadingPlaceholder": "Aguarde...",
-    "BusinessPartner.Autocomplete.noResultsText": "Nada foi encontrado. Modifique seus critérios de pesquisa."
+    "BusinessPartner.Autocomplete.noResultsText": "Nada foi encontrado. Modifique seus critérios de pesquisa.",
+    "BusinessPartner.Table.previousPage": "Página anterior",
+    "BusinessPartner.Table.nextPage": "Próxima página",
+    "BusinessPartner.Table.noDataText": "Nenhum dado disponível",
+    "BusinessPartner.Table.loadingText": "Carregando...",
+    "BusinessPartner.Table.pageText": "Página",
+    "BusinessPartner.Table.ofText": "de",
+    "BusinessPartner.Table.rowsText": "Fileiras"
 }

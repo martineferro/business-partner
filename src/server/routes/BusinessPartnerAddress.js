@@ -1,4 +1,5 @@
 const BusinessPartnerAddressApi = require('../api/BusinessPartnerAddress');
+const UserData = require('../services/UserData');
 
 class BusinessPartnerAddress {
   constructor(app, db) {
@@ -41,7 +42,10 @@ class BusinessPartnerAddress {
   }
 
   async create(req, res) {
+    const userData = new UserData(req);
     req.body.businessPartnerId = req.params.businessPartnerId;
+    req.body.createdBy = userData.id;
+    req.body.changedBy = userData.id;
 
     try {
       const address = await this.api.create(req.body);
@@ -53,13 +57,15 @@ class BusinessPartnerAddress {
   }
 
   async update(req, res) {
+    const userData = new UserData(req);
     const businessPartnerId = req.params.businessPartnerId;
 
     try {
       const exists = await this.api.exists(businessPartnerId, req.params.addressId);
       if (exists) {
+        req.body.changedBy = userData.id;
         const address = await this.api.update(businessPartnerId, req.params.addressId, req.body);
-        return  res.json(address);
+        return res.json(address);
       }
 
       const message = 'A supplier address with this ID does not exist.'

@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import locales from '../../../i18n';
-import ReactTable from 'react-table';
-import 'react-table/react-table.css';
+import Table from '../../Table.react';
 import { BusinessPartner } from '../../../api';
 import ActionButton from '../../ActionButton.react';
 import AttributeValueEditorRow from '../../AttributeValueEditorRow.react.js';
@@ -9,7 +8,9 @@ import AttributeValueEditorRow from '../../AttributeValueEditorRow.react.js';
 export default class List extends Component  {
   constructor(props) {
     super(props);
-    this.state = { businessPartners: [], businessPartnerName: '', businessPartnerId: '', type: '' };
+    this.state = {
+      businessPartners: [], businessPartnerName: '', businessPartnerId: '', type: '', loading: true
+    };
     this.api = new BusinessPartner();
   }
 
@@ -35,13 +36,14 @@ export default class List extends Component  {
     this.search();
   }
 
-  search() {
-    let queryParam = {};
-    if (this.state.businessPartnerName) queryParam.name = this.state.businessPartnerName;
-    if (this.state.businessPartnerId) queryParam.id = this.state.businessPartnerId;
-    if (this.state.type === 'supplier') queryParam.isSupplier = true;
-    if (this.state.type === 'customer') queryParam.isCustomer = true;
-    this.api.all(queryParam).then(bPartners => this.setState({ businessPartners: bPartners }));
+  async search() {
+    await this.setState({ loading: true })
+    let query = {};
+    if (this.state.businessPartnerName) query.name = this.state.businessPartnerName;
+    if (this.state.businessPartnerId) query.id = this.state.businessPartnerId;
+    if (this.state.type === 'supplier') query.isSupplier = true;
+    if (this.state.type === 'customer') query.isCustomer = true;
+    this.api.all(query).then(data => this.setState({ businessPartners: data, loading: false }));
   }
 
   async handleReset(event) {
@@ -134,7 +136,7 @@ export default class List extends Component  {
         Cell: row => this.renderActions(row.value)
       }];
 
-    return <ReactTable data={data} columns={columns} defaultPageSize={10} className='table' />
+    return <Table data={data} columns={columns} loading={this.state.loading} />;
   }
 
   render() {

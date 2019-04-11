@@ -188,5 +188,11 @@
     "BusinessPartner.Visibility.Message.updateSaved": "Muutokset on tallennettu onnistuneesti.",
     "BusinessPartner.Autocomplete.placeholder": "Lisää arvoja napsauttamalla",
     "BusinessPartner.Autocomplete.loadingPlaceholder": "Odota hetki...",
-    "BusinessPartner.Autocomplete.noResultsText": "Mitään ei löytynyt. Muuta hakuehtoja."
+    "BusinessPartner.Autocomplete.noResultsText": "Mitään ei löytynyt. Muuta hakuehtoja.",
+    "BusinessPartner.Table.previousPage": "Edellinen sivu",
+    "BusinessPartner.Table.nextPage": "Seuraava sivu",
+    "BusinessPartner.Table.noDataText": "Tietoja ei ole saatavilla",
+    "BusinessPartner.Table.loadingText": "Ladataan...",
+    "BusinessPartner.Table.pageText": "Sivu",
+    "BusinessPartner.Table.rowsText": "Rivejä"
 }

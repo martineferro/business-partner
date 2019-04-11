@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import locales from '../../../i18n';
-import ReactTable from 'react-table';
-import 'react-table/react-table.css';
+import Table from '../../Table.react';
 import { Access } from '../../../api';
 import ActionButton from '../../ActionButton.react';
 import dateHelper from '../../../utils/dateHelper';
@@ -127,7 +126,7 @@ export default class Approval extends Component {
         Cell: row => this.renderActions(row.value)
       }];
 
-    return <ReactTable data={data} columns={columns} defaultPageSize={5} className='table' loading={this.state.loading} />
+    return <Table data={data} columns={columns} defaultPageSize={5} loading={this.state.loading} />
   }
 
   render() {

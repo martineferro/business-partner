@@ -1,11 +1,6 @@
 import ApiBase from './ApiBase';
 
 class Contact extends ApiBase {
-  constructor() {
-    super();
-    this.urlPath = '/business-partner/api/business-partners';
-  }
-
   all(businessPartnerId) {
     return this.ajax.get(`${this.urlPath}/${businessPartnerId}/contacts`).
       set('Accept', 'application/json').then(response => response.body);

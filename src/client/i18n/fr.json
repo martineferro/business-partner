@@ -194,5 +194,12 @@
     "BusinessPartner.Visibility.Message.updateSaved": "Les modifications ont été sauvegardées avec succès.",
     "BusinessPartner.Autocomplete.placeholder": "Cliquez pour ajouter des valeurs",
     "BusinessPartner.Autocomplete.loadingPlaceholder": "Veuillez patienter…",
-    "BusinessPartner.Autocomplete.noResultsText": "Aucun résultat n'a été trouvé. Veuillez modifier vos critères de recherche."
+    "BusinessPartner.Autocomplete.noResultsText": "Aucun résultat n'a été trouvé. Veuillez modifier vos critères de recherche.",
+    "BusinessPartner.Table.previousPage": "Page précédente",
+    "BusinessPartner.Table.nextPage": "Page Suivante",
+    "BusinessPartner.Table.noDataText": "Pas de donnée disponible",
+    "BusinessPartner.Table.loadingText": "Chargement...",
+    "BusinessPartner.Table.pageText": "Page",
+    "BusinessPartner.Table.ofText": "de",
+    "BusinessPartner.Table.rowsText": "Rangées"
 }

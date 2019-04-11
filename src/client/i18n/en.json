@@ -202,5 +202,12 @@
     "BusinessPartner.Visibility.Message.updateSaved": "Changes successfully saved.",
     "BusinessPartner.Autocomplete.placeholder": "Click to add values",
     "BusinessPartner.Autocomplete.loadingPlaceholder": "Please wait...",
-    "BusinessPartner.Autocomplete.noResultsText": "Nothing found. Please modify your search criteria."
+    "BusinessPartner.Autocomplete.noResultsText": "Nothing found. Please modify your search criteria.",
+    "BusinessPartner.Table.previousPage": "Previous Page",
+    "BusinessPartner.Table.nextPage": "Next Page",
+    "BusinessPartner.Table.noDataText": "No data available",
+    "BusinessPartner.Table.loadingText": "Loading...",
+    "BusinessPartner.Table.pageText": "Page",
+    "BusinessPartner.Table.ofText": "of",
+    "BusinessPartner.Table.rowsText": "Rows"
 }

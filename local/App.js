@@ -10,6 +10,7 @@ import VisibilityPreference from '../src/client/components/BusinessPartner/Visib
 import Organization from '../src/client/components/BusinessPartner/Organization';
 import ProfileStrength from '../src/client/components/BusinessPartner/ProfileStrength';
 import Approval from '../src/client/components/BusinessPartner/Approval';
+import Address from '../src/client/components/BusinessPartner/Address';
 
 const username = 'john.doe@ncc.com';
 const userRoles = ['supplier-admin', 'user'];
@@ -42,7 +43,9 @@ let organization = <Organization key='org' businessPartnerId={supplierId} />
 
 let profileStrength = <ProfileStrength key='org' businessPartnerId={supplierId} />
 
-let approval = <Approval key='org' businessPartnerId={supplierId} />
+let approval = <Approval key='approval' businessPartnerId={supplierId} />
+
+let address = <Address key='address' businessPartnerId={supplierId} />
 
 var tabData = [
   { name: 'Editor', isActive: true },
@@ -53,7 +56,8 @@ var tabData = [
   { name: 'Visibility', isActive: false },
   { name: 'Organization', isActive: false },
   { name: 'Profile Str.', isActive: false },
-  { name: 'Approval', isActive: false }
+  { name: 'Approval', isActive: false },
+  { name: 'Address', isActive: false }
 ];
 
 class Tabs extends React.Component
@@ -96,6 +100,7 @@ class Content extends React.Component
         {this.props.activeTab.name === 'Organization' ? organization : null}
         {this.props.activeTab.name === 'Profile Str.' ? profileStrength : null}
         {this.props.activeTab.name === 'Approval' ? approval : null}
+        {this.props.activeTab.name === 'Address' ? address : null}
       </div>
     );
   }

@@ -1,11 +1,6 @@
 import ApiBase from './ApiBase';
 
 class BusinessPartner extends ApiBase {
-  constructor() {
-    super();
-    this.urlPath = '/business-partner/api/business-partners';
-  }
-
   find(businessPartnerId, queryParams) {
     return this.ajax.get(`${this.urlPath}/${businessPartnerId}`).set('Accept', 'application/json').
       query(queryParams || {}).then(response => response.body);
