@@ -59,21 +59,21 @@ export default class Details extends Components.ContextComponent  {
   addShowModal(event) {
     event.preventDefault();
 
-    const title = 'Create New Address';
+    const title = this.context.i18n.getMessage('BusinessPartner.Address.add');
     this.handleShowActionModal('add', null, title);
   }
 
   editShowModal(event, address) {
     event.preventDefault();
 
-    const title = 'Edit Address';
+    const title = this.context.i18n.getMessage('BusinessPartner.Address.edit');
     this.handleShowActionModal('edit', address, title);
   }
 
   deleteShowModal(event, address) {
     event.preventDefault();
 
-    const title = 'Delete Address';
+    const title = this.context.i18n.getMessage('BusinessPartner.Address.delete');
     const message = this.context.i18n.getMessage('BusinessPartner.Address.Confirmation.delete');
     const buttons = {
       'yes': this.context.i18n.getMessage('BusinessPartner.Button.yes'),
@@ -125,8 +125,7 @@ export default class Details extends Components.ContextComponent  {
 
       this.setState({ addresses: addresses, address: null });
 
-      const message = this.context.i18n.getMessage(`BusinessPartner.Address.Messages.saved`);
-      if(this.context.showNotification) this.context.showNotification(message, 'info');
+      this.notify(this.context.i18n.getMessage('BusinessPartner.Address.Messages.saved'), 'info');
     }).catch(errors => {
       if (errors.status === 401) {
         this.props.onUnauthorized();
@@ -148,8 +147,7 @@ export default class Details extends Components.ContextComponent  {
 
       this.setState({ addresses: addresses, address: null });
 
-      const message = this.context.i18n.getMessage('BusinessPartner.Address.Messages.updated');
-      if(this.context.showNotification) this.context.showNotification(message, 'info');
+      this.notify(this.context.i18n.getMessage('BusinessPartner.Address.Messages.updated'), 'info');
     }).catch(errors => {
       if (errors.status === 401) this.props.onUnauthorized();
     });
@@ -158,7 +156,7 @@ export default class Details extends Components.ContextComponent  {
   deleteAddress(address) {
     return this.addressApi.delete(this.props.businessPartnerId, address.id).then(() => {
       let addresses = this.state.addresses;
-      const index = addresses.findIndex(address => address.id === address.id);
+      const index = addresses.findIndex(add => add.id === address.id);
 
       if (index === -1) {
         throw new Error(`Not found BusinessPartnerAddress by id [${address.id}]`);
@@ -167,13 +165,16 @@ export default class Details extends Components.ContextComponent  {
 
       this.setState({ addresses: addresses, address: null });
 
-      const message = this.context.i18n.getMessage('BusinessPartner.Address.Messages.deleted');
-      if(this.context.showNotification) this.context.showNotification(message, 'info');
+      this.notify(this.context.i18n.getMessage('BusinessPartner.Address.Messages.deleted'), 'info');
     }).catch(errors => {
       if (errors.status === 401) {
         this.props.onUnauthorized();
       }
     });
+  }
+
+  notify(message, type) {
+    if(this.context.showNotification) this.context.showNotification(message, type);
   }
 
   renderActions(address) {
