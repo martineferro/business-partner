@@ -1,4 +1,4 @@
-class FormConstraints {
+class FieldConstraints {
   constructor(i18n) {
     this.constraints = constraints(i18n);
   }
@@ -79,4 +79,4 @@ let lengthConstraint = function(i18n, limit)
   };
 }
 
-export default FormConstraints;
+export default FieldConstraints;

@@ -4,19 +4,19 @@ class UserAbilities {
   constructor(roles) {
     if (roles.includes('admin')) {
       this.abilitiesForRole = abilities['admin'];
-    } else if (roles.includes('supplier-admin')) {
-      this.abilitiesForRole = abilities['supplier-admin'];
+    } else if (roles.includes('supplier-admin') || roles.includes('customer-admin')) {
+      this.abilitiesForRole = abilities['business-partner-admin'];
     } else {
-      this.abilitiesForRole = abilities['supplier'];
+      this.abilitiesForRole = abilities['business-partner'];
     }
   }
 
   canCreateBusinessPartner() {
-    return this.abilitiesForRole['supplier']['actions'].includes('create');
+    return this.abilitiesForRole['business-partner']['actions'].includes('create');
   }
 
   canEditBusinessPartner() {
-    return this.abilitiesForRole['supplier']['actions'].includes('edit');
+    return this.abilitiesForRole['business-partner']['actions'].includes('edit');
   }
 
   canCreateBankAccount() {

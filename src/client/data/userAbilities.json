@@ -1,6 +1,6 @@
 {
   "admin": {
-    "supplier": {
+    "business-partner": {
       "actions": ["create", "edit"]
     },
     "contact": {
@@ -18,8 +18,8 @@
       "actions": ["add", "edit", "delete"]
     }
   },
-  "supplier-admin": {
-    "supplier": {
+  "business-partner-admin": {
+    "business-partner": {
       "actions": ["edit"]
     },
     "contact": {
@@ -37,8 +37,8 @@
       "actions": ["add", "edit", "delete"]
     }
   },
-  "supplier": {
-    "supplier": {
+  "business-partner": {
+    "business-partner": {
       "actions": ["view"]
     },
     "contact": {

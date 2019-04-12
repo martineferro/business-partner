@@ -5,6 +5,7 @@ import Table from '../../Table.react';
 import { Address } from '../../../api';
 import { Components } from '@opuscapita/service-base-ui';
 import Form from './Form.react';
+import View from './View.react';
 import CountryView from '../../CountryView.react';
 import ActionButton from '../../ActionButton.react';
 import UserAbilities from '../../../models/UserAbilities';
@@ -68,6 +69,16 @@ export default class Details extends Components.ContextComponent  {
 
     const title = this.context.i18n.getMessage('BusinessPartner.Address.edit');
     this.handleShowActionModal('edit', address, title);
+  }
+
+  viewShowModal(event, address) {
+    event.preventDefault();
+
+    const title = this.context.i18n.getMessage('BusinessPartner.Address.view');
+    const buttons = { 'close': this.context.i18n.getMessage('BusinessPartner.Button.close') };
+    const onButtonClick = () => this.viewModal.hide();
+
+    this.viewModal.show(title, undefined, onButtonClick, buttons);
   }
 
   deleteShowModal(event, address) {
@@ -266,6 +277,9 @@ export default class Details extends Components.ContextComponent  {
         {this.renderTable()}
         <Components.ModalDialog ref={node => this.actionModal = node} >
           <Form ref={ node => this.addressForm = node } address={ this.state.address || {} } />
+        </Components.ModalDialog>
+        <Components.ModalDialog ref={node => this.viewModal = node} >
+          <View address={ this.state.address || {} } />
         </Components.ModalDialog>
         <Components.ModalDialog ref={node => this.deleteModal = node} />
       </div>

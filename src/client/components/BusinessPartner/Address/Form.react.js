@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Components } from '@opuscapita/service-base-ui';
 import FormRow from '../../AttributeValueEditorRow.react.js';
-import Constraints from './FormConstraints';
+import Constraints from './FieldConstraints';
 import validator from 'validate.js';
 import Address from '../../../models/BusinessPartnerAddress';
 
