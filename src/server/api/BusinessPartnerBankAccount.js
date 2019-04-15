@@ -37,6 +37,21 @@ class BusinessPartnerBankAccount {
     return this.find(businessPartnerId, bankAccountId).then(accounts => Boolean(accounts));
   }
 
+  searchRecord(query) {
+    normalize(query);
+
+    let dbQuery = {};
+
+    if (query.accountNumber) dbQuery.accountNumber = query.accountNumber;
+    if (query.businessPartnerId) dbQuery.businessPartnerId = { $ne: query.businessPartnerId };
+
+    return this.model.findOne({ where: dbQuery });
+  }
+
+  recordExists(account) {
+    return this.searchRecord(account).then(account => Boolean(account));
+  }
+
   hasUniqueIdentifier(bankAccount) {
     const fields = [
       bankAccount.accountNumber,

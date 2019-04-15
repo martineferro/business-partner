@@ -11,6 +11,7 @@ import Organization from '../src/client/components/BusinessPartner/Organization'
 import ProfileStrength from '../src/client/components/BusinessPartner/ProfileStrength';
 import Approval from '../src/client/components/BusinessPartner/Approval';
 import Address from '../src/client/components/BusinessPartner/Address';
+import BankAccount from '../src/client/components/BusinessPartner/BankAccount';
 
 const username = 'john.doe@ncc.com';
 const userRoles = ['supplier-admin', 'user'];
@@ -39,13 +40,15 @@ let directory = <BusinessPartnerDirectory key='directory' />;
 
 let visibility = <VisibilityPreference key='visibility' businessPartnerId={supplierId} />;
 
-let organization = <Organization key='org' businessPartnerId={supplierId} />
+let organization = <Organization key='org' businessPartnerId={supplierId} />;
 
-let profileStrength = <ProfileStrength key='org' businessPartnerId={supplierId} />
+let profileStrength = <ProfileStrength key='org' businessPartnerId={supplierId} />;
 
-let approval = <Approval key='approval' businessPartnerId={supplierId} />
+let approval = <Approval key='approval' businessPartnerId={supplierId} />;
 
-let address = <Address key='address' businessPartnerId={supplierId} />
+let address = <Address key='address' businessPartnerId={supplierId} />;
+
+let bankAccount = <BankAccount key='bank-account' businessPartnerId={supplierId} />;
 
 var tabData = [
   { name: 'Editor', isActive: true },
@@ -57,7 +60,8 @@ var tabData = [
   { name: 'Organization', isActive: false },
   { name: 'Profile Str.', isActive: false },
   { name: 'Approval', isActive: false },
-  { name: 'Address', isActive: false }
+  { name: 'Address', isActive: false },
+  { name: 'Bank Account', isActive: false }
 ];
 
 class Tabs extends React.Component
@@ -101,6 +105,7 @@ class Content extends React.Component
         {this.props.activeTab.name === 'Profile Str.' ? profileStrength : null}
         {this.props.activeTab.name === 'Approval' ? approval : null}
         {this.props.activeTab.name === 'Address' ? address : null}
+        {this.props.activeTab.name === 'Bank Account' ? bankAccount : null}
       </div>
     );
   }

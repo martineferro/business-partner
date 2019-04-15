@@ -52,9 +52,20 @@ module.exports.globalLocationNumberExists = function(validate) {
 
 module.exports.ibanExists = function(validate) {
   return validate.validators.ibanExists = function(value, options, key, attributes) {
-    let queryParams = { iban: value }
+    let queryParams = { accountNumber: value }
+    return new validate.Promise((resolve, reject) => {
+      if (!value) { resolve(); return; }
 
-    return recordExists(value, validate, queryParams, options.message, attributes.businessPartnerId);
+      if (attributes.businessPartnerId) queryParams.businessPartnerId = attributes.businessPartnerId;
+
+      bankAccountApi.exists(queryParams).then(bankAccount => {
+        if (bankAccount) {
+          resolve(options.message);
+        } else {
+          resolve();
+        }
+      }).catch(error => reject());
+    });
   };
 };
 

@@ -56,7 +56,7 @@
       },
       {
         "type": "rest",
-        "resourceId": "/api/(suppliers|customers|business-partners)/[^/]+/bank_accounts",
+        "resourceId": "/api/(suppliers|customers|business-partners)/[^/]+/(bank_accounts|bank-accounts)",
         "actions": ["view"],
         "responseFields": {
           "allow" : ["accountNumber"]

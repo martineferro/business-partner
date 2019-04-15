@@ -15,20 +15,20 @@ export default class View extends Component {
     return value ? this.context.i18n.getMessage(`BusinessPartner.Address.${name}.${value}`) : '-';
   };
 
-  renderField = (attrs) => {
-    const { supplierAddress } = this.props;
+  renderField(attrs) {
+    const { address } = this.props;
     const fieldName = attrs.fieldName;
     const labelText = this.context.i18n.getMessage(`BusinessPartner.Address.Label.${fieldName}`);
-    const component = attrs.component || supplierAddress[fieldName] || '-'
+    const component = attrs.component || address[fieldName] || '-'
     return (
       <ViewRow labelText={ labelText }>
         <p style={ { marginTop: '7px' } }>{ component }</p>
       </ViewRow>
     );
-  };
+  }
 
   render() {
-    const address = this.props.supplierAddress;
+    const address = this.props.address;
 
     return (
       <div className="form-horizontal">

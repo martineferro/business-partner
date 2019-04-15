@@ -9,7 +9,6 @@ import View from './View.react';
 import CountryView from '../../CountryView.react';
 import ActionButton from '../../ActionButton.react';
 import UserAbilities from '../../../models/UserAbilities';
-import UserData from '../../../models/UserData';
 import ErrorView from '../../ErrorView.react';
 
 export default class Details extends Components.ContextComponent  {
@@ -25,14 +24,13 @@ export default class Details extends Components.ContextComponent  {
 
     this.addressApi = new Address();
     this.userAbilities = new UserAbilities(context.userData.roles);
-    this.userData = new UserData(context.userData);
     this.actionModal = null;
     this.viewModal = null;
     this.deleteModal = null;
     this.addressForm = null;
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.context.i18n.register('BusinessPartnerValidatejs', validationLocales);
     this.context.i18n.register('BusinessPartner', locales);
   }
@@ -46,7 +44,7 @@ export default class Details extends Components.ContextComponent  {
           return;
         }
 
-        this.setState({ loading: false, hasErrors: true });
+        this.setState({ loading: false, loadErrors: true });
       });
   }
 
@@ -71,8 +69,10 @@ export default class Details extends Components.ContextComponent  {
     this.handleShowActionModal('edit', address, title);
   }
 
-  viewShowModal(event, address) {
+  async viewShowModal(event, address) {
     event.preventDefault();
+
+    await this.setState({ address: address });
 
     const title = this.context.i18n.getMessage('BusinessPartner.Address.view');
     const buttons = { 'close': this.context.i18n.getMessage('BusinessPartner.Button.close') };
@@ -136,7 +136,7 @@ export default class Details extends Components.ContextComponent  {
 
       this.setState({ addresses: addresses, address: null });
 
-      this.notify(this.context.i18n.getMessage('BusinessPartner.Address.Messages.saved'), 'info');
+      this.notify(this.context.i18n.getMessage('BusinessPartner.Address.Message.saved'), 'info');
     }).catch(errors => {
       if (errors.status === 401) {
         this.props.onUnauthorized();
@@ -158,7 +158,7 @@ export default class Details extends Components.ContextComponent  {
 
       this.setState({ addresses: addresses, address: null });
 
-      this.notify(this.context.i18n.getMessage('BusinessPartner.Address.Messages.updated'), 'info');
+      this.notify(this.context.i18n.getMessage('BusinessPartner.Address.Message.updated'), 'info');
     }).catch(errors => {
       if (errors.status === 401) this.props.onUnauthorized();
     });
@@ -176,7 +176,7 @@ export default class Details extends Components.ContextComponent  {
 
       this.setState({ addresses: addresses, address: null });
 
-      this.notify(this.context.i18n.getMessage('BusinessPartner.Address.Messages.deleted'), 'info');
+      this.notify(this.context.i18n.getMessage('BusinessPartner.Address.Message.deleted'), 'info');
     }).catch(errors => {
       if (errors.status === 401) {
         this.props.onUnauthorized();
@@ -266,9 +266,7 @@ export default class Details extends Components.ContextComponent  {
   }
 
   render() {
-    const { loadErrors } = this.state;
-
-    if (loadErrors) return <ErrorView />;
+    if (this.state.loadErrors) return <ErrorView />;
 
     return (
       <div>
