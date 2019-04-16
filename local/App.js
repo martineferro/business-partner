@@ -15,6 +15,7 @@ import BankAccount from '../src/client/components/BusinessPartner/BankAccount';
 import Contact from '../src/client/components/BusinessPartner/Contact';
 import ConnectionsWidget from '../src/client/components/BusinessLink/ConnectionsWidget';
 import ConnectionsOverview from '../src/client/components/BusinessLink/ConnectionsOverview';
+import BusinessLinkList from '../src/client/components/BusinessLink/List';
 
 const username = 'john.doe@ncc.com';
 const userRoles = ['supplier-admin', 'user'];
@@ -44,14 +45,15 @@ let address = <Address key='address' businessPartnerId={supplierId} />;
 let bankAccount = <BankAccount key='bank-account' businessPartnerId={supplierId} />;
 let contact = <Contact key='contact' businessPartnerId={supplierId} />;
 
-let blcWidget = <ConnectionsWidget customerId={'acme_us'} />;
+let blcWidget = <ConnectionsWidget customerId={customerId} />;
 let blcOverview = <ConnectionsOverview
                     key='overview'
-                    supplierId={'appl_us'}
+                    supplierId={supplierId}
                     onInvoiceClick={() => console.log('invoice clicked')}
                     onPurchaseOrderClick={() => console.log('purchase order clicked')}
                     onCatalogClick={() => console.log('catalog clicked')}
                   />
+let businessLinks = <BusinessLinkList onEdit={id => console.log(id)} />
 
 var tabData = [
   { name: 'Editor', isActive: true },
@@ -67,7 +69,8 @@ var tabData = [
   { name: 'Bank Account', isActive: false },
   { name: 'Contact', isActive: false },
   { name: 'BLC Widget', isActive: false },
-  { name: 'BLC Overview', isActive: false }
+  { name: 'BLC Overview', isActive: false },
+  { name: 'Business Links', isActive: false }
 ];
 
 class Tabs extends React.Component
@@ -115,6 +118,7 @@ class Content extends React.Component
         {this.props.activeTab.name === 'Contact' ? contact : null}
         {this.props.activeTab.name === 'BLC Widget' ? blcWidget : null}
         {this.props.activeTab.name === 'BLC Overview' ? blcOverview : null}
+        {this.props.activeTab.name === 'Business Links' ? businessLinks : null}
       </div>
     );
   }
