@@ -13,6 +13,8 @@ import Approval from '../src/client/components/BusinessPartner/Approval';
 import Address from '../src/client/components/BusinessPartner/Address';
 import BankAccount from '../src/client/components/BusinessPartner/BankAccount';
 import Contact from '../src/client/components/BusinessPartner/Contact';
+import ConnectionsWidget from '../src/client/components/BusinessLink/ConnectionsWidget';
+import ConnectionsOverview from '../src/client/components/BusinessLink/ConnectionsOverview';
 
 const username = 'john.doe@ncc.com';
 const userRoles = ['supplier-admin', 'user'];
@@ -42,6 +44,15 @@ let address = <Address key='address' businessPartnerId={supplierId} />;
 let bankAccount = <BankAccount key='bank-account' businessPartnerId={supplierId} />;
 let contact = <Contact key='contact' businessPartnerId={supplierId} />;
 
+let blcWidget = <ConnectionsWidget customerId={'acme_us'} />;
+let blcOverview = <ConnectionsOverview
+                    key='overview'
+                    supplierId={'appl_us'}
+                    onInvoiceClick={() => console.log('invoice clicked')}
+                    onPurchaseOrderClick={() => console.log('purchase order clicked')}
+                    onCatalogClick={() => console.log('catalog clicked')}
+                  />
+
 var tabData = [
   { name: 'Editor', isActive: true },
   { name: 'Creator', isActive: false },
@@ -54,7 +65,9 @@ var tabData = [
   { name: 'Approval', isActive: false },
   { name: 'Address', isActive: false },
   { name: 'Bank Account', isActive: false },
-  { name: 'Contact', isActive: false }
+  { name: 'Contact', isActive: false },
+  { name: 'BLC Widget', isActive: false },
+  { name: 'BLC Overview', isActive: false }
 ];
 
 class Tabs extends React.Component
@@ -100,6 +113,8 @@ class Content extends React.Component
         {this.props.activeTab.name === 'Address' ? address : null}
         {this.props.activeTab.name === 'Bank Account' ? bankAccount : null}
         {this.props.activeTab.name === 'Contact' ? contact : null}
+        {this.props.activeTab.name === 'BLC Widget' ? blcWidget : null}
+        {this.props.activeTab.name === 'BLC Overview' ? blcOverview : null}
       </div>
     );
   }

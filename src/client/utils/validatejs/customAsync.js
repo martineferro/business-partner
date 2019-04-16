@@ -1,6 +1,7 @@
-const { BusinessPartner, BankAccount } = require('../../api');
+const { BusinessPartner, BankAccount, BusinessLink } = require('../../api');
 const businessPartnerApi = new BusinessPartner();
 const bankAccountApi = new BankAccount();
+const businessLinkApi = new BusinessLink();
 
 module.exports.idExists = function(validate) {
   return validate.validators.idExists = function(value, options, key, attributes) {
@@ -119,6 +120,27 @@ module.exports.uniqueIdentifierWithBankAccount = function(validate) {
           resolve();
         } else {
           resolve(options.message);
+        }
+      }).catch(error => reject());
+    });
+  };
+};
+
+module.exports.businessLinkExists = function(validate) {
+  return validate.validators.businessLinkExists = function(value, options, key, attributes) {
+    return new validate.Promise((resolve, reject) => {
+      if (attributes.id) { resolve(); return; }
+
+      const supplierId = attributes.supplierId;
+      const customerId = attributes.customerId;
+
+      if (!supplierId || !customerId) { resolve(); return; }
+
+      businessLinkApi.exists(supplierId, customerId).then(exists => {
+        if (exists) {
+          resolve(options.message);
+        } else {
+          resolve();
         }
       }).catch(error => reject());
     });

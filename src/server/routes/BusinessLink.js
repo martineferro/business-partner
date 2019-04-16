@@ -26,7 +26,10 @@ class BusinessLink {
     if (req.params.customerId) query.customerId = req.params.customerId;
     if (req.query.id) query.id = req.query.id;
     if (req.query.supplierIds) query.supplierIds = req.query.supplierIds;
-    return this.api.all(query).then(businessLinks => res.json(businessLinks));
+
+    const includes = req.query.include ? req.query.include.split(',') : [];
+
+    return this.api.all(query, includes).then(businessLinks => res.json(businessLinks));
   }
 
   create(req, res) {

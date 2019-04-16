@@ -3,22 +3,23 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    editor: './src/client/components/BusinessPartner/Editor/index.js',
-    creator: './src/client/components/BusinessPartner/Creator/index.js',
-    registrator: './src/client/components/BusinessPartner/Registrator/index.js',
-    autocomplete: './src/client/components/BusinessPartner/Autocomplete/index.js',
-    list: './src/client/components/BusinessPartner/List/index.js',
-    directory: './src/client/components/BusinessPartner/Directory/index.js',
-    visibility: './src/client/components/BusinessPartner/VisibilityPreference/index.js',
-    organization: './src/client/components/BusinessPartner/Organization/index.js',
-    address: './src/client/components/BusinessPartner/Address/index.js',
-    bank_account: './src/client/components/BusinessPartner/BankAccount/index.js'
+    'business-partner-editor': './src/client/components/BusinessPartner/Editor/index.js',
+    'business-partner-creator': './src/client/components/BusinessPartner/Creator/index.js',
+    'business-partner-registrator': './src/client/components/BusinessPartner/Registrator/index.js',
+    'business-partner-autocomplete': './src/client/components/BusinessPartner/Autocomplete/index.js',
+    'business-partner-list': './src/client/components/BusinessPartner/List/index.js',
+    'business-partner-directory': './src/client/components/BusinessPartner/Directory/index.js',
+    'business-partner-visibility': './src/client/components/BusinessPartner/VisibilityPreference/index.js',
+    'business-partner-organization': './src/client/components/BusinessPartner/Organization/index.js',
+    'business-partner-address': './src/client/components/BusinessPartner/Address/index.js',
+    'business-partner-bank-account': './src/client/components/BusinessPartner/BankAccount/index.js',
+    'business-partner-contact': './src/client/components/BusinessPartner/Contact/index.js'
   },
   output: {
     path: path.resolve(__dirname, './src/server/static'),
     publicPath: '/static',
     filename: 'components/[name]-bundle.js',
-    library: 'business-partner-[name]',
+    library: '[name]',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },

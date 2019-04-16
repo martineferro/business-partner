@@ -40,6 +40,7 @@
     "BusinessPartnerValidatejs.duplicate.globalLocationNumber.message": "Une société existe déjà avec ce code lieu-fonction.",
     "BusinessPartnerValidatejs.duplicate.subEntityCode.message": "Une société de votre organisation possède déjà ce code",
     "BusinessPartnerValidatejs.duplicate.iban.message": "Une société existe déjà avec ce numéro IBAN.",
+    "BusinessPartnerValidatejs.duplicate.businessLink.message": "Une liaison-entreprises existe déjà pour ce fournisseur et ce client",
     "BusinessPartnerValidatejs.typeMismatch.util.Date": "La valeur doit être une date valide",
     "BusinessPartnerValidatejs.businessPartnerExists": "{message}\r\nVeuillez contacter notre service d'assistance au +49 231 99774525 ou à l'adresse customerservice.de@opuscapita.com pour lancer une demande d'accès à la société enregistrée."
 }

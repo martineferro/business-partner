@@ -40,6 +40,7 @@
     "BusinessPartnerValidatejs.duplicate.globalLocationNumber.message": "Esiste già un'impresa con questo Global Location Number (GLN).",
     "BusinessPartnerValidatejs.duplicate.subEntityCode.message": "Un'impresa nella vostra organizzazione ha già questo codice",
     "BusinessPartnerValidatejs.duplicate.iban.message": "Esiste già un'impresa con questo IBAN.",
+    "BusinessPartnerValidatejs.duplicate.businessLink.message": "Esiste già un link commerciale per questi fornitore e cliente",
     "BusinessPartnerValidatejs.typeMismatch.util.Date": "Il valore deve essere una Data valida",
     "BusinessPartnerValidatejs.businessPartnerExists": "{message}\r\nSi prega di rivolgersi al nostro servizio di assistenza al +49 231 99774525 o customerservice.de@opuscapita.com per avviare una richiesta di accesso all'impresa registrata."
 }

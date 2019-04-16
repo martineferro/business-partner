@@ -182,5 +182,19 @@
     "BusinessPartner.Visibility.Message.updateSaved": "Ändringar sparades med framgång.",
     "BusinessPartner.Autocomplete.placeholder": "Klicka för att lägga till värden",
     "BusinessPartner.Autocomplete.loadingPlaceholder": "Vänta ...",
-    "BusinessPartner.Autocomplete.noResultsText": "Ingenting hittades. Modifiera dina sökkriterier."
+    "BusinessPartner.Autocomplete.noResultsText": "Ingenting hittades. Modifiera dina sökkriterier.",
+    "BusinessLink.Status.configured": "konfigurerad",
+    "BusinessLink.Status.pending": "Avaktande",
+    "BusinessLink.Overview.invoice": " Skicka faktura",
+    "BusinessLink.Overview.order": "Ordermottagning",
+    "BusinessLink.Overview.catalog": "Kataloguppladdning",
+    "BusinessLink.Overview.status": "Status",
+    "BusinessLink.Overview.connectedCustomers": "Anslutna kunder",
+    "BusinessLink.Connections.Tenant.name": "Företagsnamn",
+    "BusinessLink.Connections.Tenant.id": "Företags ID",
+    "BusinessLink.Connections.Type.title": "Typ",
+    "BusinessLink.Connections.Status.title": "Status",
+    "BusinessLink.Connections.Actions.title": "Åtgärd",
+    "BusinessLink.Connections.Actions.setup": "Inställning",
+    "BusinessLink.Connections.Actions.reject": "Avvisa"
 }

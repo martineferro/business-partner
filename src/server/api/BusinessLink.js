@@ -2,8 +2,12 @@ class BusinessLink {
   constructor(db) {
     this.model = db.models.BusinessLink;
     this.blcModel = db.models.BusinessLinkConnection;
+    this.bpartnerModel = db.models.BusinessPartner;
 
-    this.model.hasMany(this.blcModel, { foreignKey: 'businessLinkId', sourceKey: 'id' });
+    this.model.hasMany(this.blcModel, { as: 'connections', foreignKey: 'businessLinkId', sourceKey: 'id' });
+
+    this.model.belongsTo(this.bpartnerModel, { as: 'supplier', foreignKey: 'supplierId' });
+    this.model.belongsTo(this.bpartnerModel, { as: 'customer', foreignKey: 'customerId' });
   }
 
   create(businessLink) {
@@ -22,7 +26,7 @@ class BusinessLink {
     return this.model.update(businessLink, { where: { id: id } }).then(() => this.find(id));
   }
 
-  all(query) {
+  all(query, includes = []) {
     let dbQuery = {};
 
     if (query.supplierId) dbQuery.supplierId = query.supplierId;
@@ -30,14 +34,20 @@ class BusinessLink {
     if (query.supplierIds) dbQuery.supplierId = { $in: query.supplierIds.split(',') };
     if (query.id) dbQuery.id = { $in: query.id.split(',') };
 
-    return this.model.findAll({ where: dbQuery, include: this.determineInclude(query) }).map(bl => {
-      return businessLinkWithAssociations(bl);
-    });
+    let modelIncludes = this.determineInclude(query);
+
+    if (includes.length > 0) this.addIncludes(includes, modelIncludes);
+
+    return this.model.findAll({ where: dbQuery, include: modelIncludes }).map(bl => bl.dataValues);
   }
 
-  find(businessLinkId) {
-    return this.model.findOne({ where: { id: businessLinkId }, include: [this.blcModel] }).then(businessLink => {
-      return businessLinkWithAssociations(businessLink);
+  find(businessLinkId, includes = []) {
+    let modelIncludes = this.determineInclude();
+
+    if (includes.length > 0) this.addIncludes(includes, modelIncludes);
+
+    return this.model.findOne({ where: { id: businessLinkId }, include: modelIncludes }).then(businessLink => {
+      return businessLink.dataValues;
     });
   }
 
@@ -58,20 +68,20 @@ class BusinessLink {
     return this.model.destroy({ where: { id: { $in: ids } } }).then(() => null);
   }
 
-  determineInclude(query) {
-    if (query.connectionStatus) return [{ model: this.blcModel, where: { status: query.connectionStatus }}];
+  determineInclude(query = {}) {
+    const attrs = { model: this.blcModel, as: 'connections' };
+    if (query.connectionStatus) return [{ ...attrs, where: { status: query.connectionStatus }}];
 
-    return [this.blcModel];
+    return [attrs];
+  }
+
+  addIncludes(includes, modelIncludes) {
+    for (const include of includes) {
+      if (include === 'supplier') modelIncludes.push({ model: this.bpartnerModel, as: 'supplier' });
+      if (include === 'customer') modelIncludes.push({ model: this.bpartnerModel, as: 'customer' });
+    }
   }
 };
-
-let businessLinkWithAssociations = function(businessLink)
-{
-  businessLink.dataValues.connections = businessLink.BusinessLinkConnections;
-  delete businessLink.dataValues.BusinessLinkConnections;
-
-  return businessLink.dataValues;
-}
 
 let normalize = function(businessLink) {
   if (businessLink.customerSupplierId) businessLink.customerSupplierId = businessLink.customerSupplierId.trim();
