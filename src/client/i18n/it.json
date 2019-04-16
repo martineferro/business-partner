@@ -168,7 +168,7 @@
     "BusinessPartner.Contact.Department.it": "IT",
     "BusinessPartner.Contact.Department.others": "Altri",
     "BusinessPartner.Contact.Label.contactId": "Identificativo Contatto",
-    "BusinessPartner.Contact.Label.contactType": "Tipo Contatto",
+    "BusinessPartner.Contact.Label.type": "Tipo Contatto",
     "BusinessPartner.Contact.Label.firstName": "Nome",
     "BusinessPartner.Contact.Label.lastName": "Cognome",
     "BusinessPartner.Contact.Label.email": "E-mail",

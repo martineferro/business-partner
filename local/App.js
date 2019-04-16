@@ -12,6 +12,7 @@ import ProfileStrength from '../src/client/components/BusinessPartner/ProfileStr
 import Approval from '../src/client/components/BusinessPartner/Approval';
 import Address from '../src/client/components/BusinessPartner/Address';
 import BankAccount from '../src/client/components/BusinessPartner/BankAccount';
+import Contact from '../src/client/components/BusinessPartner/Contact';
 
 const username = 'john.doe@ncc.com';
 const userRoles = ['supplier-admin', 'user'];
@@ -29,26 +30,17 @@ const onboardingSupplier = {
 };
 
 let editor = <BusinessPartnerEditor key='editor' businessPartnerId={supplierId} />;
-
 let creator = <BusinessPartnerCreator key='creator' />;
-
 let registrator = <BusinessPartnerRegistrator key='reg' businessPartner={onboardingSupplier} />;
-
 let list = <BusinessPartnerList onEdit={id => console.log(id)} onCreateUser={id => console.log(id)} />;
-
 let directory = <BusinessPartnerDirectory key='directory' />;
-
 let visibility = <VisibilityPreference key='visibility' businessPartnerId={supplierId} />;
-
 let organization = <Organization key='org' businessPartnerId={supplierId} />;
-
 let profileStrength = <ProfileStrength key='org' businessPartnerId={supplierId} />;
-
 let approval = <Approval key='approval' businessPartnerId={supplierId} />;
-
 let address = <Address key='address' businessPartnerId={supplierId} />;
-
 let bankAccount = <BankAccount key='bank-account' businessPartnerId={supplierId} />;
+let contact = <Contact key='contact' businessPartnerId={supplierId} />;
 
 var tabData = [
   { name: 'Editor', isActive: true },
@@ -61,7 +53,8 @@ var tabData = [
   { name: 'Profile Str.', isActive: false },
   { name: 'Approval', isActive: false },
   { name: 'Address', isActive: false },
-  { name: 'Bank Account', isActive: false }
+  { name: 'Bank Account', isActive: false },
+  { name: 'Contact', isActive: false }
 ];
 
 class Tabs extends React.Component
@@ -106,6 +99,7 @@ class Content extends React.Component
         {this.props.activeTab.name === 'Approval' ? approval : null}
         {this.props.activeTab.name === 'Address' ? address : null}
         {this.props.activeTab.name === 'Bank Account' ? bankAccount : null}
+        {this.props.activeTab.name === 'Contact' ? contact : null}
       </div>
     );
   }

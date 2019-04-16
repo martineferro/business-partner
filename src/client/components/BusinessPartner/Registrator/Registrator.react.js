@@ -9,6 +9,7 @@ import { Components } from '@opuscapita/service-base-ui';
 import Loading from '../../Loading.react';
 import ErrorView from '../../ErrorView.react';
 import FormAction from '../FormAction';
+import ContactModel from '../../../models/BusinessPartnerContact';
 
 /**
  * Provide general company information.
@@ -80,7 +81,7 @@ class Registrator extends Components.ContextComponent {
       const businessPartner = this.state.businessPartner;
       const user = this.context.userData;
       const contact = {
-        contactType: 'default',
+        type: ContactModel.DEFAULT,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,

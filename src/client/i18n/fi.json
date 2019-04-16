@@ -162,7 +162,7 @@
     "BusinessPartner.Contact.Department.it": "IT",
     "BusinessPartner.Contact.Department.others": "Muu",
     "BusinessPartner.Contact.Label.contactId": "Yhteyshenkilön tunnus",
-    "BusinessPartner.Contact.Label.contactType": "Yhteystyyppi",
+    "BusinessPartner.Contact.Label.type": "Yhteystyyppi",
     "BusinessPartner.Contact.Label.firstName": "Etunimi",
     "BusinessPartner.Contact.Label.lastName": "Sukunimi",
     "BusinessPartner.Contact.Label.email": "Sähköposti",

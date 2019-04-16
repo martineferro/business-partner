@@ -1,4 +1,5 @@
 const BusinessPartnerContactApi = require('../api/BusinessPartnerContact');
+const UserData = require('../services/UserData');
 const User = require('../services/User');
 const authService = require('../services/auth');
 
@@ -47,6 +48,11 @@ class BusinessPartnerContact {
   }
 
   create(req, res) {
+    const userData = new UserData(req);
+    req.body.businessPartnerId = req.params.businessPartnerId;
+    req.body.createdBy = userData.id;
+    req.body.changedBy = userData.id;
+
     return this.api.create(req.body).then(contact => res.status('201').json(contact))
     .catch(error => {
       req.opuscapita.logger.error('Error when creating BusinessPartnerContact: %s', error.message);
@@ -60,6 +66,7 @@ class BusinessPartnerContact {
     return this.api.exists(businessPartnerId, contactId).then(exists => {
       if(!exists) return handleContactNotExistError(res, contactId, req.opuscapita.logger);
 
+      req.body.changedBy = new UserData(req).id;
       return this.updateAndRender(businessPartnerId, contactId, req.body, res);
     })
     .catch(error => {

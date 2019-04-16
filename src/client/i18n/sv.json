@@ -156,7 +156,7 @@
     "BusinessPartner.Contact.Department.it": "IT",
     "BusinessPartner.Contact.Department.others": "Annan",
     "BusinessPartner.Contact.Label.contactId": "Kontakt ID",
-    "BusinessPartner.Contact.Label.contactType": "Kontakt typ",
+    "BusinessPartner.Contact.Label.type": "Kontakt typ",
     "BusinessPartner.Contact.Label.firstName": "Förnamn",
     "BusinessPartner.Contact.Label.lastName": "Efternamn",
     "BusinessPartner.Contact.Label.email": "Epost",

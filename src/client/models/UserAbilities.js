@@ -4,7 +4,7 @@ class UserAbilities {
   constructor(roles) {
     if (roles.includes('admin')) {
       this.abilitiesForRole = abilities['admin'];
-    } else if (roles.includes('supplier-admin') || roles.includes('customer-admin')) {
+    } else if (roles.includes('supplier-admin')) {
       this.abilitiesForRole = abilities['business-partner-admin'];
     } else {
       this.abilitiesForRole = abilities['business-partner'];

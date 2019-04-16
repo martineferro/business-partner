@@ -8,7 +8,7 @@ const ContactComponent = ({ businessPartner, i18n }) => (<div className='bp-publ
 const ContactSection = ({ contact, businessPartner, i18n }) => (
   <div className='bp-public__section bp-public__contact'>
     <div className='col-sm-8'>
-      <label className='bp-public__subheading col-sm-4'>{ i18n.getMessage('BusinessPartner.Contact.Label.contactType') }</label>
+      <label className='bp-public__subheading col-sm-4'>{ i18n.getMessage('BusinessPartner.Contact.Label.type') }</label>
       <span className='bp-public__subheading col-sm-4'>{ i18n.getMessage(`BusinessPartner.Contact.Type.${contact.type}`) }</span>
     </div>
     <div className='col-sm-8'>

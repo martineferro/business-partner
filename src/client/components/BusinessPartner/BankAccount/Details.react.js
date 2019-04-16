@@ -156,6 +156,7 @@ export default class Details extends Components.ContextComponent  {
         this.props.onUnauthorized();
       } else {
         console.log(`Error during create BusinessParterBankAccount: ${errors.message}`);
+        this.notify(this.context.i18n.getMessage('BusinessPartner.BankAccount.Message.saveFailed'), 'error');
       }
     });
   }
@@ -174,7 +175,9 @@ export default class Details extends Components.ContextComponent  {
 
       this.notify(this.context.i18n.getMessage('BusinessPartner.BankAccount.Message.updated'), 'info');
     }).catch(errors => {
-      if (errors.status === 401) this.props.onUnauthorized();
+      if (errors.status === 401) return this.props.onUnauthorized();
+
+      this.notify(this.context.i18n.getMessage('BusinessPartner.BankAccount.Message.updateFailed'), 'error');
     });
   }
 
@@ -192,9 +195,9 @@ export default class Details extends Components.ContextComponent  {
 
       this.notify(this.context.i18n.getMessage('BusinessPartner.BankAccount.Message.deleted'), 'info');
     }).catch(errors => {
-      if (errors.status === 401) {
-        this.props.onUnauthorized();
-      }
+      if (errors.status === 401) return this.props.onUnauthorized();
+
+      this.notify(this.context.i18n.getMessage('BusinessPartner.BankAccount.Message.deleteFailed'), 'error');
     });
   }
 

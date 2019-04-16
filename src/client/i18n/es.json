@@ -168,7 +168,7 @@
     "BusinessPartner.Contact.Department.it": "TI",
     "BusinessPartner.Contact.Department.others": "Otros",
     "BusinessPartner.Contact.Label.contactId": "Id de contacto",
-    "BusinessPartner.Contact.Label.contactType": "Tipo de contacto",
+    "BusinessPartner.Contact.Label.type": "Tipo de contacto",
     "BusinessPartner.Contact.Label.firstName": "Nombre",
     "BusinessPartner.Contact.Label.lastName": "Apellido",
     "BusinessPartner.Contact.Label.email": "Correo electrónico",

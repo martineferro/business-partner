@@ -11,7 +11,8 @@ module.exports = {
     directory: './src/client/components/BusinessPartner/Directory/index.js',
     visibility: './src/client/components/BusinessPartner/VisibilityPreference/index.js',
     organization: './src/client/components/BusinessPartner/Organization/index.js',
-    address: './src/client/components/BusinessPartner/Address/index.js'
+    address: './src/client/components/BusinessPartner/Address/index.js',
+    bank_account: './src/client/components/BusinessPartner/BankAccount/index.js'
   },
   output: {
     path: path.resolve(__dirname, './src/server/static'),
