@@ -3,16 +3,26 @@ class BusinessPartner
   static get SUPPLIER() { return 'supplier'; }
   static get CUSTOMER() { return 'customer'; }
 
-  static get typeByPrefix() {
-    return { c_: this.CUSTOMER, s_: this.SUPPLIER };
+  constructor(bp) {
+    this.type = determineType(bp);
   }
 
-  static determine(supplierOrCustomerId)
-  {
-    const prefix = supplierOrCustomerId.substr(0, 2);
+  get otherType() {
+    if (this.type === BusinessPartner.SUPPLIER) return BusinessPartner.CUSTOMER;
 
-    return { id: supplierOrCustomerId.substr(2), type: BusinessPartner.typeByPrefix[prefix] };
+    if (this.type === BusinessPartner.CUSTOMER) return BusinessPartner.SUPPLIER;
+
+    return null;
   }
-}
+};
+
+let determineType = function(bPartner)
+{
+  if (bPartner.isSupplier) return BusinessPartner.SUPPLIER;
+
+  if (bPartner.isCustomer) return BusinessPartner.CUSTOMER;
+
+  return null;
+};
 
 module.exports = BusinessPartner;

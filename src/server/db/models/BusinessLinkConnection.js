@@ -1,5 +1,6 @@
 'use strict';
 const Sequelize = require('sequelize');
+const BusinessLink = require('./BusinessLink');
 
 const TYPE = { INVOICE: 'invoice', ORDER: 'order', CATALOG: 'catalog', GOODS: 'goods', RFQ: 'rfq' };
 
@@ -37,7 +38,7 @@ module.exports.init = function(db) {
       type: Sequelize.STRING(50),
       allowNull: false,
       validate: {
-        isIn: [Object.values(require('./BusinessLink').STATUS)]
+        isIn: [Object.values(BusinessLink.STATUS)]
       }
     },
     /** Additional config parameters for the types of connections. Usefull only for types invoice and order */

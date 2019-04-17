@@ -16,8 +16,8 @@ class BusinessLink {
     this.app.get('/api/suppliers/:supplierId/customers/:customerId/business-links', (req, res) => this.index(req, res));
     this.app.get('/api/customers/:customerId/business-links', (req, res) => this.index(req, res));
     this.app.put('/api/suppliers/:supplierId/business-links', (req, res) => this.create(req, res));
-    this.app.put('/api/suppliers/:supplierId/business-link-connections/:connectionId', (req, res) => this.updateConnection(req, res));
-    this.app.put('/api/customers/:customerId/business-link-connections/:connectionId', (req, res) => this.updateConnection(req, res));
+    this.app.put('/api/suppliers/:supplierId/business-link-connections/:connectionId', (req, res) => this.updateBLConnection(req, res));
+    this.app.put('/api/customers/:customerId/business-link-connections/:connectionId', (req, res) => this.updateBLConnection(req, res));
   }
 
   index(req, res) {
@@ -54,7 +54,7 @@ class BusinessLink {
     });
   }
 
-  async updateConnection(req, res) {
+  async updateBLConnection(req, res) {
     const connectionId = req.params.connectionId;
 
     if (connectionId != req.body.id) {
@@ -70,7 +70,7 @@ class BusinessLink {
     return this.updateConnection(connectionId, { status: req.body.status }).then(async connection => {
       const businessLink = await this.api.find(connection.businessLinkId);
 
-      this.logger.info(`Sending business-link event with topic updated and payload: ${getPayloadInfo(businessLink)}`);
+      req.opuscapita.logger.info(`Sending business-link event with topic updated and payload: ${getPayloadInfo(businessLink)}`);
       return req.opuscapita.eventClient.emit('business-link.business-link.updated', businessLink).then(() => {
         return res.json(connection);
       });
@@ -92,7 +92,7 @@ class BusinessLink {
       businessLink.dataValues.connections = createdConnections;
       delete businessLink.dataValues.BusinessLinkConnections
 
-      this.logger.info(`Sending business-link event with topic created and payload: ${businessLink.dataValues}`);
+      req.opuscapita.logger.info(`Sending business-link event with topic created and payload: ${businessLink.dataValues}`);
       await req.opuscapita.eventClient.emit('business-link.business-link.created', businessLink.dataValues);
       return businessLink.dataValues;
     });
@@ -133,7 +133,7 @@ class BusinessLink {
       }
     }
 
-    this.logger.info(`Sending business-link event with topic updated and payload: ${businessLink}`);
+    req.opuscapita.logger.info(`Sending business-link event with topic updated and payload: ${businessLink}`);
     await req.opuscapita.eventClient.emit('business-link.business-link.updated', businessLink);
     return businessLink;
   }
@@ -141,7 +141,6 @@ class BusinessLink {
   createBusinessLink(attributes) {
     return this.api.create(attributes).catch(error => {
       const errorMessage = error.message;
-      this.logger.error('Error when creating businessLink. Error: %s', errorMessage);
       throw new Error(errorMessage);
     });
   }
@@ -149,7 +148,6 @@ class BusinessLink {
   updateBusinessLink(id, attributes) {
     return this.api.update(id, attributes).catch(error => {
       const errorMessage = error.message;
-      this.logger.error('Error when updating businessLink. Error: %s', errorMessage);
       throw new Error(errorMessage);
     });
   }
@@ -157,7 +155,6 @@ class BusinessLink {
   createConnection(businessLinkId, connectionAttributes) {
     return this.blcApi.create(businessLinkId, connectionAttributes).catch(error => {
       const errorMessage = error.message;
-      this.logger.error('Error when creating businessLinkConnection. Error: %s', errorMessage);
       throw new Error(errorMessage);
     });
   }
@@ -165,7 +162,6 @@ class BusinessLink {
   updateConnection(connectionId, connection) {
     return this.blcApi.update(connectionId, connection).catch(error => {
       const errorMessage = error.message;
-      this.logger.error('Error when updating businessLinkConnection. Error: %s', errorMessage);
       throw new Error(errorMessage);
     });
   }

@@ -62,7 +62,8 @@ export default class List extends Components.ContextComponent {
       },
       {
         Header: i18n.getMessage('BusinessLink.Label.customerSupplierId'),
-        accessor: 'customerSupplierId'
+        accessor: 'customerSupplierId',
+        Cell: row => (row.value || '-')
       },
       {
         Header: i18n.getMessage('BusinessLink.Label.connections'),

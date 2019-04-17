@@ -15,6 +15,7 @@ import BankAccount from '../src/client/components/BusinessPartner/BankAccount';
 import Contact from '../src/client/components/BusinessPartner/Contact';
 import ConnectionsWidget from '../src/client/components/BusinessLink/ConnectionsWidget';
 import ConnectionsOverview from '../src/client/components/BusinessLink/ConnectionsOverview';
+import Connections from '../src/client/components/BusinessLink/Connections';
 import BusinessLinkList from '../src/client/components/BusinessLink/List';
 
 const username = 'john.doe@ncc.com';
@@ -53,6 +54,7 @@ let blcOverview = <ConnectionsOverview
                     onPurchaseOrderClick={() => console.log('purchase order clicked')}
                     onCatalogClick={() => console.log('catalog clicked')}
                   />
+let blConnections = <Connections businessPartnerId={supplierId} />
 let businessLinks = <BusinessLinkList onEdit={id => console.log(id)} />
 
 var tabData = [
@@ -70,6 +72,7 @@ var tabData = [
   { name: 'Contact', isActive: false },
   { name: 'BLC Widget', isActive: false },
   { name: 'BLC Overview', isActive: false },
+  { name: 'BL Connections', isActive: false },
   { name: 'Business Links', isActive: false }
 ];
 
@@ -118,6 +121,7 @@ class Content extends React.Component
         {this.props.activeTab.name === 'Contact' ? contact : null}
         {this.props.activeTab.name === 'BLC Widget' ? blcWidget : null}
         {this.props.activeTab.name === 'BLC Overview' ? blcOverview : null}
+        {this.props.activeTab.name === 'BL Connections' ? blConnections : null}
         {this.props.activeTab.name === 'Business Links' ? businessLinks : null}
       </div>
     );
