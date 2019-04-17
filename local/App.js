@@ -17,6 +17,7 @@ import ConnectionsWidget from '../src/client/components/BusinessLink/Connections
 import ConnectionsOverview from '../src/client/components/BusinessLink/ConnectionsOverview';
 import Connections from '../src/client/components/BusinessLink/Connections';
 import BusinessLinkList from '../src/client/components/BusinessLink/List';
+import BusinessLinkEditor from '../src/client/components/BusinessLink/Editor';
 
 const username = 'john.doe@ncc.com';
 const userRoles = ['supplier-admin', 'user'];
@@ -56,6 +57,7 @@ let blcOverview = <ConnectionsOverview
                   />
 let blConnections = <Connections businessPartnerId={supplierId} />
 let businessLinks = <BusinessLinkList onEdit={id => console.log(id)} />
+let blEditor = <BusinessLinkEditor onCreateOrUpdate={ bl => console.log(bl.id)} />
 
 var tabData = [
   { name: 'Editor', isActive: true },
@@ -73,7 +75,8 @@ var tabData = [
   { name: 'BLC Widget', isActive: false },
   { name: 'BLC Overview', isActive: false },
   { name: 'BL Connections', isActive: false },
-  { name: 'Business Links', isActive: false }
+  { name: 'Business Links', isActive: false },
+  { name: 'BL Editor', isActive: false }
 ];
 
 class Tabs extends React.Component
@@ -123,6 +126,7 @@ class Content extends React.Component
         {this.props.activeTab.name === 'BLC Overview' ? blcOverview : null}
         {this.props.activeTab.name === 'BL Connections' ? blConnections : null}
         {this.props.activeTab.name === 'Business Links' ? businessLinks : null}
+        {this.props.activeTab.name === 'BL Editor' ? blEditor : null}
       </div>
     );
   }

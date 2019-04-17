@@ -1,5 +1,6 @@
 const BusinessLinkApi = require('../api/BusinessLink');
 const BusinessLinkConnectionApi = require('../api/BusinessLinkConnection');
+const UserData = require('../services/UserData');
 
 class BusinessLink {
   constructor(app, db) {
@@ -81,13 +82,20 @@ class BusinessLink {
   }
 
   async createBusinessLinkAndConnections(req) {
+    const userData = new UserData(req);
     let data = req.body;
+    data.createdBy = userData.id;
+    data.changedBy = userData.id;
     const connections = data.connections;
     delete data.connections;
 
     return this.createBusinessLink(data).then(async businessLink => {
       const businessLinkId = businessLink.id;
-      const createdConnections = await Promise.all(connections.map(connection => this.createConnection(businessLinkId, connection)));
+      const createdConnections = await Promise.all(connections.map(connection => {
+        connection.createdBy = userData.id;
+        connection.changedBy = userData.id;
+        return this.createConnection(businessLinkId, connection)
+      }));
 
       businessLink.dataValues.connections = createdConnections;
       delete businessLink.dataValues.BusinessLinkConnections
@@ -99,7 +107,9 @@ class BusinessLink {
   }
 
   async updateBusinessLinkAndConnections(req) {
+    const userData = new UserData(req);
     let data = req.body;
+    data.changedBy = userData.id;
     const connectionsByType = data.connections.reduce((acc, con) => { acc[con.type] = con; return acc }, {});
     delete data.connections;
 
@@ -119,7 +129,10 @@ class BusinessLink {
       await this.blcApi.delete({ ids: connectionsByAction['delete'] });
     }
 
-    businessLink.connections = await Promise.all(connectionsByAction['update'].map(con => this.updateConnection(con.id, connectionsByType[con.type])));
+    businessLink.connections = await Promise.all(connectionsByAction['update'].map(con => {
+      connectionsByType[con.type].changedBy = userData.id;
+      return this.updateConnection(con.id, connectionsByType[con.type])
+    }));
 
 
     // Create connections that are not available
