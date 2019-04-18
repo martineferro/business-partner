@@ -277,7 +277,10 @@ class Form extends Components.ContextComponent {
           ></input>
         )
       }),
-      id: this.renderField({ fieldName: 'id' }),
+      id: this.renderField({
+        fieldName: 'id',
+        disabled: !this.formAction.isCreate()
+      }),
       parentId: this.renderField({
         fieldName: 'parentId',
         component: (

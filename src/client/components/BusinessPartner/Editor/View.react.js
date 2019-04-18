@@ -30,6 +30,7 @@ export default class View extends Component {
     return (
       <div className="form-horizontal">
         { this.renderField({ fieldName: 'name' }) }
+        { this.renderField({ fieldName: 'id' }) }
         { this.renderField({ fieldName: 'homePage' }) }
         { this.renderField({ fieldName: 'foundedOn' }) }
         { this.renderField({ fieldName: 'legalForm' }) }

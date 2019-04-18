@@ -16,10 +16,13 @@ class FormAction {
     return this.action === FormAction.REGISTER;
   }
 
-  fieldsForAdmin() {
-    if (this.action === FormAction.CREATE) return ['managed', 'isSupplier', 'isCustomer', 'id'];
+  isCreate() {
+    return this.action === FormAction.CREATE;
+  }
 
-    if (this.action === FormAction.UPDATE) return ['managed', 'isSupplier', 'isCustomer'];
+  fieldsForAdmin() {
+    if ([FormAction.CREATE, FormAction.UPDATE].includes(this.action))
+      return ['managed', 'isSupplier', 'isCustomer'];
 
     return [];
   }
@@ -29,9 +32,9 @@ class FormAction {
       case FormAction.CREATE:
       case FormAction.UPDATE:
         return [
-          'parentId', 'entityCode', 'name', 'homePage', 'foundedOn', 'legalForm', 'cityOfRegistration',
-          'countryOfRegistration', 'currencyId', 'commercialRegisterNo', 'taxIdentificationNo',
-          'vatIdentificationNo', 'noVatReason'
+          'id', 'parentId', 'entityCode', 'name', 'homePage', 'foundedOn', 'legalForm',
+          'cityOfRegistration', 'countryOfRegistration', 'currencyId', 'commercialRegisterNo',
+          'taxIdentificationNo', 'vatIdentificationNo', 'noVatReason'
         ];
       case FormAction.REGISTER:
         return [
@@ -44,9 +47,8 @@ class FormAction {
   }
 
   fieldsForIdentifiers() {
-    if ([FormAction.CREATE, FormAction.UPDATE].includes(this.action)) {
+    if ([FormAction.CREATE, FormAction.UPDATE].includes(this.action))
       return ['globalLocationNo', 'dunsNo', 'ovtNo'];
-    }
 
     if (this.action === FormAction.REGISTER) return ['globalLocationNo', 'dunsNo', 'ovtNo', 'iban'];
 
