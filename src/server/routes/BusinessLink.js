@@ -141,6 +141,8 @@ class BusinessLink {
       for (const typ of Object.keys(connectionsByType)) {
         if (availableTypes.includes(typ)) continue;
 
+        connectionsByType[typ].createdBy = userData.id;
+        connectionsByType[typ].changedBy = userData.id;
         const connection = await this.createConnection(businessLink.id, connectionsByType[typ]);
         businessLink.connections.push(connection);
       }

@@ -9,10 +9,12 @@ class BusinessPartner {
     this.tableName = this.model.tableName;
     this.capabilityTableName = db.models.BusinessPartnerCapability.tableName;
 
-    this.model.hasMany(db.models.BusinessPartnerContact, { foreignKey: 'businessPartnerId', sourceKey: 'id' });
-    this.model.hasMany(db.models.BusinessPartnerAddress, { foreignKey: 'businessPartnerId', sourceKey: 'id' });
-    this.model.hasMany(db.models.BusinessPartnerBankAccount, { foreignKey: 'businessPartnerId', sourceKey: 'id' });
-    this.model.hasMany(db.models.BusinessPartnerCapability, { foreignKey: 'businessPartnerId', sourceKey: 'id' });
+    const options = { foreignKey: 'businessPartnerId', sourceKey: 'id' };
+
+    this.model.hasMany(db.models.BusinessPartnerContact, { as: 'contacts', ...options });
+    this.model.hasMany(db.models.BusinessPartnerAddress, { as: 'addresses', ...options });
+    this.model.hasMany(db.models.BusinessPartnerBankAccount, { as: 'bankAccounts', ...options });
+    this.model.hasMany(db.models.BusinessPartnerCapability, { as: 'capabilities', ...options });
 
     this.associations = {
       contacts: db.models.BusinessPartnerContact,
@@ -37,7 +39,7 @@ class BusinessPartner {
 
     const businessPartners = await this.model.findAll({ where: queryObj, include: includeModels });
 
-    return businessPartners.map(bp => businessPartnerWithAssociations(bp));
+    return businessPartners.map(businessPartner => businessPartner && businessPartner.dataValues);
   }
 
   searchAll(searchQuery, capabilities) {
@@ -72,7 +74,7 @@ class BusinessPartner {
 
     const businessPartner = await this.model.findOne({ where: { id: id }, include: includeModels });
 
-    return businessPartnerWithAssociations(businessPartner);
+    return businessPartner && businessPartner.dataValues;
   }
 
   async findMother(businessPartnerId) {
@@ -192,8 +194,8 @@ class BusinessPartner {
   associationsFromIncludes(includes) {
     let includeModels = [];
 
-    for (const association of includes) {
-      if (this.associations[association]) includeModels.push(this.associations[association]);
+    for (const asn of includes) {
+      if (this.associations[asn]) includeModels.push({ model: this.associations[asn], as: asn });
     }
 
     return includeModels;
@@ -218,23 +220,6 @@ class BusinessPartner {
     return false;
   }
 };
-
-let businessPartnerWithAssociations = function(businessPartner)
-{
-  if (!businessPartner) return businessPartner;
-
-  businessPartner.dataValues.contacts = businessPartner.BusinessPartnerContacts;
-  businessPartner.dataValues.addresses = businessPartner.BusinessPartnerAddresses;
-  businessPartner.dataValues.bankAccounts = businessPartner.BusinessPartnerBankAccounts;
-  businessPartner.dataValues.capabilities = businessPartner.BusinessPartnerCapabilities;
-
-  delete businessPartner.dataValues.BusinessPartnerContacts;
-  delete businessPartner.dataValues.BusinessPartnerAddresses;
-  delete businessPartner.dataValues.BusinessPartnerBankAccounts;
-  delete businessPartner.dataValues.BusinessPartnerCapabilities;
-
-  return businessPartner.dataValues;
-}
 
 let normalize = function(businessPartner)
 {
@@ -261,7 +246,7 @@ let aggregateSearch = function(businessPartners)
   const businessPartnersById = businessPartners.reduce((accumulator, businessPartner) => {
     const object = businessPartner.dataValues;
     if (!accumulator[object.id]) {
-      accumulator[object.id] = JSON.parse(JSON.stringify(object));
+      accumulator[object.id] = { ...object };
       accumulator[object.id].capabilities = [];
       delete accumulator[object.id].capabilityId;
     }

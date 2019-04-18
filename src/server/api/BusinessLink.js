@@ -20,7 +20,10 @@ class BusinessLink {
   }
 
   update(id, businessLink) {
-    ['id', 'supplierId', 'customerId', 'createdOn', 'changedOn', 'createdBy'].forEach(key => delete businessLink[key]);
+    [
+      'id', 'supplierId', 'customerId', 'supplier',
+      'customer', 'createdOn', 'changedOn', 'createdBy'
+    ].forEach(key => delete businessLink[key]);
 
     normalize(businessLink);
     return this.model.update(businessLink, { where: { id: id } }).then(() => this.find(id));
@@ -47,7 +50,7 @@ class BusinessLink {
     if (includes.length > 0) this.addIncludes(includes, modelIncludes);
 
     return this.model.findOne({ where: { id: businessLinkId }, include: modelIncludes }).then(businessLink => {
-      return businessLink.dataValues;
+      return businessLink && businessLink.dataValues;
     });
   }
 

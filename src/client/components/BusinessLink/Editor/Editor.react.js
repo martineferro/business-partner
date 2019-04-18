@@ -31,8 +31,12 @@ export default class Editor extends Components.ContextComponent {
       return;
     }
 
+    this.loadBusinessLink(this.props.businessLinkId);
+  }
+
+  async loadBusinessLink(businessLinkId) {
     try {
-      const businessLinks = await this.api.all({ id: this.props.businessLinkId, include: 'supplier,customer' });
+      const businessLinks = await this.api.all({ id: businessLinkId, include: 'supplier,customer' });
 
       if (!businessLinks[0]) return;
 
@@ -67,7 +71,7 @@ export default class Editor extends Components.ContextComponent {
 
       this.notify(this.context.i18n.getMessage(`BusinessLink.Message.Success.${this.state.mode}d`), 'info');
 
-      this.setState({ businessLink: changedBusinessLink, mode: 'update' })
+      await this.loadBusinessLink(changedBusinessLink.id);
 
       if (this.props.onCreateOrUpdate) this.props.onCreateOrUpdate({ id: changedBusinessLink.id });
     } catch(error) {
