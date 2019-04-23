@@ -19,9 +19,6 @@ import Connections from '../src/client/components/BusinessLink/Connections';
 import BusinessLinkList from '../src/client/components/BusinessLink/List';
 import BusinessLinkEditor from '../src/client/components/BusinessLink/Editor';
 
-const username = 'john.doe@ncc.com';
-const userRoles = ['supplier-admin', 'user'];
-
 const supplierId = 'hard001';
 const customerId = 'ncc';
 
