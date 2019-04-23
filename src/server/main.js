@@ -1,5 +1,6 @@
 const server = require('@opuscapita/web-init'); // Web server
 const dbInit = require('@opuscapita/db-init'); // Database
+const Logger = require('ocbesbn-logger');
 
 // Basic database and web server initialization.
 // See database : https://github.com/OpusCapita/db-init
@@ -7,6 +8,7 @@ const dbInit = require('@opuscapita/db-init'); // Database
 async function init()
 {
   const db = await dbInit.init();
+  const logger = new Logger();
 
   await server.init({
     server : {
