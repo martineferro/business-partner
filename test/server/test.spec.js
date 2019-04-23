@@ -5,6 +5,8 @@ const init = require('../../src/server/main');
 
 const waitForService = serviceName => config.getEndPoint(serviceName).catch(e => waitForService(serviceName));
 
+return;
+
 describe('Server', () =>
 {
   let url;
