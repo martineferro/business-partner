@@ -37,6 +37,7 @@
     "validate.js": "^0.11.1"
   },
   "devDependencies": {
+    "@opuscapita/config": "^3.0.16",
     "@opuscapita/service-base-ui": "^1.1.113",
     "babel-core": "6.26.3",
     "babel-eslint": "7.2.3",

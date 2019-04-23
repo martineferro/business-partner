@@ -5,9 +5,9 @@ const Logger = require('ocbesbn-logger');
 // Basic database and web server initialization.
 // See database : https://github.com/OpusCapita/db-init
 // See web server: https://github.com/OpusCapita/web-init
-async function init()
+async function init(config)
 {
-  const db = await dbInit.init();
+  const db = await dbInit.init(config && config.db);
   const logger = new Logger();
 
   await server.init({
