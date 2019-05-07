@@ -1,59 +1,58 @@
 displayName: BusinessPartners
 description: Work with `BusinessPartner` objects.
-/api/business-partners
-    get:
-        description: List of `BusinessPartner` objects.
-        queryParameters:
-            name:
-                type: string
-                required: false
-                description: Limit the output to the businessParters with name contained in passed name.
-                example: name=hardware
-            id:
-                type: string
-                required: false
-                description: Limits the output to the passed businessPartner ids.
-                example: id=admin,foo,bar
-            include:
-                type: string
-                required: false
-                description: Additional, comma separated businessPartner associations to include. Existing associations are `addresses`, `contacts`, `bankAccounts`, and `capabilities`.
-                example: include=addresses,contacts
-            vatIdentificationNo:
-                type: string
-                required: false
-                description: Limit output to given VAT ID.
-                example: vatIdentificationNo=DE136752020
-            globalLocationNo:
-                type: string
-                required: false
-                description: Limit output to given global location number.
-                example: globalLocationNo=1245678976543
-            electronicAddress:
-                type: string
-                required: false
-                description: Limit output to given electronic address according to ISO6523 codes. See https://www.galaxygw.com/iso6523/
-                example: electronicAddress=9930:DE136752020
-        responses:
-            200:
-                body:
-                    application/json:
-                        type: BusinessPartnerArray
-    post:
-        description: Adds a new business partner.
-        body:
-            application/json:
-                type: BusinessPartnerNew
-        responses:
-            200:
-                body:
-                    application/json:
-                        type: BusinessPartner
-            409:
-                description:
-                    A business partner with the same id but different set of properties already exists.
+get:
+    description: List of `BusinessPartner` objects.
+    queryParameters:
+        name:
+            type: string
+            required: false
+            description: Limit the output to the businessParters with name contained in passed name.
+            example: name=hardware
+        id:
+            type: string
+            required: false
+            description: Limits the output to the passed businessPartner ids.
+            example: id=admin,foo,bar
+        include:
+            type: string
+            required: false
+            description: Additional, comma separated businessPartner associations to include. Existing associations are `addresses`, `contacts`, `bankAccounts`, and `capabilities`.
+            example: include=addresses,contacts
+        vatIdentificationNo:
+            type: string
+            required: false
+            description: Limit output to given VAT ID.
+            example: vatIdentificationNo=DE136752020
+        globalLocationNo:
+            type: string
+            required: false
+            description: Limit output to given global location number.
+            example: globalLocationNo=1245678976543
+        electronicAddress:
+            type: string
+            required: false
+            description: Limit output to given electronic address according to ISO6523 codes. See https://www.galaxygw.com/iso6523/
+            example: electronicAddress=9930:DE136752020
+    responses:
+        200:
+            body:
+                application/json:
+                    type: BusinessPartnerArray
+post:
+    description: Adds a new business partner.
+    body:
+        application/json:
+            type: BusinessPartnerNew
+    responses:
+        200:
+            body:
+                application/json:
+                    type: BusinessPartner
+        409:
+            description:
+                A business partner with the same id but different set of properties already exists.
 
-/api/business-partners/{id}:
+{id}:
     uriParameters:
         id:
             type: string
@@ -99,7 +98,7 @@ description: Work with `BusinessPartner` objects.
                 description: Operation is not authorized
 
 
-/api/business-partners/{businessPartnerId}/addresses:
+{businessPartnerId}/addresses:
     uriParameters:
         businessPartnerId:
             type: string
@@ -126,7 +125,7 @@ description: Work with `BusinessPartner` objects.
             422:
                 description: Inconsistent data
 
-/api/business-partners/{businessPartnerId}/addresses/{addressId}:
+{businessPartnerId}/addresses/{addressId}:
     uriParameters:
         businessPartnerId:
             type: string
@@ -170,7 +169,7 @@ description: Work with `BusinessPartner` objects.
                 description: Inconsistent data
 
 
-/api/business-partners/{businessPartnerId}/bank-accounts:
+{businessPartnerId}/bank-accounts:
     uriParameters:
         businessPartnerId:
             type: string
@@ -197,7 +196,7 @@ description: Work with `BusinessPartner` objects.
             422:
                 description: Inconsistent data
 
-/api/business-partners/{businessPartnerId}/bank-accounts/{bankAccountId}:
+{businessPartnerId}/bank-accounts/{bankAccountId}:
     uriParameters:
         businessPartnerId:
             type: string
@@ -241,7 +240,7 @@ description: Work with `BusinessPartner` objects.
                 description: Inconsistent data
 
 
-/api/business-partners/{businessPartnerId}/contacts:
+{businessPartnerId}/contacts:
     uriParameters:
         businessPartnerId:
             type: string
@@ -268,7 +267,7 @@ description: Work with `BusinessPartner` objects.
             422:
                 description: Inconsistent data
 
-/api/business-partners/{businessPartnerId}/contacts/{bankAccountId}:
+{businessPartnerId}/contacts/{bankAccountId}:
     uriParameters:
         businessPartnerId:
             type: string
@@ -312,7 +311,7 @@ description: Work with `BusinessPartner` objects.
                 description: Inconsistent data
 
 
-/api/business-partners/{businessPartnerId}/organization
+{businessPartnerId}/organization
     uriParameters:
         businessPartnerId:
             type: string
@@ -325,7 +324,7 @@ description: Work with `BusinessPartner` objects.
                     application/json:
                         type: BusinessPartnerArray
 
-/business-partners/{businessPartnerId}/parents
+{businessPartnerId}/parents
     uriParameters:
         businessPartnerId:
             type: string
@@ -338,7 +337,7 @@ description: Work with `BusinessPartner` objects.
                     application/json:
                         type: BusinessPartnerArray
 
-/api/business-partners/{businessPartnerId}/children
+{businessPartnerId}/children
     uriParameters:
         businessPartnerId:
             type: string
@@ -352,7 +351,7 @@ description: Work with `BusinessPartner` objects.
                         type: BusinessPartnerArray
 
 
-/api/business-partners/{businessPartnerId}/capabilities/{capabilityId}
+{businessPartnerId}/capabilities/{capabilityId}
     uriParameters:
         businessPartnerId:
             type: string
