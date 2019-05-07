@@ -1,6 +1,6 @@
 displayName: BusinessLink
 description: Business link is the relation between supplier and customer business partners.
-/business-links
+/api/business-links
     get:
         description: Get all business links.
         responses:
@@ -19,7 +19,7 @@ description: Business link is the relation between supplier and customer busines
                     application/json:
                         type: BusinessLink
 
-/suppliers/{supplierId}/business-links:
+/api/suppliers/{supplierId}/business-links:
     uriParameters:
         supplierId:
             type: string
@@ -44,7 +44,7 @@ description: Business link is the relation between supplier and customer busines
                     application/json:
                         type: BusinessLink
 
-/customers/{customerId}/business-links:
+/api/customers/{customerId}/business-links:
     uriParameters:
         customerId:
             type: string
@@ -57,7 +57,7 @@ description: Business link is the relation between supplier and customer busines
                     application/json:
                         type: BusinessLinkArray
 
-/suppliers/{supplierId}/customers/{customerId}/business-links:
+/api/suppliers/{supplierId}/customers/{customerId}/business-links:
     uriParameters:
         customerId:
             type: string
@@ -70,7 +70,7 @@ description: Business link is the relation between supplier and customer busines
                     application/json:
                         type: BusinessLinkArray
 
-/suppliers/{supplierId}/business-link-connections/{connectionId}:
+/api/suppliers/{supplierId}/business-link-connections/{connectionId}:
     uriParameters:
         supplierId:
             type: string
@@ -93,7 +93,7 @@ description: Business link is the relation between supplier and customer busines
                     application/json:
                         type: BusinessLinkConnection
 
-/customers/{customerId}/business-link-connections/{connectionId}:
+/api/customers/{customerId}/business-link-connections/{connectionId}:
     uriParameters:
         customerId:
             type: string

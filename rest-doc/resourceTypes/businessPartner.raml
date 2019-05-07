@@ -1,6 +1,6 @@
 displayName: BusinessPartners
 description: Work with `BusinessPartner` objects.
-/business-partners
+/api/business-partners
     get:
         description: List of `BusinessPartner` objects.
         queryParameters:
@@ -53,7 +53,7 @@ description: Work with `BusinessPartner` objects.
                 description:
                     A business partner with the same id but different set of properties already exists.
 
-/business-partners/{id}:
+/api/business-partners/{id}:
     uriParameters:
         id:
             type: string
@@ -99,7 +99,7 @@ description: Work with `BusinessPartner` objects.
                 description: Operation is not authorized
 
 
-/business-partners/{businessPartnerId}/addresses:
+/api/business-partners/{businessPartnerId}/addresses:
     uriParameters:
         businessPartnerId:
             type: string
@@ -126,7 +126,7 @@ description: Work with `BusinessPartner` objects.
             422:
                 description: Inconsistent data
 
-/business-partners/{businessPartnerId}/addresses/{addressId}:
+/api/business-partners/{businessPartnerId}/addresses/{addressId}:
     uriParameters:
         businessPartnerId:
             type: string
@@ -170,7 +170,7 @@ description: Work with `BusinessPartner` objects.
                 description: Inconsistent data
 
 
-/business-partners/{businessPartnerId}/bank-accounts:
+/api/business-partners/{businessPartnerId}/bank-accounts:
     uriParameters:
         businessPartnerId:
             type: string
@@ -197,7 +197,7 @@ description: Work with `BusinessPartner` objects.
             422:
                 description: Inconsistent data
 
-/business-partners/{businessPartnerId}/bank-accounts/{bankAccountId}:
+/api/business-partners/{businessPartnerId}/bank-accounts/{bankAccountId}:
     uriParameters:
         businessPartnerId:
             type: string
@@ -241,7 +241,7 @@ description: Work with `BusinessPartner` objects.
                 description: Inconsistent data
 
 
-/business-partners/{businessPartnerId}/contacts:
+/api/business-partners/{businessPartnerId}/contacts:
     uriParameters:
         businessPartnerId:
             type: string
@@ -268,7 +268,7 @@ description: Work with `BusinessPartner` objects.
             422:
                 description: Inconsistent data
 
-/business-partners/{businessPartnerId}/contacts/{bankAccountId}:
+/api/business-partners/{businessPartnerId}/contacts/{bankAccountId}:
     uriParameters:
         businessPartnerId:
             type: string
@@ -312,7 +312,7 @@ description: Work with `BusinessPartner` objects.
                 description: Inconsistent data
 
 
-/business-partners/{businessPartnerId}/organization
+/api/business-partners/{businessPartnerId}/organization
     uriParameters:
         businessPartnerId:
             type: string
@@ -338,7 +338,7 @@ description: Work with `BusinessPartner` objects.
                     application/json:
                         type: BusinessPartnerArray
 
-/business-partners/{businessPartnerId}/children
+/api/business-partners/{businessPartnerId}/children
     uriParameters:
         businessPartnerId:
             type: string
@@ -352,7 +352,7 @@ description: Work with `BusinessPartner` objects.
                         type: BusinessPartnerArray
 
 
-/business-partners/{businessPartnerId}/capabilities/{capabilityId}
+/api/business-partners/{businessPartnerId}/capabilities/{capabilityId}
     uriParameters:
         businessPartnerId:
             type: string
