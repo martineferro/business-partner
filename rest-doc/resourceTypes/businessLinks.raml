@@ -3,6 +3,22 @@ description: Business link is the relation between supplier and customer busines
 /business-links:
     get:
         description: Get all business links.
+        queryParameters:
+            id:
+                type: string
+                required: false
+                description: Limits the output to the passed businessLink ids.
+                example: id=5,2,1
+            supplierIds:
+                type: string
+                required: false
+                description: Limits the output to the passed businessPartner supplier ids.
+                example: id=admin,foo,bar
+            include:
+                type: string
+                required: false
+                description: Include associated businessPartner supplier and/or customer records. It should be one of `supplier`  and `customer`.
+                example: include=supplier,customer
         responses:
             200:
                 body:
