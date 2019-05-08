@@ -52,7 +52,7 @@ post:
             description:
                 A business partner with the same id but different set of properties already exists.
 
-{id}:
+/{id}:
     uriParameters:
         id:
             type: string
@@ -98,7 +98,7 @@ post:
                 description: Operation is not authorized
 
 
-{businessPartnerId}/addresses:
+/{businessPartnerId}/addresses:
     uriParameters:
         businessPartnerId:
             type: string
@@ -125,7 +125,7 @@ post:
             422:
                 description: Inconsistent data
 
-{businessPartnerId}/addresses/{addressId}:
+/{businessPartnerId}/addresses/{addressId}:
     uriParameters:
         businessPartnerId:
             type: string
@@ -169,7 +169,7 @@ post:
                 description: Inconsistent data
 
 
-{businessPartnerId}/bank-accounts:
+/{businessPartnerId}/bank-accounts:
     uriParameters:
         businessPartnerId:
             type: string
@@ -196,7 +196,7 @@ post:
             422:
                 description: Inconsistent data
 
-{businessPartnerId}/bank-accounts/{bankAccountId}:
+/{businessPartnerId}/bank-accounts/{bankAccountId}:
     uriParameters:
         businessPartnerId:
             type: string
@@ -240,7 +240,7 @@ post:
                 description: Inconsistent data
 
 
-{businessPartnerId}/contacts:
+/{businessPartnerId}/contacts:
     uriParameters:
         businessPartnerId:
             type: string
@@ -267,7 +267,7 @@ post:
             422:
                 description: Inconsistent data
 
-{businessPartnerId}/contacts/{bankAccountId}:
+/{businessPartnerId}/contacts/{bankAccountId}:
     uriParameters:
         businessPartnerId:
             type: string
@@ -311,7 +311,7 @@ post:
                 description: Inconsistent data
 
 
-{businessPartnerId}/organization
+/{businessPartnerId}/organization
     uriParameters:
         businessPartnerId:
             type: string
@@ -324,7 +324,7 @@ post:
                     application/json:
                         type: BusinessPartnerArray
 
-{businessPartnerId}/parents
+/{businessPartnerId}/parents
     uriParameters:
         businessPartnerId:
             type: string
@@ -337,7 +337,7 @@ post:
                     application/json:
                         type: BusinessPartnerArray
 
-{businessPartnerId}/children
+/{businessPartnerId}/children
     uriParameters:
         businessPartnerId:
             type: string
@@ -351,7 +351,7 @@ post:
                         type: BusinessPartnerArray
 
 
-{businessPartnerId}/capabilities/{capabilityId}
+/{businessPartnerId}/capabilities/{capabilityId}
     uriParameters:
         businessPartnerId:
             type: string
