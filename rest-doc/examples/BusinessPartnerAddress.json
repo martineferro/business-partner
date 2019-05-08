@@ -1,6 +1,7 @@
 {
   "id":53,
   "businessPartnerId":"hard001",
+  "type": "default",
   "name":"Central Office",
   "areaCode":null,
   "street1":"BV Borussia 09 e.V.",
