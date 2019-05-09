@@ -40,6 +40,12 @@ description: Business link is the relation between supplier and customer busines
         supplierId:
             type: string
             description: Identifier of a supplier business partner.
+    queryParameters:
+            include:
+                type: string
+                required: false
+                description: Include associated businessPartner supplier and/or customer records. It should be one of `supplier`  and `customer`.
+                example: include=supplier,customer
     get:
         description: Get all business links for a supplier business partner.
         responses:
@@ -65,6 +71,12 @@ description: Business link is the relation between supplier and customer busines
         customerId:
             type: string
             description: Identifier of a customer business partner.
+    queryParameters:
+            include:
+                type: string
+                required: false
+                description: Include associated businessPartner supplier and/or customer records. It should be one of `supplier`  and `customer`.
+                example: include=supplier,customer
     get:
         description: Get all business links for a customer business partner.
         responses:
@@ -75,11 +87,20 @@ description: Business link is the relation between supplier and customer busines
 
 /suppliers/{supplierId}/customers/{customerId}/business-links:
     uriParameters:
+        supplierId:
+            type: string
+            description: Identifier of a supplier business partner.
         customerId:
             type: string
             description: Identifier of a customer business partner.
+    queryParameters:
+            include:
+                type: string
+                required: false
+                description: Include associated businessPartner supplier and/or customer records. It should be one of `supplier`  and `customer`.
+                example: include=supplier,customer
     get:
-        description: Get all business links for a customer business partner.
+        description: Get all business links for a supplier and customer business partner.
         responses:
             200:
                 body:
