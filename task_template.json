@@ -19,6 +19,10 @@
       "service-client/client-secret": "${SECRET_:env_OIDCCLIENT}",
       "mq/user": "${SECRET_:env_RABBITMQUSER}",
       "mq/password": "${SECRET_:env_RABBITMQPASS}"
-    }
+    },
+    "limit-cpu": "0.4",
+    "limit-memory": "300M",
+    "reserve-cpu": "0.2",
+    "reserve-memory": "50M"
   }
 }
