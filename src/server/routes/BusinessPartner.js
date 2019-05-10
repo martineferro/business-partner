@@ -313,6 +313,12 @@ let businessLinkQueryParam = function(businessPartner)
   return null;
 };
 
-let getIdentifier = { vat: 'vatIdentificationNo', gln: 'globalLocationNo', ovt: 'ovtNo' };
+let getIdentifier = {
+  vat: 'vatIdentificationNo',
+  gln: 'globalLocationNo',
+  ovt: 'ovtNo',
+  orgnr: 'commercialRegisterNo',
+  org: 'commercialRegisterNo'
+};
 
 module.exports = BusinessPartner;

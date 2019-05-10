@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@opuscapita/db-init": "^2.0.24",
-    "@opuscapita/electronic-address": "^0.0.2",
+    "@opuscapita/electronic-address": "^0.0.4",
     "@opuscapita/field-validators": "^0.1.8",
     "@opuscapita/react-dates": "^0.2.16",
     "@opuscapita/react-loaders": "^0.1.9",

@@ -29,6 +29,7 @@ class BusinessPartner {
     if (query.id) queryObj.id = { $in: query.id.split(',') };
     if (query.name) queryObj.name = { $like: `%${query.name}%` };
     if (query.hierarchyId) queryObj['$or'] = hierarchyQuery(query.hierarchyId);
+    if (query.commercialRegisterNo) queryObj.commercialRegisterNo = query.commercialRegisterNo;
     if (query.vatIdentificationNo) queryObj.vatIdentificationNo = query.vatIdentificationNo;
     if (query.globalLocationNo) queryObj.globalLocationNo = query.globalLocationNo;
     if (query.ovtNo) queryObj.ovtNo = query.ovtNo;
