@@ -92,6 +92,7 @@
     "BusinessPartner.Messages.companyRegisterNumber.no": "For Norway, it refers to the Organization Number. E.g. 973861913 or 973 861 913",
     "BusinessPartner.Messages.companyRegisterNumber.pl": "For Poland, it refers to the Polish register of economic units number. E.g. 192598184",
     "BusinessPartner.Messages.companyRegisterNumber.fr": "For France, it refers to the Company Identification Number. E.g. 306895939 or 306 895 939",
+    "BusinessPartner.Messages.companyRegisterNumber.dk": "For Denmark, it refers to the Central Business Register Number (CVR). E.g. 37052485",
     "BusinessPartner.Messages.companyRegisterNumber.helpText": "Commercial register number of the company you registering.",
     "BusinessPartner.Messages.cityOfRegistration.helpText": "The city where the company you are registering has its headquarters.",
     "BusinessPartner.Messages.countryOfRegistration.helpText": "The country in which the company you are registering has its headquarters.",

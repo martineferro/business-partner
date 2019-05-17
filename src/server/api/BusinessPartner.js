@@ -32,6 +32,7 @@ class BusinessPartner {
     if (query.commercialRegisterNo) queryObj.commercialRegisterNo = query.commercialRegisterNo;
     if (query.vatIdentificationNo) queryObj.vatIdentificationNo = query.vatIdentificationNo;
     if (query.globalLocationNo) queryObj.globalLocationNo = query.globalLocationNo;
+    if (query.dunsNo) queryObj.dunsNo = query.dunsNo;
     if (query.ovtNo) queryObj.ovtNo = query.ovtNo;
     if (query.isCustomer) queryObj.isCustomer = Boolean(query.isCustomer);
     if (query.isSupplier) queryObj.isSupplier = Boolean(query.isSupplier);

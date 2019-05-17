@@ -11,6 +11,7 @@ module.exports.comRegTooltiptext = function(i18n) {
       <li>${i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.us')}</li>
       <li>${i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.pl')}</li>
       <li>${i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.fr')}</li>
+      <li>${i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.dk')}</li>
     </ul>`
   );
 };

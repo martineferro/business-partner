@@ -318,7 +318,7 @@ let getIdentifier = {
   gln: 'globalLocationNo',
   ovt: 'ovtNo',
   orgnr: 'commercialRegisterNo',
-  org: 'commercialRegisterNo'
+  duns: 'dunsNo'
 };
 
 module.exports = BusinessPartner;
