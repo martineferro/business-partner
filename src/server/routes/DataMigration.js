@@ -54,6 +54,8 @@ class DataMigration {
           return this.db.models.BusinessLinkConnection.findOrCreate({ where: attributes, defaults: otherAttributes }).spread((conn, created) => conn);
         }));
       }
+
+      return res.json({ message: 'Migration complete' });
     } catch(error) {
       return res.status('404').json({ message : error.message });
     }
