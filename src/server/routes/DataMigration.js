@@ -17,7 +17,7 @@ class DataMigration {
       const [suppliers, customers, businessLinks] = await Promise.all([
         serviceClient.get('supplier', '/api/suppliers').spread(sups => sups),
         serviceClient.get('customer', '/api/customers').spread(cus => cus),
-        serviceClient.get('business-link', '/api/business-links').spread(blks => blks),
+        serviceClient.get('business-link', '/api/business-links').spread(blks => blks)
       ]);
 
       let businessPartners = suppliers.map(supplier => {
