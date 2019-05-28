@@ -108,6 +108,13 @@ services:
       SERVICE_3026_CHECK_HTTP: /api/health/check
       SERVICE_3026_CHECK_INTERVAL: 15s
       SERVICE_3026_CHECK_TIMEOUT: 3s
+      REP_FTP_USER: ${REP_FTP_USER}
+      REP_FTP_HOST: ${REP_FTP_HOST}
+      REP_FTP_PASSWORD: ${REP_FTP_PASSWORD}
+      REP_FTP_PORT: ${REP_FTP_PORT}
+      REP_FTP_FOLDER: ${REP_FTP_FOLDER}
+      REP_FTP_ENV: ${REP_FTP_ENV}
+      REP_PROV_URL: ${REP_PROV_URL}
     ports:
       - '3026:3026'
     command: 'npm run dev'

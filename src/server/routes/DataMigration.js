@@ -61,3 +61,5 @@ class DataMigration {
     }
   }
 };
+
+module.exports = DataMigration;
