@@ -41,7 +41,7 @@ class BusinessPartner {
 
     const businessPartners = await this.model.findAll({ where: queryObj, include: includeModels });
 
-    return businessPartners.map(businessPartner => businessPartner && businessPartner.dataValues);
+    return businessPartners.map(businessPartner => dataHash(businessPartner && businessPartner.dataValues));
   }
 
   searchAll(searchQuery, capabilities) {
@@ -76,7 +76,7 @@ class BusinessPartner {
 
     const businessPartner = await this.model.findOne({ where: { id: id }, include: includeModels });
 
-    return businessPartner && businessPartner.dataValues;
+    return dataHash(businessPartner && businessPartner.dataValues);
   }
 
   async findMother(businessPartnerId) {
@@ -111,7 +111,7 @@ class BusinessPartner {
 
     return generateId(businessPartnerId).then(id => {
       businessPartner.id = id;
-      return this.model.create(businessPartner);
+      return this.model.create(businessPartner).then(bp => dataHash(bp && bp.dataValues));
     });
   }
 
@@ -186,7 +186,7 @@ class BusinessPartner {
       }
     }
 
-    return this.model.findOne({ where: dbQuery });
+    return this.model.findOne({ where: dbQuery }).then(bp => dataHash(bp && bp.dataValues));
   }
 
   recordExists(businessPartner) {
@@ -231,7 +231,10 @@ let normalize = function(businessPartner)
   for (const fieldName of ['name', 'commercialRegisterNo', 'cityOfRegistration', 'taxIdentificationNo']) {
     if (businessPartner[fieldName]) businessPartner[fieldName] = businessPartner[fieldName].trim();
   }
-}
+
+  if (businessPartner.subEntityCode) businessPartner.entityCode = businessPartner.subEntityCode; // Put here for backward compatibility. Should be removed later
+  if (businessPartner.status) businessPartner.statusId = businessPartner.status; // Put here for backward compatibility. Should be removed later
+};
 
 let hierarchyQuery = function(hierarchyId)
 {
@@ -241,7 +244,7 @@ let hierarchyQuery = function(hierarchyId)
     { hierarchyId: { $like: `%|${hierarchyId}|%` } },
     { hierarchyId: { $eq: hierarchyId } }
   ];
-}
+};
 
 let aggregateSearch = function(businessPartners)
 {
@@ -258,7 +261,7 @@ let aggregateSearch = function(businessPartners)
   }, {});
 
   return Object.values(businessPartnersById);
-}
+};
 
 let determineWhere = function(searchValue, matchQuery, typeQuery, capabilityQuery)
 {
@@ -287,7 +290,7 @@ let hierarchyIdFromParent = function(parentId, parentHierarchyId)
   if (!parentHierarchyId) return parentId;
 
   return [parentHierarchyId, parentId].join('|');
-}
+};
 
 let hierarchyIdForChild = function(businessPartnerId, hierarchyId, childHierarchyId)
 {
@@ -297,13 +300,23 @@ let hierarchyIdForChild = function(businessPartnerId, hierarchyId, childHierarch
   if (!hierarchyId) return slicedChildHierarchyId;
 
   return [hierarchyId, slicedChildHierarchyId].join('|');
-}
+};
 
 let extractIdFromName = function(name)
 {
   if (!name) return null;
 
   return name.replace(/^[0-9\W]+|[^0-9a-z-_]/gi, '').slice(0, 27);
-}
+};
+
+let dataHash = function(businessPartner)
+{
+  if (!businessPartner) return businessPartner;
+
+  businessPartner.subEntityCode = businessPartner.entityCode; // Put here for backward compatibility. Should be removed later
+  businessPartner.status = businessPartner.statusId; // Put here for backward compatibility. Should be removed later
+
+  return businessPartner;
+};
 
 module.exports = BusinessPartner;
