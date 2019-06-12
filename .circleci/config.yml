@@ -20,12 +20,12 @@ jobs:
       - run:
           name: "building and testing locally"
           command: "node ../buildprocess/bp_localbuild.js opuscapita/$CIRCLE_PROJECT_REPONAME"
+          no_output_timeout: 30m
       - store_test_results:
           path: "junit"
       - run:
           name: "Deployment"
           command: "node ../buildprocess/bp_deploy.js"
-          no_output_timeout: 30m
       - run:
           name: "After Deployment"
           command: "node ../buildprocess/bp_after_deployment.js"
