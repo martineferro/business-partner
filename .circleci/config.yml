@@ -25,6 +25,7 @@ jobs:
       - run:
           name: "Deployment"
           command: "node ../buildprocess/bp_deploy.js"
+          no_output_timeout: 30m
       - run:
           name: "After Deployment"
           command: "node ../buildprocess/bp_after_deployment.js"
