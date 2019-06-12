@@ -9,6 +9,7 @@ const BusinessPartnerAccess = require('./BusinessPartnerAccess');
 const BusinessPartnerProfileStrength = require('./BusinessPartnerProfileStrength');
 const BusinessLink = require('./BusinessLink');
 const DataMigration = require('./DataMigration');
+const staticFiles = require('./staticFiles');
 
 /**
  * Initializes all routes for RESTful access.
@@ -32,5 +33,5 @@ module.exports.init = async function(app, db, config)
   new BusinessPartnerProfileStrength(app, db).init();
   new BusinessLink(app, db).init();
   new DataMigration(app, db).init();
-
+  staticFiles.init(app);
 }
