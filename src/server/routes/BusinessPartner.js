@@ -93,6 +93,7 @@ class BusinessPartner {
       newBpartner.statusId = 'new';
       newBpartner.createdBy = userData.id;
       newBpartner.changedBy = userData.id;
+      if (businessType) newBpartner[businessType] = true;
 
       return this.api.create(newBpartner).then(businessPartner => {
           if (userData.hasAdminRole()) return res.status('200').json(businessPartner);
