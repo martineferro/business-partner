@@ -26,7 +26,10 @@ class BusinessPartner {
 
   async all(query, includes) {
     let queryObj = {};
-    if (query.id) queryObj.id = { $in: query.id.split(',') };
+    if (query.id) {
+      const ids = typeof query.id === 'string' ? query.id.split(',') : query.id;
+      queryObj.id = { $in: ids };
+    }
     if (query.name) queryObj.name = { $like: `%${query.name}%` };
     if (query.hierarchyId) queryObj['$or'] = hierarchyQuery(query.hierarchyId);
     if (query.commercialRegisterNo) queryObj.commercialRegisterNo = query.commercialRegisterNo;
