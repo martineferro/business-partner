@@ -7,32 +7,12 @@ class DataMigration {
   }
 
   init() {
-    this.app.get('/api/migrateData', (req, res) => this.migrate(req, res));
+    this.app.get('/api/migrateBusinessLinkData', (req, res) => this.migrate(req, res));
   }
 
   async migrate(req, res) {
-    const serviceClient = req.opuscapita.serviceClient;
-
     try {
-      const [suppliers, customers, businessLinks] = await Promise.all([
-        serviceClient.get('supplier', '/api/suppliers').spread(sups => sups),
-        serviceClient.get('customer', '/api/customers').spread(cus => cus),
-        serviceClient.get('business-link', '/api/business-links').spread(blks => blks)
-      ]);
-
-      let businessPartners = suppliers.map(supplier => {
-        const { subEntityCode, role, status, rejectionReason, ...busPartner } = supplier;
-
-        return { ...busPartner, statusId: status, entityCode: subEntityCode, isSupplier: true };
-      });
-
-      businessPartners.concat(customers.map(customer => {
-        const { subEntityCode, status, rejectionReason, ...busPartner } = customer;
-
-        return { ...busPartner, statusId: status, entityCode: subEntityCode, isCustomer: true };
-      }));
-
-      await this.db.models.BusinessPartner.bulkCreate(businessPartners, { ignoreDuplicates: true });
+      const businessLinks = await req.opuscapita.serviceClient.get('business-link', '/api/business-links').spread(blks => blks);
 
       const userData = new UserData(req);
       for (let bl of businessLinks) {
