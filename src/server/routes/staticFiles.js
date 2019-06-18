@@ -26,8 +26,8 @@ let getFile = function(req, res, next) {
 };
 
 let determineFileName = function(name) {
-  if (name === 'information-bundle.js') return 'business-partner-editor-bundle.js';
-  if (name === 'registration-bundle.js') return 'business-partner-registrator-bundle.js';
+  if (name === 'information-bundle.js') return 'supplier-information-bundle.js';
+  if (name === 'registration-bundle.js') return 'supplier-registration-bundle.js';
   if (name === 'creation-bundle.js') return 'business-partner-creator-bundle.js';
   if (name === 'organization-bundle.js') return 'business-partner-organization-bundle.js';
   if (name === 'profile_strength-bundle.js') return 'business-partner-profile-strength-bundle.js';
@@ -36,9 +36,9 @@ let determineFileName = function(name) {
   if (['contact-bundle.js', 'contacts-bundle.js'].includes(name)) return 'business-partner-contact-bundle.js';
   if (name === 'autocomplete-bundle.js') return 'business-partner-autocomplete-bundle.js';
   if (name === 'list-bundle.js') return 'business-partner-list-bundle.js';
-  if (name === 'directory-bundle.js') return 'business-partner-directory-bundle.js';
-  if (name === 'access_approval-bundle.js') return 'business-partner-access-approval-bundle.js';
-  if (name === 'visibility-bundle.js') return 'business-partner-visibility-bundle.js';
+  if (name === 'directory-bundle.js') return 'supplier-directory-bundle.js';
+  if (name === 'access_approval-bundle.js') return 'supplier-access_approval-bundle.js';
+  if (name === 'visibility-bundle.js') return 'supplier-visibility-bundle.js';
   if (name === 'overview-bundle.js') return 'business-link-overview-bundle.js';
   if (name === 'widget-bundle.js') return 'business-link-widget-bundle.js';
   if (name === 'connections-bundle.js') return 'business-link-connections-bundle.js';
