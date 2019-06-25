@@ -36,6 +36,8 @@ class BusinessLink {
     if (query.customerId) dbQuery.customerId = query.customerId;
     if (query.supplierIds) dbQuery.supplierId = { $in: query.supplierIds.split(',') };
     if (query.id) dbQuery.id = { $in: query.id.split(',') };
+    if (query.businessPartnerId)
+      dbQuery['$or'] = [{ customerId: query.businessPartnerId }, { supplierId: query.businessPartnerId }];
 
     let modelIncludes = this.determineInclude(query);
 
@@ -58,8 +60,8 @@ class BusinessLink {
     return this.model.findOne({ where: { id: id } }).then(businessLink => Boolean(businessLink));
   }
 
-  async delete(businesPartnerId) {
-    const query = { $or: [{ customerId: businesPartnerId }, { supplierId: businesPartnerId }] };
+  async delete(businessPartnerId) {
+    const query = { $or: [{ customerId: businessPartnerId }, { supplierId: businessPartnerId }] };
     const businessLinks = await this.model.findAll({ where: query });
 
     if (businessLinks.length === 0) return;

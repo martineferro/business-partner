@@ -11,6 +11,11 @@ class BusinessLink extends ApiBase {
       then(response => response.body);
   }
 
+  allForBusinessPartnerId(businessPartnerId, queryParams = {}) {
+    return this.ajax.get(`${this.urlPath}/business-partners/${businessPartnerId}/business-links`).
+    set('Accept', 'application/json').query(queryParams).then(response => response.body);
+  }
+
   allForSupplierId(supplierId, queryParams = {}) {
     return this.ajax.get(`${this.urlPath}/suppliers/${supplierId}/business-links`).
     set('Accept', 'application/json').query(queryParams).then(response => response.body);

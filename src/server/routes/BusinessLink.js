@@ -13,6 +13,7 @@ class BusinessLink {
     this.app.get('/api/business-links', (req, res) => this.index(req, res));
     this.app.post('/api/business-links', (req, res) => this.create(req, res));
     this.app.put('/api/business-links/:id', (req, res) => this.update(req, res));
+    this.app.get('/api/business-partners/:businessPartnerId/business-links', (req, res) => this.index(req, res));
     this.app.get('/api/suppliers/:supplierId/business-links', (req, res) => this.index(req, res));
     this.app.get('/api/suppliers/:supplierId/customers/:customerId/business-links', (req, res) => this.index(req, res));
     this.app.get('/api/customers/:customerId/business-links', (req, res) => this.index(req, res));
@@ -23,6 +24,7 @@ class BusinessLink {
 
   index(req, res) {
     let query = {};
+    if (req.params.businessPartnerId) query.businessPartnerId = req.params.businessPartnerId;
     if (req.params.supplierId) query.supplierId = req.params.supplierId;
     if (req.params.customerId) query.customerId = req.params.customerId;
     if (req.query.id) query.id = req.query.id;
