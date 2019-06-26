@@ -46,7 +46,7 @@ export default class Connections extends Components.ContextComponent {
     try {
       const businessPartner = await this.businessPartnerApi.find(this.props.businessPartnerId);
 
-      if (this.isNeitherSupplierNorCustomer(businessPartner)) {
+      if (this.noType(businessPartner)) {
         return await this.setState({ businessPartner, loading: false });
       }
 
@@ -92,7 +92,7 @@ export default class Connections extends Components.ContextComponent {
     if (this.context.showNotification) this.context.showNotification(message, type);
   }
 
-  isNeitherSupplierNorCustomer(businessPartner) {
+  noType(businessPartner) {
     return !businessPartner.isCustomer && !businessPartner.isSupplier;
   }
 
@@ -283,6 +283,9 @@ export default class Connections extends Components.ContextComponent {
           columns={columns}
           loading={this.state.loading}
           className="table text-center"
+          noDataText={
+            `${i18n.getMessage('BusinessPartner.Table.noDataText')} ${this.noType(this.state.businessPartner) ? i18n.getMessage('BusinessPartner.Error.noType') : ''}`
+          }
         />
         <Components.ModalDialog ref={node => this.statusModal = node} size='large'>
           {this.renderStatusModal()}

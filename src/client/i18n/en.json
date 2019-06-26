@@ -98,6 +98,7 @@
     "BusinessPartner.Messages.countryOfRegistration.helpText": "The country in which the company you are registering has its headquarters.",
     "BusinessPartner.Error.notUnique": "Value must be unique",
     "BusinessPartner.Error.notAuthorized": "You are not authorized to perform this action.",
+    "BusinessPartner.Error.noType": "This company is neither a supplier nor customer.",
     "BusinessPartner.AccessRequest.head": "You have requested access to the company {name}.",
     "BusinessPartner.AccessRequest.text": "Please reach out to our support at +49 231 99774525 or customerservice.de@opuscapita.com for further information.",
     "BusinessPartner.AccessRequest.Status.text": "Current status",
