@@ -14,7 +14,7 @@ class BusinessPartnerContact {
   }
 
   create(contact) {
-    [ 'id', 'createdOn', 'updatedOn' ].forEach(key => delete contact[key]);
+    [ 'id', 'createdOn', 'changedOn' ].forEach(key => delete contact[key]);
     return this.model.create(contact);
   }
 

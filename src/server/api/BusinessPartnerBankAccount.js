@@ -15,7 +15,7 @@ class BusinessPartnerBankAccount {
 
   create(bankAccount) {
     normalize(bankAccount);
-    [ 'id', 'createdOn', 'updatedOn' ].forEach(key => delete bankAccount[key]);
+    [ 'id', 'createdOn', 'changedOn' ].forEach(key => delete bankAccount[key]);
     return this.model.create(bankAccount);
   }
 

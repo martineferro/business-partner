@@ -12,7 +12,7 @@ class BusinessPartnerAddress {
   }
 
   create(address) {
-    [ 'id', 'createdOn', 'updatedOn' ].forEach(key => delete address[key]);
+    [ 'id', 'createdOn', 'changedOn' ].forEach(key => delete address[key]);
     return this.model.create(address);
   }
 

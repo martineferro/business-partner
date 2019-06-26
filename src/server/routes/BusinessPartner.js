@@ -78,7 +78,23 @@ class BusinessPartner {
   create(req, res, businessType) {
     const newBpartner = req.body;
     let userData = new UserData(req);
-    this.api.recordExists(newBpartner).then(exists => {
+
+    const fieldsToCheck = function(bPartner) {
+      return {
+        id: bPartner.id,
+        name: bPartner.name,
+        cityOfRegistration: bPartner.cityOfRegistration,
+        countryOfRegistration: bPartner.countryOfRegistration,
+        taxIdentificationNo: bPartner.taxIdentificationNo,
+        commercialRegisterNo: bPartner.commercialRegisterNo,
+        vatIdentificationNo: bPartner.vatIdentificationNo,
+        dunsNo: bPartner.dunsNo,
+        globalLocationNo: bPartner.globalLocationNo,
+        ovtNo: bPartner.ovtNo
+      };
+    };
+
+    this.api.recordExists(fieldsToCheck(newBpartner)).then(exists => {
       if (exists) return res.status('409').json({ message : 'A business partner already exists' });
 
       if (!userData.hasAdminRole()) {
