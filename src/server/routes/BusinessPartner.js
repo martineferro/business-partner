@@ -119,7 +119,12 @@ class BusinessPartner {
           if (businessType === CUSTOMER) return res.status('200').json(businessPartner);
 
           const businessPartnerId = businessPartner.id;
-          const user = { businessPartnerId: businessPartnerId, status: 'registered', roles: ['user', 'supplier-admin'] };
+          const user = {
+            supplierId: businessPartnerId,
+            businessPartnerId: businessPartnerId,
+            status: 'registered',
+            roles: ['user', 'supplier-admin']
+          };
 
           const userService = new User(req.opuscapita.serviceClient);
           return Promise.all([
