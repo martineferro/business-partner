@@ -18,10 +18,17 @@ class Registrator extends Components.ContextComponent {
 
   static propTypes = {
     businessPartner: PropTypes.object,
+    isSupplier: PropTypes.bool,
+    isCustomer: PropTypes.bool,
     onChange: React.PropTypes.func,
     onUpdate: React.PropTypes.func,
     onUnauthorized: React.PropTypes.func,
     onLogout: React.PropTypes.func
+  };
+
+  static defaultProps = {
+    isSupplier: true,
+    isCustomer: false
   };
 
   constructor(props) {
@@ -120,6 +127,8 @@ class Registrator extends Components.ContextComponent {
   handleRegister = newBusinessPartner => {
     if (!newBusinessPartner) return;
 
+    newBusinessPartner.isSupplier = this.props.isSupplier;
+    newBusinessPartner.isCustomer = this.props.isCustomer;
     return this.api.create(newBusinessPartner).then(createdBusinessPartner => {
       this.setState({ businessPartner: createdBusinessPartner });
 

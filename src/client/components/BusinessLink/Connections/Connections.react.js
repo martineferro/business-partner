@@ -46,6 +46,10 @@ export default class Connections extends Components.ContextComponent {
     try {
       const businessPartner = await this.businessPartnerApi.find(this.props.businessPartnerId);
 
+      if (this.isNeitherSupplierNorCustomer(businessPartner)) {
+        return await this.setState({ businessPartner, loading: false });
+      }
+
       this.bpModel = new BusinessPartnerModel(businessPartner);
       const bpType = stringHelper.capitalize(this.bpModel.type);
       const bpOthertype = this.bpModel.otherType;
@@ -86,6 +90,10 @@ export default class Connections extends Components.ContextComponent {
 
   notify(message, type) {
     if (this.context.showNotification) this.context.showNotification(message, type);
+  }
+
+  isNeitherSupplierNorCustomer(businessPartner) {
+    return !businessPartner.isCustomer && !businessPartner.isSupplier;
   }
 
   setup(connection) {
@@ -226,6 +234,8 @@ export default class Connections extends Components.ContextComponent {
   }
 
   render() {
+
+
     const { i18n } = this.context;
     const otherBusinessPartnerType = this.bpModel.otherType;
 
