@@ -1,3 +1,4 @@
+const Promise = require('bluebird');
 const BusinessPartnerApi = require('../api/BusinessPartner');
 const BusinessPartnerVisibilityApi = require('../api/BusinessPartnerVisibility');
 const BusinessPartnerBankAccountApi = require('../api/BusinessPartnerBankAccount');
@@ -98,7 +99,8 @@ class BusinessPartner {
       if (exists) return res.status('409').json({ message : 'A business partner already exists' });
 
       if (!userData.hasAdminRole()) {
-        if (userData.businessPartnerId) return res.status('403').json({ message : 'User already has a business partner' });
+        if (userData.businessPartnerId || userData.supplierId || userData.customerId)
+          return res.status('403').json({ message : 'User already has a business partner' });
 
         if (!this.api.hasUniqueIdentifier(newBpartner)) return res.status('400').json({ message: 'BusinessPartner must have a unique identifier' });
       }
