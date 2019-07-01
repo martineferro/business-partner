@@ -70,7 +70,7 @@ class BusinessLink {
 
     await this.blcModel.destroy({ where: { businessLinkId: { $in: businessLinkIds } } });
 
-    return this.model.destroy({ where: { id: { $in: ids } } }).then(() => null);
+    return this.model.destroy({ where: { id: { $in: businessLinkIds } } }).then(() => null);
   }
 
   determineInclude(query = {}) {
