@@ -9,7 +9,11 @@ export default class List extends Component  {
   constructor(props) {
     super(props);
     this.state = {
-      businessPartners: [], businessPartnerName: '', businessPartnerId: '', type: '', loading: true
+      businessPartners: [],
+      businessPartnerName: '',
+      businessPartnerId: '',
+      type: props.businessPartnerType || '',
+      loading: true
     };
     this.api = new BusinessPartner();
   }
@@ -21,7 +25,8 @@ export default class List extends Component  {
 
   static propTypes = {
     onEdit: PropTypes.func.isRequired,
-    onCreateUser: PropTypes.func.isRequired
+    onCreateUser: PropTypes.func.isRequired,
+    businessPartnerType: PropTypes.oneOf(['supplier', 'customer'])
   };
 
   componentWillMount(){
@@ -48,7 +53,7 @@ export default class List extends Component  {
 
   async handleReset(event) {
     event.preventDefault();
-    await this.setState({ businessPartnerName: '', businessPartnerId: '', type: '' });
+    await this.setState({ businessPartnerName: '', businessPartnerId: '', type: this.props.businessPartnerType || '' });
     this.search();
   }
 
@@ -61,7 +66,7 @@ export default class List extends Component  {
   }
 
   createUserOnClick(businessPartnerId) {
-    this.props.onCreateUser(businessPartnerId);
+    this.props.onCreateUser(businessPartnerId, this.props.businessPartnerType);
   }
 
   renderField(attrs) {
@@ -102,14 +107,6 @@ export default class List extends Component  {
   renderTable(data) {
     const columns = [
       {
-        Header: this.context.i18n.getMessage('BusinessPartner.Label.name'),
-        accessor: 'name',
-      },
-      {
-        Header: this.context.i18n.getMessage('BusinessPartner.Label.id'),
-        accessor: 'id'
-      },
-      {
         Header: this.context.i18n.getMessage('BusinessPartner.Label.isSupplier'),
         accessor: 'isSupplier',
         Cell: row => {
@@ -130,13 +127,21 @@ export default class List extends Component  {
         maxWidth: 120
       },
       {
+        Header: this.context.i18n.getMessage('BusinessPartner.Label.name'),
+        accessor: 'name',
+      },
+      {
+        Header: this.context.i18n.getMessage('BusinessPartner.Label.id'),
+        accessor: 'id'
+      },
+      {
         Header: '',
         accessor: 'id',
         id: 'actions',
         Cell: row => this.renderActions(row.value)
       }];
 
-    return <Table data={data} columns={columns} loading={this.state.loading} />;
+    return <Table data={data} columns={this.props.businessPartnerType ? columns.slice(2) : columns} loading={this.state.loading} />;
   }
 
   render() {
@@ -152,7 +157,7 @@ export default class List extends Component  {
               { this.renderField({ field: 'businessPartnerId', fieldName: 'id' }) }
             </div>
             <div className='col-sm-4'>
-              { this.renderField({
+              {!this.props.businessPartnerType ? this.renderField({
                 field: 'businessPartnerId',
                 label: this.context.i18n.getMessage('BusinessPartner.Title.type'),
                 component: (
@@ -162,7 +167,7 @@ export default class List extends Component  {
                     <option key='3' value='customer'>{this.context.i18n.getMessage('BusinessPartner.Label.isCustomer')}</option>
                   </select>
                 )
-              }) }
+              }) : null }
             </div>
           </div>
           <div className="text-right form-submit" style={{ marginBottom: '30px' }}>
