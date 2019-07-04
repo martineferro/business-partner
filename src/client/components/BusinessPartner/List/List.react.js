@@ -33,8 +33,11 @@ export default class List extends Component  {
     this.context.i18n.register('BusinessPartner', locales);
   }
 
-  componentWillReceiveProps(nextProps, nextContext){
-    if(nextContext.i18n) nextContext.i18n.register('BusinessPartner', locales);
+  async componentWillReceiveProps(nextProps, nextContext){
+    if (nextContext.i18n) nextContext.i18n.register('BusinessPartner', locales);
+    if (nextProps.businessPartnerType) {
+      await this.setState({ type: nextProps.businessPartnerType });
+    }
     this.search();
   }
 
