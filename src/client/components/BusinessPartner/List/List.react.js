@@ -35,6 +35,7 @@ export default class List extends Component  {
 
   componentWillReceiveProps(nextProps, nextContext){
     if(nextContext.i18n) nextContext.i18n.register('BusinessPartner', locales);
+    this.search();
   }
 
   componentDidMount() {
