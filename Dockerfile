@@ -1,16 +1,13 @@
-FROM node:8-alpine
+FROM node:8-stretch-slim
 MAINTAINER lasong
 
 WORKDIR /home/node/business-partner
 
-RUN chown -Rf node:node .
-
 ENV NODE_ENV=development
 
-# Bundle app source by overwriting all WORKDIR content.
-COPY --chown=node:node . .
+RUN chown -R node:node /home/node
 
-RUN apk add --no-cache curl
+COPY --chown=node:node . .
 
 USER node
 

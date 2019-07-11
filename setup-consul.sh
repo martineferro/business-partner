@@ -1,4 +1,4 @@
-function putConsulData
+putConsulData()
 {
   curl -X PUT -d ${MYSQL_DATABASE} http://consul:8500/v1/kv/business-partner/db-init/database &&
   curl -X PUT -d 'root' http://consul:8500/v1/kv/business-partner/db-init/user &&
