@@ -20,6 +20,6 @@ module.exports.init = async function(db, config)
     require('./BusinessPartnerVisibility').init(db, config),
     require('./BusinessLink').init(db),
     require('./BusinessLinkConnection').init(db),
-    require('./Tenant').init(db, config)
+    require('./Client').init(db, config)
   ]);
 }

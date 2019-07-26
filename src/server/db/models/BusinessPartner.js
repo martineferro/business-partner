@@ -22,8 +22,8 @@ module.exports.init = function(db, config) {
         }
       }
     },
-    /** ID of tenant the businessPartner belongs to. */
-    tenantId: {
+    /** ID of client the businessPartner belongs to. */
+    clientId: {
       allowNull: true,
       type: Sequelize.STRING(30)
     },

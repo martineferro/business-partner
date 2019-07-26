@@ -8,7 +8,7 @@ const BusinessPartnerCapability = require('./BusinessPartnerCapability');
 const BusinessPartnerAccess = require('./BusinessPartnerAccess');
 const BusinessPartnerProfileStrength = require('./BusinessPartnerProfileStrength');
 const BusinessLink = require('./BusinessLink');
-const DataMigration = require('./DataMigration');
+const Client = require('./Client');
 const staticFiles = require('./staticFiles');
 
 /**
@@ -32,6 +32,6 @@ module.exports.init = async function(app, db, config)
   new BusinessPartnerAccess(app, db).init();
   new BusinessPartnerProfileStrength(app, db).init();
   new BusinessLink(app, db).init();
-  new DataMigration(app, db).init();
+  new Client(app, db).init();
   staticFiles.init(app);
 }

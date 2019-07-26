@@ -4,15 +4,15 @@ const { TENANTID } = require('@opuscapita/field-validators');
 
 module.exports.init = function(db, config) {
   /**
-   * Tenant - organization that provides Products to buyers.
-   * @class Tenant
+   * Client - organization that provides Products to buyers.
+   * @class Client
    */
-  let Tenant = db.define('Tenant',
-  /** @lends Tenant */
+  let Client = db.define('Client',
+  /** @lends Client */
   {
     /** Unique identifier. It is generated based on name field by stripping spaces and invalid special chars and if required, a number is appended for uniqueness, e.g. OpusCapita Software GmbH -> OpuscapitaSoftwareGmbh */
     id: {
-      type: Sequelize.STRING(30),
+      type: Sequelize.STRING(12),
       primaryKey: true,
       allowNull: false,
       validate: {
@@ -23,6 +23,11 @@ module.exports.init = function(db, config) {
               start with number, hyphen or underscore. May not end with hyphen or underscore.');
         }
       }
+    },
+    /** Client name */
+    name: {
+      allowNull: true,
+      type: Sequelize.STRING(100)
     },
     /** ID represented in sales. */
     salesForceId: {
@@ -51,7 +56,7 @@ module.exports.init = function(db, config) {
     createdAt: 'createdOn',
     timestamps: true,
     freezeTableName: true,
-    tableName: 'Tenant'
+    tableName: 'Client'
   });
 
   return Promise.resolve();
