@@ -45,7 +45,7 @@ class Client {
     if (!client) return res.status('404').json({message: 'A client with this ID does not exist.'});
 
     req.body.changedBy = new UserData(req).id;
-    return this.api.update(id, req.body).then(client => res.status('200').json(client))
+    return this.api.update(req.params.id, req.body).then(client => res.status('200').json(client))
     .catch(error => {
       req.opuscapita.logger.error('Error when updating Client: %s', error.message);
       res.status('400').json({message: error.message});
