@@ -311,7 +311,7 @@ post:
                 description: Inconsistent data
 
 
-/{businessPartnerId}/organization
+/{businessPartnerId}/organization:
     uriParameters:
         businessPartnerId:
             type: string
@@ -324,7 +324,7 @@ post:
                     application/json:
                         type: BusinessPartnerArray
 
-/{businessPartnerId}/parents
+/{businessPartnerId}/parents:
     uriParameters:
         businessPartnerId:
             type: string
@@ -337,7 +337,7 @@ post:
                     application/json:
                         type: BusinessPartnerArray
 
-/{businessPartnerId}/children
+/{businessPartnerId}/children:
     uriParameters:
         businessPartnerId:
             type: string
@@ -351,7 +351,7 @@ post:
                         type: BusinessPartnerArray
 
 
-/{businessPartnerId}/capabilities/{capabilityId}
+/{businessPartnerId}/capabilities/{capabilityId}:
     uriParameters:
         businessPartnerId:
             type: string
