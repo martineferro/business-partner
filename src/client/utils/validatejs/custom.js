@@ -10,6 +10,14 @@ module.exports.tenantId = function(validate) {
   };
 };
 
+module.exports.businessPartnerTypeSet = function(validate) {
+    return validate.validators.businessPartnerTypeSet = function(value, options, key, attributes) {
+      if(attributes.isSupplier || attributes.isCustomer) return null
+    
+      return options.message;
+  };
+};
+
 module.exports.vatNumber = function(validate) {
   return validate.validators.vatNumber = function(value, options, key, attributes) {
     if (!value) return null;

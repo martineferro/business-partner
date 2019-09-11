@@ -41,6 +41,7 @@ let determineValidator = function(i18n, type)
 };
 
 let validator = function(validatejs) {
+  custom.businessPartnerTypeSet(validatejs),
   custom.tenantId(validatejs);
   custom.vatNumber(validatejs);
   custom.dunsNumber(validatejs);

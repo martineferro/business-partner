@@ -116,6 +116,16 @@ class FieldConstraints {
 
 let allConstraints = function(i18n) {
   return {
+    isSupplier: {
+      businessPartnerTypeSet: {
+        message: i18n.getMessage('BusinessPartnerValidatejs.invalid.businessPartnerTypeSet.message')
+      }
+    },
+    isCustomer: {
+      businessPartnerTypeSet: {
+        message: i18n.getMessage('BusinessPartnerValidatejs.invalid.businessPartnerTypeSet.message')
+      }
+    },
     id: {
       presence: false,
       length: {

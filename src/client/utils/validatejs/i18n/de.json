@@ -17,6 +17,7 @@
     "BusinessPartnerValidatejs.invalid.ovtNumber.message": "Der Wert ist keine gültige OVT Nummer",
     "BusinessPartnerValidatejs.invalid.globalLocationNumber.message": "Der Wert ist keine gültige Global Location Number",
     "BusinessPartnerValidatejs.invalid.iban.message": "Der Wert ist kein gültiger IBAN",
+    "BusinessPartnerValidatejs.invalid.businessPartnerTypeSet.message": "Ein Business Partner muss entweder ein Kunde, ein Lieferant oder beides sein",
     "BusinessPartnerValidatejs.invalid.bic.message": "Der Wert ist kein gültiger BIC",
     "BusinessPartnerValidatejs.invalid.uniqueIdentifier.message": "Die Umsatzsteuer-Identifikationsnummer, die D-U-N-S-Nummer, die Global Location Number, oder die IBAN muss angegeben werden",
     "BusinessPartnerValidatejs.invalid.uniqueIdentifierBankAccount.message": "Die IBAN, das Bankgiro, oder das Plusgiro muss angegeben werden",
