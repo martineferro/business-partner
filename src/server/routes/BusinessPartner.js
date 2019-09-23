@@ -80,23 +80,25 @@ class BusinessPartner {
     const newBpartner = req.body;
     let userData = new UserData(req);
 
-    const fieldsToCheck = function(bPartner) {
-      return {
-        id: bPartner.id,
-        name: bPartner.name,
-        cityOfRegistration: bPartner.cityOfRegistration,
-        countryOfRegistration: bPartner.countryOfRegistration,
-        taxIdentificationNo: bPartner.taxIdentificationNo,
-        commercialRegisterNo: bPartner.commercialRegisterNo,
-        vatIdentificationNo: bPartner.vatIdentificationNo,
-        dunsNo: bPartner.dunsNo,
-        globalLocationNo: bPartner.globalLocationNo,
-        ovtNo: bPartner.ovtNo
-      };
+    const mappedBusinessPartner = {
+      id: newBpartner.id,
+      name: newBpartner.name,
+      cityOfRegistration: newBpartner.cityOfRegistration,
+      countryOfRegistration: newBpartner.countryOfRegistration,
+      taxIdentificationNo: newBpartner.taxIdentificationNo,
+      commercialRegisterNo: newBpartner.commercialRegisterNo,
+      vatIdentificationNo: newBpartner.vatIdentificationNo,
+      dunsNo: newBpartner.dunsNo,
+      globalLocationNo: newBpartner.globalLocationNo,
+      ovtNo: newBpartner.ovtNo
     };
+    
+    if(mappedBusinessPartner.id && (mappedBusinessPartner.id.startsWith('c_') || mappedBusinessPartner.id.startsWith('s_'))) {
+      res.status(406).json({ message: 'Legacy tenant prefixes are not allowed for business partner identifiers. Please do not use identifiers starting with c_ or s_.' });
+    }
 
-    this.api.recordExists(fieldsToCheck(newBpartner)).then(exists => {
-      if (exists) return res.status('409').json({ message : 'A business partner already exists' });
+    this.api.recordExists(mappedBusinessPartner).then(exists => {
+      if (exists) return res.status('409').json({ message : 'The business partner already exists' });
 
       if (!userData.hasAdminRole()) {
         if (userData.businessPartnerId || userData.supplierId || userData.customerId)
@@ -146,13 +148,13 @@ class BusinessPartner {
               return res.status((error.response && error.response.statusCode) || 400).json({ message : error.message });
             });
         }).catch(error => {
-          req.opuscapita.logger.error('Error when creating Supplier: %s', error.message);
+          req.opuscapita.logger.error('Error when creating business partner: %s', error.message);
 
           return res.status((error.response && error.response.statusCode) || 400).json({ message : error.message });
         });
     })
     .catch(error => {
-      req.opuscapita.logger.error('Error when creating Supplier: %s', error.message);
+      req.opuscapita.logger.error('Error when creating business partner: %s', error.message);
       return res.status('400').json({ message : error.message });
     });
   }
@@ -163,7 +165,7 @@ class BusinessPartner {
 
     if (businessPartnerId !== editedBusinessPartner.id) {
       const message = 'Inconsistent data';
-      req.opuscapita.logger.error('Error when updating Supplier: %s', message);
+      req.opuscapita.logger.error('Error when updating business partner: %s', message);
       return res.status('422').json({ message: message });
     }
 
