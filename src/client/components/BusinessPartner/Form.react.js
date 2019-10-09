@@ -27,6 +27,7 @@ class Form extends Components.ContextComponent {
       businessPartner: this.props.businessPartner,
       businessPartnerParent: null,
       fieldErrors: {},
+      isFin: false,
       hasVATId: Boolean(this.props.businessPartner.vatIdentificationNo)
     };
     this.api = new BusinessPartner();
@@ -78,11 +79,30 @@ class Form extends Components.ContextComponent {
   };
 
   handleChange = (fieldName, event) => {
+
     const newValue = formHelper.getEventValue(event);
+    console.log(fieldName, newValue, this.state.businessPartner[fieldName], this.state.isFin);
 
-    if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
+    if (fieldName === 'countryOfRegistration' && newValue === 'FI') {
 
-    this.setState({ businessPartner: { ...this.state.businessPartner, [fieldName]: newValue } });
+      if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
+      
+      this.setState({
+        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+        isFin: true,
+        hasVATId: true
+      });
+
+    } else {
+
+      if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
+      this.setState({
+        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+        isFin: false
+      });
+    }
+
+
   };
 
   handleBlur = (fieldName, event) => {
@@ -115,9 +135,18 @@ class Form extends Components.ContextComponent {
     const { onAction } = this.props;
     const businessPartner = this.state.businessPartner;
 
-    if (!businessPartner.vatIdentificationNo && this.state.hasVATId) {
+    if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo) {
+      this.setFieldErrorsStates(
+        {
+          vatIdentificationNo: ["Do something!"],
+          ovtNo: ["ovtNo Do something!"]
+        });
+    }
+    else if (!businessPartner.vatIdentificationNo && this.state.hasVATId) {
       this.setFieldErrorsStates({ noVatReason: [this.context.i18n.getMessage('BusinessPartner.Messages.clickCheckBox')] });
-    } else {
+
+    }
+    else {
       const success = () => {
         businessPartner.noVatReason = businessPartner.vatIdentificationNo ? null : 'No VAT Registration Number';
         onAction(businessPartner);
@@ -134,8 +163,11 @@ class Form extends Components.ContextComponent {
   };
 
   handleCheckboxChange = () => {
+    console.log('CheckBox Triggered', this.state.businessPartner.countryOfRegistration, this.state.isFin);
+
     this.setFieldErrorsStates({ noVatReason: [] });
-    this.setState({hasVATId: !this.state.hasVATId});
+    this.setState({ hasVATId: !this.state.hasVATId });
+
   };
 
   handleManagedChange = () => {
@@ -178,10 +210,10 @@ class Form extends Components.ContextComponent {
     let component = attrs.component ||
       <input className="form-control"
         type="text"
-        value={ typeof businessPartner[fieldName] === 'string' ? businessPartner[fieldName] : '' }
-        onChange={ this.handleChange.bind(this, fieldName) }
-        onBlur={ this.handleBlur.bind(this, fieldName) }
-        disabled={ attrs.disabled || false }
+        value={typeof businessPartner[fieldName] === 'string' ? businessPartner[fieldName] : ''}
+        onChange={this.handleChange.bind(this, fieldName)}
+        onBlur={this.handleBlur.bind(this, fieldName)}
+        disabled={attrs.disabled || false}
       />;
 
     let isRequired = fieldNames.some(name => {
@@ -193,15 +225,15 @@ class Form extends Components.ContextComponent {
     return (
       <FormRow
         key={fieldName}
-        labelText={ attrs.labelText || this.context.i18n.getMessage(`BusinessPartner.Label.${fieldName}`) }
-        required={ isRequired }
-        marked={ attrs.marked }
-        info={ attrs.info }
-        rowErrors={ rowErrors }
-        helpText = { this.formAction.getHelperText(attrs.helpText) }
-        onErrorLinkClick={ this.handleAccessRequest }
+        labelText={attrs.labelText || this.context.i18n.getMessage(`BusinessPartner.Label.${fieldName}`)}
+        required={isRequired}
+        marked={attrs.marked}
+        info={attrs.info}
+        rowErrors={rowErrors}
+        helpText={this.formAction.getHelperText(attrs.helpText)}
+        onErrorLinkClick={this.handleAccessRequest}
       >
-        { component }
+        {component}
       </FormRow>
     );
   };
@@ -289,7 +321,7 @@ class Form extends Components.ContextComponent {
             onChange={this.handleParentChange}
             onBlur={() => null}
             disabled={!this.userIsAdmin()}
-            onFilter={ bp => bp.id !== businessPartner.id }
+            onFilter={bp => bp.id !== businessPartner.id}
           />
         )
       }),
@@ -320,7 +352,7 @@ class Form extends Components.ContextComponent {
         helpText: i18n.getMessage('BusinessPartner.Messages.countryOfRegistration.helpText'),
         component: (
           <this.CountryField
-            value={businessPartner.countryOfRegistration || ''}
+            value={businessPartner.countryOfRegistration || ''}
             onChange={this.handleChange.bind(this, 'countryOfRegistration')}
             onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
           />
@@ -331,7 +363,7 @@ class Form extends Components.ContextComponent {
         component: (
           <this.CurrencyField
             optional={true}
-            value={businessPartner.currencyId || ''}
+            value={businessPartner.currencyId || ''}
             onChange={this.handleChange.bind(this, 'currencyId')}
             onBlur={this.handleBlur.bind(this, 'currencyId')}
           />
@@ -342,10 +374,13 @@ class Form extends Components.ContextComponent {
         info: formHelper.comRegTooltiptext(i18n),
         helpText: i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.helpText')
       }),
-      taxIdentificationNo: this.renderField({ fieldName: 'taxIdentificationNo' }),
+      taxIdentificationNo: this.renderField(
+        { fieldName: 'taxIdentificationNo' }),
       vatIdentificationNo: this.renderField({
         fieldName: 'vatIdentificationNo',
-        disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.vatIdentificationNo))
+        helpText: "Fill this out",
+        disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.vatIdentificationNo)),
+        reguired: this.state.isFin
       }),
       noVatReason: this.renderField({
         fieldName: 'noVatReason',
@@ -357,7 +392,7 @@ class Form extends Components.ContextComponent {
               type='checkbox'
               onChange={this.handleCheckboxChange}
               checked={!this.state.hasVATId}
-              disabled={(!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.vatIdentificationNo))}
+              disabled={this.state.isFin || (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.vatIdentificationNo))}
             ></input>
             {i18n.getMessage('BusinessPartner.Messages.noVatId')}
           </p>
@@ -366,17 +401,18 @@ class Form extends Components.ContextComponent {
       globalLocationNo: this.renderField({
         fieldName: 'globalLocationNo',
         marked: true,
-        disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.globalLocationNo))
+        disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.globalLocationNo))
       }),
       dunsNo: this.renderField({
         fieldName: 'dunsNo',
         marked: true,
-        disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.dunsNo))
+        disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.dunsNo))
       }),
       ovtNo: this.renderField({
         fieldName: 'ovtNo',
         marked: true,
-        disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.ovtNo))
+        disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.ovtNo)),
+        reguired: this.state.isFin
       }),
       iban: this.renderField({ fieldName: 'iban', marked: true })
     };
@@ -386,26 +422,26 @@ class Form extends Components.ContextComponent {
     const { i18n } = this.context;
     return {
       save: <ActionButton
-              key='save'
-              id='business-partner-editor__form-submit'
-              style='primary'
-              onClick={this.handleAction}
-              label={i18n.getMessage('BusinessPartner.Button.save')}
-            />,
+        key='save'
+        id='business-partner-editor__form-submit'
+        style='primary'
+        onClick={this.handleAction}
+        label={i18n.getMessage('BusinessPartner.Button.save')}
+      />,
       continue: <ActionButton
-                key='continue'
-                id='supplier-registration__continue'
-                style='primary'
-                onClick={this.handleAction}
-                label={i18n.getMessage('BusinessPartner.Button.continue')}
-              />,
+        key='continue'
+        id='supplier-registration__continue'
+        style='primary'
+        onClick={this.handleAction}
+        label={i18n.getMessage('BusinessPartner.Button.continue')}
+      />,
       cancel: <ActionButton
-                key='cancel'
-                id='supplier-registration__cancel'
-                style='link'
-                onClick={this.handleCancel}
-                label={i18n.getMessage('BusinessPartner.Button.cancel')}
-              />
+        key='cancel'
+        id='supplier-registration__cancel'
+        style='link'
+        onClick={this.handleCancel}
+        label={i18n.getMessage('BusinessPartner.Button.cancel')}
+      />
     }
   }
 }
