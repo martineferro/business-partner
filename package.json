@@ -70,7 +70,7 @@
   },
   "scripts": {
     "start": "node src/server/index.js",
-    "dev": "npm run setup-consul ; npm run setup-rabbitmq ; npx nodemon --watch src src/server/index.js",
+    "dev": "npm run setup-consul ; npm run setup-rabbitmq ; npx nodemon --watch src/server src/server/index.js",
     "local": "npm run setup-consul ; npm run setup-rabbitmq ; NODE_ENV=development nodemon --watch src/server local/index.js",
     "build": "npm run build:client",
     "build:client": "cross-env NODE_ENV=production ; webpack -p --config ./webpack.production.config.js --profile --colors --bail",
