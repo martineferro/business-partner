@@ -81,21 +81,17 @@ class Form extends Components.ContextComponent {
   handleChange = (fieldName, event) => {
 
     const newValue = formHelper.getEventValue(event);
-    console.log(fieldName, newValue, this.state.businessPartner[fieldName], this.state.isFin);
 
-    if (fieldName === 'countryOfRegistration' && newValue === 'FI') {
-
-      if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
-      
+    if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
+    if (fieldName === 'countryOfRegistration' && newValue === 'FI' || fieldName != 'countryOfRegistration' && this.state.businessPartner.countryOfRegistration === 'FI') {
       this.setState({
         businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
         isFin: true,
         hasVATId: true
       });
 
-    } else {
-
-      if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
+    }
+    else {
       this.setState({
         businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
         isFin: false
@@ -135,10 +131,20 @@ class Form extends Components.ContextComponent {
     const { onAction } = this.props;
     const businessPartner = this.state.businessPartner;
 
-    if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo) {
+    if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo && !businessPartner.ovtNo) {
       this.setFieldErrorsStates(
         {
           vatIdentificationNo: ["Do something!"],
+          ovtNo: ["ovtNo Do something!"]
+        });
+    } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo) {
+      this.setFieldErrorsStates(
+        {
+          vatIdentificationNo: ["Do something!"],
+        });
+    } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.ovtNo) {
+      this.setFieldErrorsStates(
+        {
           ovtNo: ["ovtNo Do something!"]
         });
     }
@@ -250,6 +256,7 @@ class Form extends Components.ContextComponent {
   render() {
     const i18n = this.context.i18n;
     const { businessPartner } = this.state;
+
     return (
       <form className="form-horizontal business-partner-form">
         <div className="row">
@@ -378,7 +385,6 @@ class Form extends Components.ContextComponent {
         { fieldName: 'taxIdentificationNo' }),
       vatIdentificationNo: this.renderField({
         fieldName: 'vatIdentificationNo',
-        helpText: "Fill this out",
         disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.vatIdentificationNo)),
         reguired: this.state.isFin
       }),

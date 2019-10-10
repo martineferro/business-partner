@@ -148,7 +148,7 @@ services:
     command: 'npm run dev'
 
   auth:
-    image: opuscapita/auth:bp
+    image: opuscapita/auth:dev
     ports:
      - '$APP_HOST_PORT:$APP_HOST_PORT'
     labels:
