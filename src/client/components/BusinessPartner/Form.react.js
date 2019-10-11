@@ -82,24 +82,27 @@ class Form extends Components.ContextComponent {
 
     const newValue = formHelper.getEventValue(event);
 
-
-        if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
-            if (fieldName === 'countryOfRegistration' && newValue === 'FI' || fieldName != 'countryOfRegistration' && this.state.businessPartner.countryOfRegistration === 'FI') {
-              this.setState({
-                businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
-                isFin: true,
-                hasVATId: true
-              });
-
-            }
-            else {
-              this.setState({
-                businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
-                isFin: false
-              });
-            }
-
-
+    if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
+    
+    console.log('MANAGED2',this.state.businessPartner.managed)
+    if (!this.state.businessPartner.managed) {
+      this.setState({
+        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+        isFin: false
+      });
+    } else if (
+      fieldName === 'countryOfRegistration' && newValue === 'FI' || fieldName != 'countryOfRegistration' && this.state.businessPartner.countryOfRegistration === 'FI' ) { 
+      this.setState({
+        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+        isFin: true,
+        hasVATId: true
+      });
+    } else {
+      this.setState({
+        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+        isFin: false
+      });
+    }
   };
 
   handleBlur = (fieldName, event) => {
@@ -131,27 +134,27 @@ class Form extends Components.ContextComponent {
 
     const { onAction } = this.props;
     const businessPartner = this.state.businessPartner;
+    const managed = Boolean(businessPartner.managed);
 
-    if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo && !businessPartner.ovtNo) {
+    if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo && !businessPartner.ovtNo && managed) {
       this.setFieldErrorsStates(
         {
           vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
           ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
         });
-    } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo) {
+    } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo && managed) {
       this.setFieldErrorsStates(
         {
           vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
         });
-    } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.ovtNo) {
+    } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.ovtNo && managed) {
       this.setFieldErrorsStates(
         {
           ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
         });
     }
-    else if (!businessPartner.vatIdentificationNo && this.state.hasVATId) {
+    else if (!businessPartner.vatIdentificationNo && this.state.hasVATId && managed) {
       this.setFieldErrorsStates({ noVatReason: [this.context.i18n.getMessage('BusinessPartner.Messages.clickCheckBox')] });
-
     }
     else {
       const success = () => {
@@ -187,7 +190,8 @@ class Form extends Components.ContextComponent {
       this.constraints.removePresence('countryOfRegistration');
     }
 
-    this.setState({ businessPartner: { ...this.state.businessPartner, managed: managed } });
+    this.setState({ 
+      businessPartner: { ...this.state.businessPartner, managed: managed }});
   };
 
   handleParentChange = (parent) => {
