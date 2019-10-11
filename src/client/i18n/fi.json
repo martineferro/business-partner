@@ -68,6 +68,8 @@
     "BusinessPartner.Messages.identifierRequired": "** Anna ALV-tunnus. Jos sinulla ei ole sitä, anna sitten Global Position Number tai DUNS-numero.",
     "BusinessPartner.Messages.required": "** Anna ALV-tunnus. Jos sinulla ei ole sitä, anna sitten Global Position Number, DUNS-numero tai IBAN.",
     "BusinessPartner.Messages.noVatId": "Yritykselleni ei ole ALV-tunnusta.",
+    "BusinessPartner.Message.Error.ovtForFinland": "Suomalaisille yrityksille vaaditaan OVT",
+    "BusinessPartner.Message.Error.avtForFinland": "Suomalaisille yrityksille vaaditaan ALV-tunnus",
     "BusinessPartner.Messages.clickCheckBox": "Ilmoita ALV-tunnuksesi.",
     "BusinessPartner.Messages.accessInformation1": "Täällä voit pyytää käyttöoikeutta yritykseen {name}. Sinun tulisi pyytää käyttöoikeutta vain, jos olet tämän yrityksen työntekijä.",
     "BusinessPartner.Messages.accessInformation2": "Anna kelvollinen perustelu käyttöoikeutta varten.",

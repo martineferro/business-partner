@@ -73,6 +73,8 @@
     "BusinessPartner.Messages.identifierRequired": "** Forneça o seu número de registro IVA. Se não tiver um, forneça seu número de localização global, número D-U-N-S ou número OVT.",
     "BusinessPartner.Messages.required": "** Forneça o seu número de registro IVA. Se não tiver um, forneça seu número de localização global, número D-U-N-S, número OVT ou IBAN.",
     "BusinessPartner.Messages.noVatId": "Minha empresa não possui um número de identificação IVA.",
+    "BusinessPartner.Message.Error.ovtForFinland": "Para empresas finlandesas, o OVT é obrigatório",
+    "BusinessPartner.Message.Error.avtForFinland": "Para empresas finlandesas, o Número de identificação IVA é obrigatório",
     "BusinessPartner.Messages.clickCheckBox": "Forneça seu número de identificação IVA.",
     "BusinessPartner.Messages.accessInformation1": "Aqui você pode solicitar acesso à empresa {name}. Você deve solicitar acesso somente for um funcionário desta empresa.",
     "BusinessPartner.Messages.accessInformation2": "Forneça uma justificativa de negócios válida para seu acesso.",

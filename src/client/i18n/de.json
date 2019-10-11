@@ -75,6 +75,8 @@
     "BusinessPartner.Messages.identifierRequired": "** Bitte hinterlegen Sie Ihre Umsatzsteuer-Identifikationsnummer. Wenn Sie keine haben, dann hinterlegen Sie Ihre Global Location Number, Ihre D-U-N-S-Nummer oder Ihre OVT Nummer.",
     "BusinessPartner.Messages.required": "** Bitte hinterlegen Sie Ihre Umsatzsteuer-Identifikationsnummer. Wenn Sie keine haben, dann hinterlegen Sie Ihre Global Location Number, Ihre D-U-N-S-Nummer, Ihre OVT Nummer oder Ihre IBAN.",
     "BusinessPartner.Messages.noVatId": "Meine Firma hat keine Umsatzsteuer-Ident-Nummer.",
+    "BusinessPartner.Message.Error.ovtForFinland": "Für finnische Unternehmen ist OVT erforderlich",
+    "BusinessPartner.Message.Error.avtForFinland": "Für finnische Unternehmen ist Umsatzsteuer-Ident-Nr erforderlich",
     "BusinessPartner.Messages.clickCheckBox": "Bitte hinterlegen Sie Ihre Umsatzsteuer-Identifikationsnummer.",
     "BusinessPartner.Messages.accessInformation1": "Hier können Sie Zugang zur Firma {name} beantragen. Sie sollten Zugang nur anfordern, wenn Sie ein Angestellter der Unternehmens sind.",
     "BusinessPartner.Messages.accessInformation2": "Bitte geben Sie eine gültige geschäftliche Rechtfertigung für Ihren Zugang.",

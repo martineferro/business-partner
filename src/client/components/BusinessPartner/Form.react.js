@@ -82,21 +82,22 @@ class Form extends Components.ContextComponent {
 
     const newValue = formHelper.getEventValue(event);
 
-    if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
-    if (fieldName === 'countryOfRegistration' && newValue === 'FI' || fieldName != 'countryOfRegistration' && this.state.businessPartner.countryOfRegistration === 'FI') {
-      this.setState({
-        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
-        isFin: true,
-        hasVATId: true
-      });
 
-    }
-    else {
-      this.setState({
-        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
-        isFin: false
-      });
-    }
+        if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
+            if (fieldName === 'countryOfRegistration' && newValue === 'FI' || fieldName != 'countryOfRegistration' && this.state.businessPartner.countryOfRegistration === 'FI') {
+              this.setState({
+                businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+                isFin: true,
+                hasVATId: true
+              });
+
+            }
+            else {
+              this.setState({
+                businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+                isFin: false
+              });
+            }
 
 
   };
@@ -134,18 +135,18 @@ class Form extends Components.ContextComponent {
     if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo && !businessPartner.ovtNo) {
       this.setFieldErrorsStates(
         {
-          vatIdentificationNo: ["Do something!"],
-          ovtNo: ["ovtNo Do something!"]
+          vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
+          ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
         });
     } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo) {
       this.setFieldErrorsStates(
         {
-          vatIdentificationNo: ["Do something!"],
+          vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
         });
     } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.ovtNo) {
       this.setFieldErrorsStates(
         {
-          ovtNo: ["ovtNo Do something!"]
+          ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
         });
     }
     else if (!businessPartner.vatIdentificationNo && this.state.hasVATId) {

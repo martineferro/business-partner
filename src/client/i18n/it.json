@@ -73,6 +73,8 @@
     "BusinessPartner.Messages.identifierRequired": "** Vi preghiamo di fornire il vostro Numero di Partita IVA. Se non ne avete uno, fornite il vostro Global Location Number (GLN), numero D-U-N-S o numero OVT.",
     "BusinessPartner.Messages.required": "** Vi preghiamo di fornire il vostro Numero di Partita IVA. Se non ne avete uno, fornite il vostro Global Location Number (GLN), numero D-U-N-S, numero OVT o IBAN.",
     "BusinessPartner.Messages.noVatId": "La mia Impresa non ha un Numero di Partita IVA.",
+    "BusinessPartner.Message.Error.ovtForFinland": "Per le aziende finlandesi è richiesto OVT",
+    "BusinessPartner.Message.Error.avtForFinland": "Per le aziende finlandesi è richiesto Numero di Partita IVA",
     "BusinessPartner.Messages.clickCheckBox": "Vi preghiamo di fornire il vostro Numero di Partita IVA.",
     "BusinessPartner.Messages.accessInformation1": "Qui potete richiedere accesso all'impresa {name}. Dovete richiedere accesso solo se siete dipendenti di questa impresa.",
     "BusinessPartner.Messages.accessInformation2": "Vi preghiamo di fornire una giustificazione commerciale valida per il vostro accesso.",

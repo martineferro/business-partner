@@ -75,6 +75,8 @@
     "BusinessPartner.Messages.identifierRequired": "** Please provide your VAT Registration Number. If you do not have one, then provide your Global Location Number, D-U-N-S number or OVT number.",
     "BusinessPartner.Messages.required": "** Please provide your VAT Registration Number. If you do not have one, then provide your Global Location Number, D-U-N-S number, OVT number or IBAN.",
     "BusinessPartner.Messages.noVatId": "My Company does not have a VAT Identification Number.",
+    "BusinessPartner.Message.Error.ovtForFinland": "For Finnish companies OVT is required",
+    "BusinessPartner.Message.Error.avtForFinland": "For Finnish companies VAT is required",
     "BusinessPartner.Messages.clickCheckBox": "Please provide your VAT Identification Number.",
     "BusinessPartner.Messages.accessInformation1": "Here you can request access to company {name}. You should request access only if you are an employee of this company.",
     "BusinessPartner.Messages.accessInformation2": "Please provide a valid business justification for your access.",

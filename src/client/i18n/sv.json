@@ -68,6 +68,8 @@
     "BusinessPartner.Messages.identifierRequired": "**Vänligen ange ditt momsregistreringsnummer. Om du inte har detta, vänligen ange ditt Global Location Number (GLN) eller DUNS nummer.",
     "BusinessPartner.Messages.required": "**Vänligen ange ditt momsregistreringsnummer. Om du inte har detta, vänligen ange ditt Global Location Number (GLN) eller DUNS nummer.",
     "BusinessPartner.Messages.noVatId": "Mitt företag har inget momsregistreringsnummer.",
+    "BusinessPartner.Message.Error.ovtForFinland": "För finska företag är OVT obligatoriskt",
+    "BusinessPartner.Message.Error.avtForFinland": "För finska företag är momsregistreringsnummer obligatoriskt",
     "BusinessPartner.Messages.clickCheckBox": "Vänligen ange ditt momsregistreringsnummer.",
     "BusinessPartner.Messages.accessInformation1": "Här begär du access till företaget {name}. Begär endast access om du är anställd vid företaget i fråga.",
     "BusinessPartner.Messages.accessInformation2": "Vänligen ange ett giltigt skäl till sin förfrågan om access.",

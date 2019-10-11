@@ -73,6 +73,8 @@
     "BusinessPartner.Messages.identifierRequired": "**Veuillez fournir votre numéro d'enregistrement à la TVA. Si vous n'en avez pas, fournissez votre code lieu-fonction, votre numéro D-U-N-S ou votre code TVO.",
     "BusinessPartner.Messages.required": "**Veuillez fournir votre numéro d'enregistrement à la TVA. Si vous n'en avez pas, fournissez votre code lieu-fonction, votre numéro D-U-N-S, votre code TVO ou votre numéro IBAN.",
     "BusinessPartner.Messages.noVatId": "Ma société n'a pas de numéro d'enregistrement à la TVA.",
+    "BusinessPartner.Message.Error.ovtForFinland": "Pour les entreprises finlandaises, TVO est obligatoire",
+    "BusinessPartner.Message.Error.avtForFinland": "Pour les entreprises finlandaises, Numéro d'identification à la TVA est obligatoire",
     "BusinessPartner.Messages.clickCheckBox": "Veuillez fournir votre numéro d'enregistrement à la TVA.",
     "BusinessPartner.Messages.accessInformation1": "Ici, vous pouvez demander l'accès à la société {name}. Vous pouvez demander l'accès uniquement si vous êtes un employé de cette société.",
     "BusinessPartner.Messages.accessInformation2": "Veuillez fournir une justification commerciale valide pour obtenir l'accès.",
