@@ -28,6 +28,7 @@ class Form extends Components.ContextComponent {
       businessPartnerParent: null,
       fieldErrors: {},
       isFin: false,
+      showCustomError: 'hidden',
       hasVATId: Boolean(this.props.businessPartner.vatIdentificationNo)
     };
     this.api = new BusinessPartner();
@@ -44,6 +45,8 @@ class Form extends Components.ContextComponent {
       jsFileName: 'currencies-bundle'
     });
   }
+
+  
 
   componentWillMount() {
     this.constraints = new Constraints(this.context.i18n, this.props.action);
@@ -82,27 +85,31 @@ class Form extends Components.ContextComponent {
 
     const newValue = formHelper.getEventValue(event);
 
+    
+
     if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
     
-    console.log('MANAGED2',this.state.businessPartner.managed)
-    if (!this.state.businessPartner.managed) {
-      this.setState({
-        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
-        isFin: false
-      });
-    } else if (
-      fieldName === 'countryOfRegistration' && newValue === 'FI' || fieldName != 'countryOfRegistration' && this.state.businessPartner.countryOfRegistration === 'FI' ) { 
-      this.setState({
-        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
-        isFin: true,
-        hasVATId: true
-      });
-    } else {
-      this.setState({
-        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
-        isFin: false
-      });
-    }
+      if (!this.state.businessPartner.managed) {
+        this.setState({
+          businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+          isFin: false,
+          showCustomError: 'hidden'
+        });
+      } else if (
+        fieldName === 'countryOfRegistration' && newValue === 'FI' || fieldName != 'countryOfRegistration' && this.state.businessPartner.countryOfRegistration === 'FI' ) { 
+        this.setState({
+          businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+          isFin: true,
+          hasVATId: true,
+          showCustomError: 'hidden'
+        });
+      } else {
+        this.setState({
+          businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+          isFin: false,
+          showCustomError: 'hidden'
+        });
+      }
   };
 
   handleBlur = (fieldName, event) => {
@@ -136,40 +143,58 @@ class Form extends Components.ContextComponent {
     const businessPartner = this.state.businessPartner;
     const managed = Boolean(businessPartner.managed);
 
-    if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo && !businessPartner.ovtNo && managed) {
-      this.setFieldErrorsStates(
-        {
-          vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
-          ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
-        });
-    } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo && managed) {
-      this.setFieldErrorsStates(
-        {
-          vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
-        });
-    } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.ovtNo && managed) {
-      this.setFieldErrorsStates(
-        {
-          ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
-        });
-    }
-    else if (!businessPartner.vatIdentificationNo && this.state.hasVATId && managed) {
-      this.setFieldErrorsStates({ noVatReason: [this.context.i18n.getMessage('BusinessPartner.Messages.clickCheckBox')] });
-    }
-    else {
-      const success = () => {
-        businessPartner.noVatReason = businessPartner.vatIdentificationNo ? null : 'No VAT Registration Number';
-        onAction(businessPartner);
-      };
+    const { commercialRegisterNo,
+            taxIdentificationNo,
+            vatIdentificationNo,
+            
+            } = this.state.businessPartner;
 
-      const error = (errors) => {
-        this.setFieldErrorsStates(errors);
-        onAction(null);
-      };
 
-      const validator = new Validator(this.context.i18n, this.constraints.fetch(), this.formAction.validatorType());
-      validator.validate(businessPartner).then(success, error);
+    if(commercialRegisterNo || businessPartner.taxIdentificationNo || businessPartner.vatIdentificationNo || 
+      businessPartner.globalLocationNo || businessPartner.dunsNo || businessPartner.ovtNo ){
+
+        if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo && !businessPartner.ovtNo && managed) {
+          this.setFieldErrorsStates(
+            {
+              vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
+              ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
+            });
+        } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo && managed) {
+          this.setFieldErrorsStates(
+            {
+              vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
+            });
+        } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.ovtNo && managed) {
+          this.setFieldErrorsStates(
+            {
+              ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
+            });
+        }
+        else if (!businessPartner.vatIdentificationNo && this.state.hasVATId && managed) {
+          this.setFieldErrorsStates({ noVatReason: [this.context.i18n.getMessage('BusinessPartner.Messages.clickCheckBox')] });
+        }
+        else {
+          const success = () => {
+            businessPartner.noVatReason = businessPartner.vatIdentificationNo ? null : 'No VAT Registration Number';
+            onAction(businessPartner);
+          };
+
+          const error = (errors) => {
+            this.setFieldErrorsStates(errors);
+            onAction(null);
+          };
+
+          const validator = new Validator(this.context.i18n, this.constraints.fetch(), this.formAction.validatorType());
+          validator.validate(businessPartner).then(success, error);
+        }
+
+    }else{
+      this.setState({
+        'showCustomError': ''
+      })
+    
     }
+
   };
 
   handleCheckboxChange = () => {
@@ -217,6 +242,7 @@ class Form extends Components.ContextComponent {
     const { fieldName } = attrs;
     const fieldNames = attrs.fieldNames || [fieldName];
     const constraints = this.constraints.fetch();
+    
 
     let component = attrs.component ||
       <input className="form-control"
@@ -272,6 +298,7 @@ class Form extends Components.ContextComponent {
           <div className="col-md-6">
             {this.formAction.helpInformation()}
             {this.formAction.fieldsForIdentifiers().map(field => this.fields[field])}
+            <div id="customError" className="alert alert-danger" hidden={this.state.showCustomError}>{i18n.getMessage("BusinessPartner.Messages.Error.requirements")}</div>
           </div>
         </div>
         <div className='business-partner-form-submit'>
