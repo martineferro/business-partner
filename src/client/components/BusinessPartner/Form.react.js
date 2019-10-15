@@ -174,12 +174,12 @@ class Form extends Components.ContextComponent {
               ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
             });
         }
-        else if (!vatIdentificationNo && this.state.hasVATId && managed) {
+        else if (!businessPartner.vatIdentificationNo && this.state.hasVATId && managed) {
           this.setFieldErrorsStates({ noVatReason: [this.context.i18n.getMessage('BusinessPartner.Messages.clickCheckBox')] });
         }
         else {
           const success = () => {
-            noVatReason = vatIdentificationNo ? null : 'No VAT Registration Number';
+            businessPartner.noVatReason = businessPartner.vatIdentificationNo ? null : 'No VAT Registration Number';
             onAction(businessPartner);
           };
 
