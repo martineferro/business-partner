@@ -143,39 +143,43 @@ class Form extends Components.ContextComponent {
     const businessPartner = this.state.businessPartner;
     const managed = Boolean(businessPartner.managed);
 
-    const { commercialRegisterNo,
+    const { countryOfRegistration,
+            commercialRegisterNo,
             taxIdentificationNo,
             vatIdentificationNo,
-            
+            globalLocationNo,
+            noVatReason,
+            dunsNo,
+            ovtNo
             } = this.state.businessPartner;
 
 
-    if(commercialRegisterNo || businessPartner.taxIdentificationNo || businessPartner.vatIdentificationNo || 
-      businessPartner.globalLocationNo || businessPartner.dunsNo || businessPartner.ovtNo ){
+    if(commercialRegisterNo || taxIdentificationNo || vatIdentificationNo || 
+      globalLocationNo || dunsNo || ovtNo ){
 
-        if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo && !businessPartner.ovtNo && managed) {
+        if (countryOfRegistration === 'FI' && !vatIdentificationNo && !ovtNo && managed) {
           this.setFieldErrorsStates(
             {
               vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
               ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
             });
-        } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.vatIdentificationNo && managed) {
+        } else if (countryOfRegistration === 'FI' && !vatIdentificationNo && managed) {
           this.setFieldErrorsStates(
             {
               vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
             });
-        } else if (businessPartner.countryOfRegistration === 'FI' && !businessPartner.ovtNo && managed) {
+        } else if (countryOfRegistration === 'FI' && !ovtNo && managed) {
           this.setFieldErrorsStates(
             {
               ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
             });
         }
-        else if (!businessPartner.vatIdentificationNo && this.state.hasVATId && managed) {
+        else if (!vatIdentificationNo && this.state.hasVATId && managed) {
           this.setFieldErrorsStates({ noVatReason: [this.context.i18n.getMessage('BusinessPartner.Messages.clickCheckBox')] });
         }
         else {
           const success = () => {
-            businessPartner.noVatReason = businessPartner.vatIdentificationNo ? null : 'No VAT Registration Number';
+            noVatReason = vatIdentificationNo ? null : 'No VAT Registration Number';
             onAction(businessPartner);
           };
 
