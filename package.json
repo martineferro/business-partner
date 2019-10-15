@@ -18,14 +18,14 @@
     ]
   },
   "dependencies": {
-    "@opuscapita/db-init": "^2.0.24",
+    "@opuscapita/db-init": "^2.0.29",
     "@opuscapita/electronic-address": "^0.0.5",
     "@opuscapita/field-validators": "^0.1.9",
     "@opuscapita/react-dates": "^0.2.16",
     "@opuscapita/react-loaders": "^0.1.9",
     "@opuscapita/react-select": "2.0.9",
-    "@opuscapita/web-init": "^3.0.87",
-    "bluebird": "^3.5.1",
+    "@opuscapita/web-init": "^3.0.92",
+    "bluebird": "^3.7.1",
     "classnames": "^2.2.5",
     "ocbesbn-logger": "^1.0.11",
     "react-orgchart": "^1.0.5",
@@ -37,8 +37,8 @@
     "validate.js": "^0.11.1"
   },
   "devDependencies": {
-    "@opuscapita/config": "^3.0.16",
-    "@opuscapita/service-base-ui": "^1.1.113",
+    "@opuscapita/config": "^3.0.24",
+    "@opuscapita/service-base-ui": "^1.1.130",
     "babel-core": "6.26.3",
     "babel-eslint": "7.2.3",
     "babel-loader": "^7.1.5",
