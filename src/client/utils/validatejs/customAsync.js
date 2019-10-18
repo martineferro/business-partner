@@ -29,7 +29,7 @@ module.exports.vatNumberExists = function(validate) {
 
 module.exports.dunsNumberExists = function(validate) {
   return validate.validators.dunsNumberExists = function(value, options, key, attributes) {
-    let queryParams = { dunsNo: value };
+    let queryParams = { dunsNo: value, parentId: attributes.parentId || attributes.id, notEqual: true };
 
     return recordExists(value, validate, queryParams, options.message, attributes.id);
   };
@@ -81,14 +81,16 @@ module.exports.taxIdNumberExists = function(validate) {
   };
 };
 
+
 module.exports.registerationNumberExists = function(validate) {
   return validate.validators.registerationNumberExists = function(value, options, key, attributes) {
     let queryParams = {
       commercialRegisterNo: attributes.commercialRegisterNo,
-      countryOfRegistration: attributes.countryOfRegistration
+      countryOfRegistration: attributes.countryOfRegistration,
+      cityOfRegistration: attributes.cityOfRegistration
     };
 
-    return recordExists(attributes.commercialRegisterNo, validate, queryParams, options.message, attributes.id);
+    return recordExists(queryParams.commercialRegisterNo, validate, queryParams, options.message, attributes.id);
   };
 };
 
@@ -152,7 +154,6 @@ let recordExists = function(value, validate, queryParams, errorMessage, business
     if (!value) { resolve(); return; }
 
     if (businessPartnerId) queryParams.businessPartnerId = businessPartnerId;
-
     businessPartnerApi.exists(queryParams).then(supplier => {
       if (supplier) {
         resolve(errorMessage);

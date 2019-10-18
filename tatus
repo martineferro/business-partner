@@ -1,0 +1,413 @@
+[1mdiff --git a/src/client/api/BusinessPartner.js b/src/client/api/BusinessPartner.js[m
+[1mindex 247cb16..8d4f865 100644[m
+[1m--- a/src/client/api/BusinessPartner.js[m
+[1m+++ b/src/client/api/BusinessPartner.js[m
+[36m@@ -32,6 +32,10 @@[m [mclass BusinessPartner extends ApiBase {[m
+   }[m
+ [m
+   exists(queryParams) {[m
+[32m+[m
+[32m+[m[32m    console.log("EXIST", queryParams)[m
+[32m+[m[32m    console.log(this.urlPath);[m
+[32m+[m
+     return this.ajax.get(`${this.urlPath}/exists`).set('Accept', 'application/json').[m
+       query(queryParams).then(response => response.body);[m
+   }[m
+[1mdiff --git a/src/client/components/BusinessLink/Editor/Form.react.js b/src/client/components/BusinessLink/Editor/Form.react.js[m
+[1mindex f9f2218..b43bf3f 100644[m
+[1m--- a/src/client/components/BusinessLink/Editor/Form.react.js[m
+[1m+++ b/src/client/components/BusinessLink/Editor/Form.react.js[m
+[36m@@ -102,7 +102,7 @@[m [mclass BusinessLinkEditorForm extends Components.ContextComponent {[m
+ [m
+   handleBlur = (fieldName) => {[m
+     const constraints = this.constraints.forField(fieldName);[m
+[31m-[m
+[32m+[m[41m    [m
+     this.setState({[m
+       errors: Object.keys(constraints).reduce((rez, fieldName) => ({[m
+         ...rez,[m
+[1mdiff --git a/src/client/components/BusinessPartner/Editor/Editor.react.js b/src/client/components/BusinessPartner/Editor/Editor.react.js[m
+[1mindex f053b12..3ab74fd 100644[m
+[1m--- a/src/client/components/BusinessPartner/Editor/Editor.react.js[m
+[1m+++ b/src/client/components/BusinessPartner/Editor/Editor.react.js[m
+[36m@@ -88,6 +88,9 @@[m [mclass Editor extends Components.ContextComponent {[m
+       if (this.props.onChange)  this.props.onChange({ isDirty: false });[m
+     }).[m
+     catch(errors => {[m
+[32m+[m[32m      //Kan du ta reda på vilket error status (samma nr ger?) lägg in det i switchen kanske???[m
+[32m+[m[32m      //Backend snubbarna borde ju veta det, alternativt kan du console.log(errors.status) och se vilken du får tillbaka[m
+[32m+[m[32m      //Kan ju tycka att du borde inte kunna spara, känns som en backend grej egentligen.[m
+       switch (errors.status) {[m
+         case 401:[m
+           this.props.onUnauthorized();[m
+[1mdiff --git a/src/client/components/BusinessPartner/FieldConstraints.js b/src/client/components/BusinessPartner/FieldConstraints.js[m
+[1mindex cbc9ed6..8b204f8 100644[m
+[1m--- a/src/client/components/BusinessPartner/FieldConstraints.js[m
+[1m+++ b/src/client/components/BusinessPartner/FieldConstraints.js[m
+[36m@@ -77,10 +77,11 @@[m [mclass FieldConstraints {[m
+         cityOfRegistration: this.constraints['cityOfRegistration'][m
+       };[m
+ [m
+[31m-    if (['commercialRegisterNo', 'countryOfRegistration'].includes(fieldName))[m
+[32m+[m[32m    if (['commercialRegisterNo', 'countryOfRegistration', 'cityOfRegistration'].includes(fieldName))[m
+       return {[m
+         commercialRegisterNo: this.constraints['commercialRegisterNo'],[m
+[31m-        countryOfRegistration: this.constraints['countryOfRegistration'][m
+[32m+[m[32m        countryOfRegistration: this.constraints['countryOfRegistration'],[m
+[32m+[m[32m        cityOfRegistration: this.constraints['cityOfRegistration'][m
+       };[m
+ [m
+     if (fieldName === 'entityCode')[m
+[1mdiff --git a/src/client/components/BusinessPartner/Form.react.js b/src/client/components/BusinessPartner/Form.react.js[m
+[1mindex 80e430b..99c304f 100644[m
+[1m--- a/src/client/components/BusinessPartner/Form.react.js[m
+[1m+++ b/src/client/components/BusinessPartner/Form.react.js[m
+[36m@@ -46,7 +46,7 @@[m [mclass Form extends Components.ContextComponent {[m
+     });[m
+   }[m
+ [m
+[31m-  [m
+[32m+[m
+ [m
+   componentWillMount() {[m
+     this.constraints = new Constraints(this.context.i18n, this.props.action);[m
+[36m@@ -85,31 +85,31 @@[m [mclass Form extends Components.ContextComponent {[m
+ [m
+     const newValue = formHelper.getEventValue(event);[m
+ [m
+[31m-    [m
+[32m+[m
+ [m
+     if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);[m
+[31m-    [m
+[31m-      if (!this.state.businessPartner.managed) {[m
+[31m-        this.setState({[m
+[31m-          businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },[m
+[31m-          isFin: false,[m
+[31m-          showCustomError: 'hidden'[m
+[31m-        });[m
+[31m-      } else if ([m
+[31m-        fieldName === 'countryOfRegistration' && newValue === 'FI' || fieldName != 'countryOfRegistration' && this.state.businessPartner.countryOfRegistration === 'FI' ) { [m
+[31m-        this.setState({[m
+[31m-          businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },[m
+[31m-          isFin: true,[m
+[31m-          hasVATId: true,[m
+[31m-          showCustomError: 'hidden'[m
+[31m-        });[m
+[31m-      } else {[m
+[31m-        this.setState({[m
+[31m-          businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },[m
+[31m-          isFin: false,[m
+[31m-          showCustomError: 'hidden'[m
+[31m-        });[m
+[31m-      }[m
+[32m+[m
+[32m+[m[32m    if (!this.state.businessPartner.managed) {[m
+[32m+[m[32m      this.setState({[m
+[32m+[m[32m        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },[m
+[32m+[m[32m        isFin: false,[m
+[32m+[m[32m        showCustomError: 'hidden'[m
+[32m+[m[32m      });[m
+[32m+[m[32m    } else if ([m
+[32m+[m[32m      fieldName === 'countryOfRegistration' && newValue === 'FI' || fieldName != 'countryOfRegistration' && this.state.businessPartner.countryOfRegistration === 'FI') {[m
+[32m+[m[32m      this.setState({[m
+[32m+[m[32m        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },[m
+[32m+[m[32m        isFin: true,[m
+[32m+[m[32m        hasVATId: true,[m
+[32m+[m[32m        showCustomError: 'hidden'[m
+[32m+[m[32m      });[m
+[32m+[m[32m    } else {[m
+[32m+[m[32m      this.setState({[m
+[32m+[m[32m        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },[m
+[32m+[m[32m        isFin: false,[m
+[32m+[m[32m        showCustomError: 'hidden'[m
+[32m+[m[32m      });[m
+[32m+[m[32m    }[m
+   };[m
+ [m
+   handleBlur = (fieldName, event) => {[m
+[36m@@ -144,65 +144,65 @@[m [mclass Form extends Components.ContextComponent {[m
+     const managed = Boolean(businessPartner.managed);[m
+ [m
+     const { countryOfRegistration,[m
+[31m-            commercialRegisterNo,[m
+[31m-            taxIdentificationNo,[m
+[31m-            vatIdentificationNo,[m
+[31m-            globalLocationNo,[m
+[31m-            noVatReason,[m
+[31m-            dunsNo,[m
+[31m-            ovtNo[m
+[31m-            } = this.state.businessPartner;[m
+[31m-[m
+[31m-[m
+[31m-    if(commercialRegisterNo || taxIdentificationNo || vatIdentificationNo || [m
+[31m-      globalLocationNo || dunsNo || ovtNo ){[m
+[31m-[m
+[31m-        if (countryOfRegistration === 'FI' && !vatIdentificationNo && !ovtNo && managed) {[m
+[31m-          this.setFieldErrorsStates([m
+[31m-            {[m
+[31m-              vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],[m
+[31m-              ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')][m
+[31m-            });[m
+[31m-        } else if (countryOfRegistration === 'FI' && !vatIdentificationNo && managed) {[m
+[31m-          this.setFieldErrorsStates([m
+[31m-            {[m
+[31m-              vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],[m
+[31m-            });[m
+[31m-        } else if (countryOfRegistration === 'FI' && !ovtNo && managed) {[m
+[31m-          this.setFieldErrorsStates([m
+[31m-            {[m
+[31m-              ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')][m
+[31m-            });[m
+[31m-        }[m
+[31m-        else if (!businessPartner.vatIdentificationNo && this.state.hasVATId && managed) {[m
+[31m-          this.setFieldErrorsStates({ noVatReason: [this.context.i18n.getMessage('BusinessPartner.Messages.clickCheckBox')] });[m
+[31m-        }[m
+[31m-        else {[m
+[31m-          const success = () => {[m
+[31m-            businessPartner.noVatReason = businessPartner.vatIdentificationNo ? null : 'No VAT Registration Number';[m
+[31m-            onAction(businessPartner);[m
+[31m-          };[m
+[31m-[m
+[31m-          const error = (errors) => {[m
+[31m-            this.setFieldErrorsStates(errors);[m
+[31m-            onAction(null);[m
+[31m-          };[m
+[31m-[m
+[31m-          const validator = new Validator(this.context.i18n, this.constraints.fetch(), this.formAction.validatorType());[m
+[31m-          validator.validate(businessPartner).then(success, error);[m
+[31m-        }[m
+[31m-[m
+[31m-    }else{[m
+[32m+[m[32m      commercialRegisterNo,[m
+[32m+[m[32m      taxIdentificationNo,[m
+[32m+[m[32m      vatIdentificationNo,[m
+[32m+[m[32m      globalLocationNo,[m
+[32m+[m[32m      dunsNo,[m
+[32m+[m[32m      ovtNo[m
+[32m+[m[32m    } = this.state.businessPartner;[m
+[32m+[m
+[32m+[m
+[32m+[m[32m    if (commercialRegisterNo || taxIdentificationNo || vatIdentificationNo ||[m
+[32m+[m[32m      globalLocationNo || dunsNo || ovtNo) {[m
+[32m+[m
+[32m+[m[32m      if (countryOfRegistration === 'FI' && !vatIdentificationNo && !ovtNo && managed) {[m
+[32m+[m[32m        this.setFieldErrorsStates([m
+[32m+[m[32m          {[m
+[32m+[m[32m            vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],[m
+[32m+[m[32m            ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')][m
+[32m+[m[32m          });[m
+[32m+[m[32m      } else if (countryOfRegistration === 'FI' && !vatIdentificationNo && managed) {[m
+[32m+[m[32m        this.setFieldErrorsStates([m
+[32m+[m[32m          {[m
+[32m+[m[32m            vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],[m
+[32m+[m[32m          });[m
+[32m+[m[32m      } else if (countryOfRegistration === 'FI' && !ovtNo && managed) {[m
+[32m+[m[32m        this.setFieldErrorsStates([m
+[32m+[m[32m          {[m
+[32m+[m[32m            ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')][m
+[32m+[m[32m          });[m
+[32m+[m[32m      }[m
+[32m+[m[32m      else if (!businessPartner.vatIdentificationNo && this.state.hasVATId && managed) {[m
+[32m+[m[32m        this.setFieldErrorsStates({ noVatReason: [this.context.i18n.getMessage('BusinessPartner.Messages.clickCheckBox')] });[m
+[32m+[m[32m      }[m
+[32m+[m[32m      else {[m
+[32m+[m[41m        [m
+[32m+[m[32m        const success = () => {[m
+[32m+[m[32m          businessPartner.noVatReason = businessPartner.vatIdentificationNo ? null : 'No VAT Registration Number';[m
+[32m+[m[32m          //OnAction kallar på sin förälders OnChan[m
+[32m+[m[32m          onAction(businessPartner);[m
+[32m+[m[32m        };[m
+[32m+[m
+[32m+[m[32m        const error = (errors) => {[m
+[32m+[m[32m          this.setFieldErrorsStates(errors);[m
+[32m+[m[32m          onAction(null);[m
+[32m+[m[32m        };[m
+[32m+[m
+[32m+[m[32m        const validator = new Validator(this.context.i18n, this.constraints.fetch(), this.formAction.validatorType());[m
+[32m+[m[32m        validator.validate(businessPartner).then(success, error);[m
+[32m+[m[32m      }[m
+[32m+[m
+[32m+[m[32m    } else {[m
+       this.setState({[m
+         'showCustomError': ''[m
+       })[m
+[31m-    [m
+[32m+[m
+     }[m
+ [m
+   };[m
+ [m
+   handleCheckboxChange = () => {[m
+[31m-    console.log('CheckBox Triggered', this.state.businessPartner.countryOfRegistration, this.state.isFin);[m
+ [m
+     this.setFieldErrorsStates({ noVatReason: [] });[m
+     this.setState({ hasVATId: !this.state.hasVATId });[m
+[36m@@ -219,8 +219,9 @@[m [mclass Form extends Components.ContextComponent {[m
+       this.constraints.removePresence('countryOfRegistration');[m
+     }[m
+ [m
+[31m-    this.setState({ [m
+[31m-      businessPartner: { ...this.state.businessPartner, managed: managed }});[m
+[32m+[m[32m    this.setState({[m
+[32m+[m[32m      businessPartner: { ...this.state.businessPartner, managed: managed }[m
+[32m+[m[32m    });[m
+   };[m
+ [m
+   handleParentChange = (parent) => {[m
+[36m@@ -246,7 +247,7 @@[m [mclass Form extends Components.ContextComponent {[m
+     const { fieldName } = attrs;[m
+     const fieldNames = attrs.fieldNames || [fieldName];[m
+     const constraints = this.constraints.fetch();[m
+[31m-    [m
+[32m+[m
+ [m
+     let component = attrs.component ||[m
+       <input className="form-control"[m
+[36m@@ -415,15 +416,16 @@[m [mclass Form extends Components.ContextComponent {[m
+       commercialRegisterNo: this.renderField({[m
+         fieldName: 'commercialRegisterNo',[m
+         info: formHelper.comRegTooltiptext(i18n),[m
+[31m-        helpText: i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.helpText')[m
+[32m+[m[32m        helpText: i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.helpText'),[m
+[32m+[m[41m        [m
+       }),[m
+[31m-      taxIdentificationNo: this.renderField([m
+[31m-        { fieldName: 'taxIdentificationNo' }),[m
+[32m+[m[32m      taxIdentificationNo: this.renderField({ fieldName: 'taxIdentificationNo' }),[m
+       vatIdentificationNo: this.renderField({[m
+         fieldName: 'vatIdentificationNo',[m
+         disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.vatIdentificationNo)),[m
+         reguired: this.state.isFin[m
+       }),[m
+[32m+[m[41m  [m
+       noVatReason: this.renderField({[m
+         fieldName: 'noVatReason',[m
+         labelText: ' ',[m
+[1mdiff --git a/src/client/components/BusinessPartner/FormValidator.js b/src/client/components/BusinessPartner/FormValidator.js[m
+[1mindex c3c8ee6..3a7a6bf 100644[m
+[1m--- a/src/client/components/BusinessPartner/FormValidator.js[m
+[1m+++ b/src/client/components/BusinessPartner/FormValidator.js[m
+[36m@@ -57,6 +57,7 @@[m [mlet validator = function(validatejs) {[m
+   customAsync.vatNumberExists(validatejs);[m
+   customAsync.dunsNumberExists(validatejs);[m
+   customAsync.ovtNumberExists(validatejs);[m
+[32m+[m[32m  //customAsync.comRegNumberExists(validatejs);[m
+   customAsync.entityCodeExists(validatejs);[m
+   customAsync.globalLocationNumberExists(validatejs);[m
+   customAsync.ibanExists(validatejs);[m
+[1mdiff --git a/src/client/utils/validatejs/customAsync.js b/src/client/utils/validatejs/customAsync.js[m
+[1mindex 903f8a6..27e7da9 100644[m
+[1m--- a/src/client/utils/validatejs/customAsync.js[m
+[1m+++ b/src/client/utils/validatejs/customAsync.js[m
+[36m@@ -21,6 +21,7 @@[m [mmodule.exports.nameExists = function(validate) {[m
+ [m
+ module.exports.vatNumberExists = function(validate) {[m
+   return validate.validators.vatNumberExists = function(value, options, key, attributes) {[m
+[32m+[m[32m    console.log('VatNumberExist', value, options, key, attributes);[m
+     let queryParams = { vatIdentificationNo: value, parentId: attributes.parentId || attributes.id, notEqual: true };[m
+ [m
+     return recordExists(value, validate, queryParams, options.message, attributes.id);[m
+[36m@@ -29,7 +30,7 @@[m [mmodule.exports.vatNumberExists = function(validate) {[m
+ [m
+ module.exports.dunsNumberExists = function(validate) {[m
+   return validate.validators.dunsNumberExists = function(value, options, key, attributes) {[m
+[31m-    let queryParams = { dunsNo: value };[m
+[32m+[m[32m    let queryParams = { dunsNo: value, parentId: attributes.parentId || attributes.id, notEqual: true };[m
+ [m
+     return recordExists(value, validate, queryParams, options.message, attributes.id);[m
+   };[m
+[36m@@ -42,6 +43,17 @@[m [mmodule.exports.ovtNumberExists = function(validate) {[m
+     return recordExists(value, validate, queryParams, options.message, attributes.id);[m
+   };[m
+ };[m
+[32m+[m[32m// Den här har jag skapat för Company registration[m
+[32m+[m[32m/*module.exports.comRegNumberExists = function(validate) {[m
+[32m+[m[32m  return validate.validators.registerationNumberExists = function(value, options, key, attributes){[m
+[32m+[m[32m    let queryParams = {[m[41m [m
+[32m+[m[32m      commercialRegisterNo: attributes.commercialRegisterNo,[m
+[32m+[m[32m      countryOfRegistration: attributes.countryOfRegistration[m
+[32m+[m[32m    };[m
+[32m+[m[32m    console.log('QueryParam', queryParams);[m
+[32m+[m[32m    return recordExists(attributes.commercialRegisterNo, validate, queryParams, options.message, attributes.id);[m
+[32m+[m[32m  };[m
+[32m+[m[32m};*/[m
+ [m
+ module.exports.globalLocationNumberExists = function(validate) {[m
+   return validate.validators.globalLocationNumberExists = function(value, options, key, attributes) {[m
+[36m@@ -81,14 +93,17 @@[m [mmodule.exports.taxIdNumberExists = function(validate) {[m
+   };[m
+ };[m
+ [m
+[32m+[m
+ module.exports.registerationNumberExists = function(validate) {[m
+   return validate.validators.registerationNumberExists = function(value, options, key, attributes) {[m
+     let queryParams = {[m
+       commercialRegisterNo: attributes.commercialRegisterNo,[m
+[31m-      countryOfRegistration: attributes.countryOfRegistration[m
+[32m+[m[32m      countryOfRegistration: attributes.countryOfRegistration,[m
+[32m+[m[32m      cityOfRegistration: attributes.cityOfRegistration[m
+     };[m
+[31m-[m
+[31m-    return recordExists(attributes.commercialRegisterNo, validate, queryParams, options.message, attributes.id);[m
+[32m+[m[41m    [m
+[32m+[m[32m    console.log('QueryParam', queryParams);[m
+[32m+[m[32m    return recordExists(queryParams.commercialRegisterNo, validate, queryParams, options.message, attributes.id);[m
+   };[m
+ };[m
+ [m
+[36m@@ -149,14 +164,17 @@[m [mmodule.exports.businessLinkExists = function(validate) {[m
+ [m
+ let recordExists = function(value, validate, queryParams, errorMessage, businessPartnerId) {[m
+   return new validate.Promise((resolve, reject) => {[m
+[32m+[m[32m    console.log('jon',value);[m
+     if (!value) { resolve(); return; }[m
+ [m
+     if (businessPartnerId) queryParams.businessPartnerId = businessPartnerId;[m
+[31m-[m
+[32m+[m[32m    console.log('slut',queryParams);[m
+     businessPartnerApi.exists(queryParams).then(supplier => {[m
+       if (supplier) {[m
+[32m+[m[32m        console.log('1', supplier)[m
+         resolve(errorMessage);[m
+       } else {[m
+[32m+[m[32m        console.log('2')[m
+         resolve();[m
+       }[m
+     }).catch(error => reject());[m
+[1mdiff --git a/src/server/api/BusinessPartner.js b/src/server/api/BusinessPartner.js[m
+[1mindex aa9b983..636c79b 100644[m
+[1m--- a/src/server/api/BusinessPartner.js[m
+[1m+++ b/src/server/api/BusinessPartner.js[m
+[36m@@ -147,7 +147,7 @@[m [mclass BusinessPartner {[m
+ [m
+   async searchRecord(query) {[m
+     normalize(query);[m
+[31m-[m
+[32m+[m[32m    console.log('SearchRecord', query)[m
+     let dbQuery = {};[m
+ [m
+     if (query.id) dbQuery.id = query.id;[m
+[36m@@ -158,8 +158,8 @@[m [mclass BusinessPartner {[m
+     if (query.dunsNo) dbQuery.dunsNo = query.dunsNo;[m
+     if (query.ovtNo) dbQuery.ovtNo = query.ovtNo;[m
+     if (query.globalLocationNo) dbQuery.globalLocationNo = query.globalLocationNo;[m
+[31m-    if (query.commercialRegisterNo) {[m
+[31m-      dbQuery.$and = {[m
+[32m+[m[32m    if (query.commercialRegisterNo) {[m[41m      [m
+[32m+[m[32m      dbQuery.$and = {[m[41m       [m
+         commercialRegisterNo: query.commercialRegisterNo,[m
+         cityOfRegistration: { $like: `%${query.cityOfRegistration}%` },[m
+         countryOfRegistration: query.countryOfRegistration[m
+[1mdiff --git a/src/server/routes/BusinessPartner.js b/src/server/routes/BusinessPartner.js[m
+[1mindex a9bd73d..2016fe8 100644[m
+[1m--- a/src/server/routes/BusinessPartner.js[m
+[1m+++ b/src/server/routes/BusinessPartner.js[m
+[36m@@ -236,6 +236,7 @@[m [mclass BusinessPartner {[m
+   }[m
+ [m
+   recordExists(req, res, businessType) {[m
+[32m+[m[41m    [m
+     if (businessType) req.query[businessType] = true;[m
+ [m
+     return this.api.recordExists(req.query).then(exists => res.json(exists));[m

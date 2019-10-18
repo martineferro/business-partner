@@ -77,10 +77,11 @@ class FieldConstraints {
         cityOfRegistration: this.constraints['cityOfRegistration']
       };
 
-    if (['commercialRegisterNo', 'countryOfRegistration'].includes(fieldName))
+    if (['commercialRegisterNo', 'countryOfRegistration', 'cityOfRegistration'].includes(fieldName))
       return {
         commercialRegisterNo: this.constraints['commercialRegisterNo'],
-        countryOfRegistration: this.constraints['countryOfRegistration']
+        countryOfRegistration: this.constraints['countryOfRegistration'],
+        cityOfRegistration: this.constraints['cityOfRegistration']
       };
 
     if (fieldName === 'entityCode')

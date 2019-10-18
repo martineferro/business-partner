@@ -46,7 +46,6 @@ class Form extends Components.ContextComponent {
     });
   }
 
-  
 
   componentWillMount() {
     this.constraints = new Constraints(this.context.i18n, this.props.action);
@@ -85,31 +84,31 @@ class Form extends Components.ContextComponent {
 
     const newValue = formHelper.getEventValue(event);
 
-    
+
 
     if (this.props.onChange) this.props.onChange(fieldName, this.state.businessPartner[fieldName], newValue);
-    
-      if (!this.state.businessPartner.managed) {
-        this.setState({
-          businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
-          isFin: false,
-          showCustomError: 'hidden'
-        });
-      } else if (
-        fieldName === 'countryOfRegistration' && newValue === 'FI' || fieldName != 'countryOfRegistration' && this.state.businessPartner.countryOfRegistration === 'FI' ) { 
-        this.setState({
-          businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
-          isFin: true,
-          hasVATId: true,
-          showCustomError: 'hidden'
-        });
-      } else {
-        this.setState({
-          businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
-          isFin: false,
-          showCustomError: 'hidden'
-        });
-      }
+
+    if (!this.state.businessPartner.managed) {
+      this.setState({
+        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+        isFin: false,
+        showCustomError: 'hidden'
+      });
+    } else if (
+      fieldName === 'countryOfRegistration' && newValue === 'FI' || fieldName != 'countryOfRegistration' && this.state.businessPartner.countryOfRegistration === 'FI') {
+      this.setState({
+        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+        isFin: true,
+        hasVATId: true,
+        showCustomError: 'hidden'
+      });
+    } else {
+      this.setState({
+        businessPartner: { ...this.state.businessPartner, [fieldName]: newValue },
+        isFin: false,
+        showCustomError: 'hidden'
+      });
+    }
   };
 
   handleBlur = (fieldName, event) => {
@@ -144,65 +143,64 @@ class Form extends Components.ContextComponent {
     const managed = Boolean(businessPartner.managed);
 
     const { countryOfRegistration,
-            commercialRegisterNo,
-            taxIdentificationNo,
-            vatIdentificationNo,
-            globalLocationNo,
-            noVatReason,
-            dunsNo,
-            ovtNo
-            } = this.state.businessPartner;
+      commercialRegisterNo,
+      taxIdentificationNo,
+      vatIdentificationNo,
+      globalLocationNo,
+      dunsNo,
+      ovtNo
+    } = this.state.businessPartner;
 
 
-    if(commercialRegisterNo || taxIdentificationNo || vatIdentificationNo || 
-      globalLocationNo || dunsNo || ovtNo ){
+    if (commercialRegisterNo || taxIdentificationNo || vatIdentificationNo ||
+      globalLocationNo || dunsNo || ovtNo) {
 
-        if (countryOfRegistration === 'FI' && !vatIdentificationNo && !ovtNo && managed) {
-          this.setFieldErrorsStates(
-            {
-              vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
-              ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
-            });
-        } else if (countryOfRegistration === 'FI' && !vatIdentificationNo && managed) {
-          this.setFieldErrorsStates(
-            {
-              vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
-            });
-        } else if (countryOfRegistration === 'FI' && !ovtNo && managed) {
-          this.setFieldErrorsStates(
-            {
-              ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
-            });
-        }
-        else if (!businessPartner.vatIdentificationNo && this.state.hasVATId && managed) {
-          this.setFieldErrorsStates({ noVatReason: [this.context.i18n.getMessage('BusinessPartner.Messages.clickCheckBox')] });
-        }
-        else {
-          const success = () => {
-            businessPartner.noVatReason = businessPartner.vatIdentificationNo ? null : 'No VAT Registration Number';
-            onAction(businessPartner);
-          };
+      if (countryOfRegistration === 'FI' && !vatIdentificationNo && !ovtNo && managed) {
+        this.setFieldErrorsStates(
+          {
+            vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
+            ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
+          });
+      } else if (countryOfRegistration === 'FI' && !vatIdentificationNo && managed) {
+        this.setFieldErrorsStates(
+          {
+            vatIdentificationNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.avtForFinland')],
+          });
+      } else if (countryOfRegistration === 'FI' && !ovtNo && managed) {
+        this.setFieldErrorsStates(
+          {
+            ovtNo: [this.context.i18n.getMessage('BusinessPartner.Message.Error.ovtForFinland')]
+          });
+      }
+      else if (!businessPartner.vatIdentificationNo && this.state.hasVATId && managed) {
+        this.setFieldErrorsStates({ noVatReason: [this.context.i18n.getMessage('BusinessPartner.Messages.clickCheckBox')] });
+      }
+      else {
+        
+        const success = () => {
+          businessPartner.noVatReason = businessPartner.vatIdentificationNo ? null : 'No VAT Registration Number';
+          onAction(businessPartner);
+        };
 
-          const error = (errors) => {
-            this.setFieldErrorsStates(errors);
-            onAction(null);
-          };
+        const error = (errors) => {
+          this.setFieldErrorsStates(errors);
+          onAction(null);
+        };
 
-          const validator = new Validator(this.context.i18n, this.constraints.fetch(), this.formAction.validatorType());
-          validator.validate(businessPartner).then(success, error);
-        }
+        const validator = new Validator(this.context.i18n, this.constraints.fetch(), this.formAction.validatorType());
+        validator.validate(businessPartner).then(success, error);
+      }
 
-    }else{
+    } else {
       this.setState({
         'showCustomError': ''
       })
-    
+
     }
 
   };
 
   handleCheckboxChange = () => {
-    console.log('CheckBox Triggered', this.state.businessPartner.countryOfRegistration, this.state.isFin);
 
     this.setFieldErrorsStates({ noVatReason: [] });
     this.setState({ hasVATId: !this.state.hasVATId });
@@ -219,8 +217,9 @@ class Form extends Components.ContextComponent {
       this.constraints.removePresence('countryOfRegistration');
     }
 
-    this.setState({ 
-      businessPartner: { ...this.state.businessPartner, managed: managed }});
+    this.setState({
+      businessPartner: { ...this.state.businessPartner, managed: managed }
+    });
   };
 
   handleParentChange = (parent) => {
@@ -246,7 +245,7 @@ class Form extends Components.ContextComponent {
     const { fieldName } = attrs;
     const fieldNames = attrs.fieldNames || [fieldName];
     const constraints = this.constraints.fetch();
-    
+
 
     let component = attrs.component ||
       <input className="form-control"
@@ -415,15 +414,16 @@ class Form extends Components.ContextComponent {
       commercialRegisterNo: this.renderField({
         fieldName: 'commercialRegisterNo',
         info: formHelper.comRegTooltiptext(i18n),
-        helpText: i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.helpText')
+        helpText: i18n.getMessage('BusinessPartner.Messages.companyRegisterNumber.helpText'),
+        
       }),
-      taxIdentificationNo: this.renderField(
-        { fieldName: 'taxIdentificationNo' }),
+      taxIdentificationNo: this.renderField({ fieldName: 'taxIdentificationNo' }),
       vatIdentificationNo: this.renderField({
         fieldName: 'vatIdentificationNo',
         disabled: (!this.formAction.isRegister() && !this.userIsAdmin()) || (this.formAction.isRegister() && Boolean(this.props.businessPartner.vatIdentificationNo)),
         reguired: this.state.isFin
       }),
+  
       noVatReason: this.renderField({
         fieldName: 'noVatReason',
         labelText: ' ',

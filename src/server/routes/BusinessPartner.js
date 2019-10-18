@@ -213,8 +213,6 @@ class BusinessPartner {
         this.businessLinkApi.delete(bPartnerId), this.visibilityApi.delete(bPartnerId)
       ]);
 
-      // await req.opuscapita.eventClient.emit('business-partner.business-partner.deleted', { id: bPartnerId });
-
       return res.status('200').json({ message: `BusinessPartner with id ${bPartnerId} deleted.` })
     } catch(error) {
       req.opuscapita.logger.error('Error when deleting BusinessPartner: %s', error.message);
@@ -236,6 +234,7 @@ class BusinessPartner {
   }
 
   recordExists(req, res, businessType) {
+    
     if (businessType) req.query[businessType] = true;
 
     return this.api.recordExists(req.query).then(exists => res.json(exists));

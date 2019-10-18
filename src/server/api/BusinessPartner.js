@@ -147,7 +147,7 @@ class BusinessPartner {
 
   async searchRecord(query) {
     normalize(query);
-
+    
     let dbQuery = {};
 
     if (query.id) dbQuery.id = query.id;
@@ -158,8 +158,8 @@ class BusinessPartner {
     if (query.dunsNo) dbQuery.dunsNo = query.dunsNo;
     if (query.ovtNo) dbQuery.ovtNo = query.ovtNo;
     if (query.globalLocationNo) dbQuery.globalLocationNo = query.globalLocationNo;
-    if (query.commercialRegisterNo) {
-      dbQuery.$and = {
+    if (query.commercialRegisterNo) {      
+      dbQuery.$and = {       
         commercialRegisterNo: query.commercialRegisterNo,
         cityOfRegistration: { $like: `%${query.cityOfRegistration}%` },
         countryOfRegistration: query.countryOfRegistration

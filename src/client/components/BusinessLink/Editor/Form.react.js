@@ -102,7 +102,7 @@ class BusinessLinkEditorForm extends Components.ContextComponent {
 
   handleBlur = (fieldName) => {
     const constraints = this.constraints.forField(fieldName);
-
+    
     this.setState({
       errors: Object.keys(constraints).reduce((rez, fieldName) => ({
         ...rez,
